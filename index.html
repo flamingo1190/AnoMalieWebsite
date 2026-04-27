@@ -8,6 +8,15 @@
      AKTIVE HEADER-ANIMATION: Variante B (Draw-On SVG)
      → Zum Wechseln auf Variante A: Kommentare in HTML und CSS tauschen
        (Details in style.css, Abschnitt 22/23)
+
+     MODERNISIERUNGEN (April 2026):
+     – Sticky Navigation als eigenständige Leiste (nicht mehr im Header)
+     – Burger-Menü: Vollbild-Overlay statt Dropdown
+     – Hero-Section: Vollbild (100vh) mit Scroll-Indikator & CTA-Buttons
+     – Typografie: Bebas Neue (Titel) + DM Sans (Body) via Google Fonts
+     – Bandmembers: CSS Grid statt gestapelte Bilder mit <br>-Tags
+     – Streaming-Links: Pill-Buttons mit Plattform-Farbpunkten
+     – Footer: Gebrandeter Block mit Logo, Social Icons & Booking-Link
      ============================================================= -->
 
 <head>
@@ -33,6 +42,11 @@
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
+  <!-- Google Fonts: Bebas Neue (Titel/Logo) + DM Sans (Body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
   <!-- Preload: kritische Bilder früh laden um Layout-Shift zu vermeiden -->
   <link rel="preload" href="img/Header-Bandfoto.webp" as="image">
   <link rel="preload" href="img/CoverCliche.webp"     as="image">
@@ -42,8 +56,27 @@
 <body>
 
   <!-- ============================================================
-       HEADER
-       Enthält: Bandname (als SVG-Animation), Burger-Button, Navigation
+       STICKY NAVIGATION
+       Eigenständige, sticky Navigationsleiste über dem gesamten
+       Seiteninhalt. Auf Mobile ausgeblendet (Burger übernimmt).
+       Auf Desktop: slim, uppercase, letter-spaced Links.
+       ============================================================ -->
+  <nav class="sticky-nav" aria-label="Hauptnavigation">
+    <div class="sticky-nav__logo">ANO MALIE</div>
+    <div class="sticky-nav__links">
+      <a href="#band">Band</a>
+      <a href="#music">Musik</a>
+      <a href="#members">Members</a>
+      <a href="#shows">Shows</a>
+      <a href="#contact">Kontakt</a>
+    </div>
+  </nav>
+
+
+  <!-- ============================================================
+       HEADER / HERO
+       Vollbild-Banner (100vh) mit Bandfoto, Draw-On-SVG-Animation,
+       CTA-Buttons und Scroll-Indikator.
        ============================================================ -->
   <header>
 
@@ -51,16 +84,35 @@
          Der Bandname zeichnet sich beim Laden der Seite ein.
          Animationsklassen: .draw-stroke (Phase 1) + .draw-fill (Phase 2)
          → CSS-Details in style.css, Abschnitt 22 -->
-    <svg
-      width="420"
-      height="80"
-      viewBox="0 0 420 80"
-      style="overflow: visible"
-      aria-label="ANO MALIE"
-      role="img">
-      <text class="draw-stroke" x="210" y="66" text-anchor="middle">ANO MALIE</text>
-      <text class="draw-fill"   x="210" y="66" text-anchor="middle">ANO MALIE</text>
-    </svg>
+    <div class="hero-content">
+      <svg
+        width="520"
+        height="90"
+        viewBox="0 0 520 90"
+        style="overflow: visible"
+        aria-label="ANO MALIE"
+        role="img">
+        <text class="draw-stroke" x="260" y="72" text-anchor="middle">ANO MALIE</text>
+        <text class="draw-fill"   x="260" y="72" text-anchor="middle">ANO MALIE</text>
+      </svg>
+
+      <p class="hero-tagline">Alternative Rock · Wien &amp; Berlin</p>
+
+      <!-- CTA-Buttons: Streaming-Link + Shows-Anker -->
+      <div class="hero-ctas">
+        <a href="https://open.spotify.com/artist/4UuqOiFmFzIZBT1Ac7YFdl"
+           target="_blank" rel="noopener noreferrer"
+           class="btn btn--primary">
+          <i class="fa-brands fa-spotify"></i> CLICHÈ streamen
+        </a>
+        <a href="#shows" class="btn btn--outline">Shows 2026</a>
+      </div>
+    </div>
+
+    <!-- Scroll-Indikator: animierter Punkt in einem Oval -->
+    <div class="scroll-indicator" aria-hidden="true">
+      <div class="scroll-indicator__dot"></div>
+    </div>
 
     <!-- HEADER-ANIMATION: VARIANTE A – Glitch + Neon-Puls (inaktiv)
          Dauerhafter Neon-Puls + periodischer RGB-Glitch alle ~6 Sekunden.
@@ -79,26 +131,68 @@
 
     -->
 
-    <!-- Burger-Button (nur Mobile sichtbar, gesteuert per JS) -->
-    <button class="burger" aria-expanded="false" aria-label="Menü öffnen">
+    <!-- Burger-Button: Kreisförmig, top-right, fixed (gesteuert per JS)
+         Position und Sichtbarkeit via CSS: .burger-btn (Abschnitt 7) -->
+    <button class="burger-btn" aria-expanded="false" aria-label="Menü öffnen">
       <span></span>
       <span></span>
       <span></span>
     </button>
 
-    <!-- Hauptnavigation
-         position:relative damit das Mobile-Dropdown sich darunter ausrichtet -->
-    <nav class="main-nav" style="position: relative;">
-      <div class="nav-links">
-        <a href="#band">Band</a>
-        <a href="#music">Musik</a>
-        <a href="#members">Members</a>
-        <a href="#shows">Shows</a>
-        <a href="#contact">Kontakt</a>
-      </div>
+  </header>
+
+
+  <!-- ============================================================
+       VOLLBILD-OVERLAY MENÜ (Mobile)
+       Öffnet sich bei Burger-Klick. Enthält alle Nav-Links +
+       Social-Icons. Wird per JS mit Klasse .overlay--open gesteuert.
+       → CSS: Abschnitt 8 / JS: Script "Burger-Menü"
+       ============================================================ -->
+  <div class="nav-overlay" id="navOverlay" aria-hidden="true">
+
+    <!-- Schließen-Button (X) oben rechts im Overlay -->
+    <button class="nav-overlay__close" aria-label="Menü schließen">
+      <span></span>
+      <span></span>
+    </button>
+
+    <!-- Bandname als kleines Label im Overlay -->
+    <span class="nav-overlay__brand">ANO MALIE</span>
+
+    <!-- Nav-Links: groß, spaced, staggered animation -->
+    <nav class="nav-overlay__links" aria-label="Overlay Navigation">
+      <a href="#band"    class="nav-overlay__link">Band</a>
+      <a href="#music"   class="nav-overlay__link">Musik</a>
+      <a href="#members" class="nav-overlay__link">Members</a>
+      <a href="#shows"   class="nav-overlay__link">Shows</a>
+      <a href="#contact" class="nav-overlay__link">Kontakt</a>
     </nav>
 
-  </header>
+    <!-- Social-Icon-Dots im Overlay -->
+    <div class="nav-overlay__socials">
+      <a href="https://www.instagram.com/ano.maliemusik?igsh=enIxbWpjOXB6bm9r"
+         target="_blank" rel="noopener noreferrer"
+         class="nav-overlay__social" aria-label="Instagram">
+        <i class="fa-brands fa-instagram"></i>
+      </a>
+      <a href="https://www.tiktok.com/@anomalie.musik?_r=1&_t=ZN-93o8aaHGXV0"
+         target="_blank" rel="noopener noreferrer"
+         class="nav-overlay__social" aria-label="TikTok">
+        <i class="fa-brands fa-tiktok"></i>
+      </a>
+      <a href="https://open.spotify.com/artist/4UuqOiFmFzIZBT1Ac7YFdl"
+         target="_blank" rel="noopener noreferrer"
+         class="nav-overlay__social" aria-label="Spotify">
+        <i class="fa-brands fa-spotify"></i>
+      </a>
+      <a href="https://www.youtube.com/@ano.malie.visual"
+         target="_blank" rel="noopener noreferrer"
+         class="nav-overlay__social" aria-label="YouTube">
+        <i class="fa-brands fa-youtube"></i>
+      </a>
+    </div>
+
+  </div>
 
 
   <!-- ============================================================
@@ -114,13 +208,14 @@
         <h2>Über Uns</h2>
         <p>Alternative Rock oder whatever</p> <!-- TODO: Bandtext ergänzen -->
 
+        <!-- Social-Links als Pill-Buttons -->
         <div class="social-links">
           <a href="https://www.instagram.com/ano.maliemusik?igsh=enIxbWpjOXB6bm9r"
-             target="_blank" rel="noopener noreferrer">
+             target="_blank" rel="noopener noreferrer" class="pill-link">
             <i class="fa-brands fa-instagram"></i> Instagram
           </a>
           <a href="https://www.tiktok.com/@anomalie.musik?_r=1&_t=ZN-93o8aaHGXV0"
-             target="_blank" rel="noopener noreferrer">
+             target="_blank" rel="noopener noreferrer" class="pill-link">
             <i class="fa-brands fa-tiktok"></i> TikTok
           </a>
         </div>
@@ -137,19 +232,28 @@
 
       <div class="music-links">
         <h3>"CLICHÈ" OUT NOW auf allen Streamingplattformen !!!</h3>
-        <br>
-        <a href="https://www.youtube.com/@ano.malie.visual"
-           target="_blank" rel="noopener noreferrer">
-          <i class="fa-brands fa-youtube"></i> YouTube
-        </a>
-        <a href="https://open.spotify.com/artist/4UuqOiFmFzIZBT1Ac7YFdl"
-           target="_blank" rel="noopener noreferrer">
-          <i class="fa-brands fa-spotify"></i> Spotify
-        </a>
-        <a href="https://music.apple.com/at/artist/ano-malie/1830211826"
-           target="_blank" rel="noopener noreferrer">
-          <i class="fa-brands fa-apple"></i> Apple Music
-        </a>
+
+        <!-- Streaming-Links als Pill-Buttons mit Plattform-Farbpunkten -->
+        <div class="stream-pills">
+          <a href="https://www.youtube.com/@ano.malie.visual"
+             target="_blank" rel="noopener noreferrer"
+             class="stream-pill stream-pill--youtube">
+            <span class="stream-pill__dot"></span>
+            <i class="fa-brands fa-youtube"></i> YouTube
+          </a>
+          <a href="https://open.spotify.com/artist/4UuqOiFmFzIZBT1Ac7YFdl"
+             target="_blank" rel="noopener noreferrer"
+             class="stream-pill stream-pill--spotify">
+            <span class="stream-pill__dot"></span>
+            <i class="fa-brands fa-spotify"></i> Spotify
+          </a>
+          <a href="https://music.apple.com/at/artist/ano-malie/1830211826"
+             target="_blank" rel="noopener noreferrer"
+             class="stream-pill stream-pill--apple">
+            <span class="stream-pill__dot"></span>
+            <i class="fa-brands fa-apple"></i> Apple Music
+          </a>
+        </div>
       </div>
 
       <!-- Responsiver 16:9 YouTube-Embed -->
@@ -168,6 +272,8 @@
 
     <!-- --------------------------------------------------------
          SEKTION: Band Members
+         CSS Grid ersetzt die alte gestapelte Darstellung mit <br>-Tags.
+         Desktop: 2–3 Spalten / Mobile: 1 Spalte.
          Jeder Member hat ein Foto + ausklappbares Info-Panel.
          Desktop: Panel gleitet horizontal → CSS: .slide-panel.open
          Mobile:  Panel klappt nach unten → CSS: @media max-width 768px
@@ -176,88 +282,80 @@
       <div class="section-bubble">
         <h2>Bandmembers</h2>
 
-        <br>
+        <!-- Members Grid: alle Member-Karten als CSS-Grid -->
+        <div class="members-grid">
 
-        <!-- Member: Bonnie Blonde -->
-        <div class="image-wrapper">
-          <h3 class="image-title">Bonnie Blonde</h3>
-          <img src="img/testfoto.webp" alt="Bonnie Blonde" class="main-image">
-          <button class="chevron-btn" aria-label="Info einblenden">
-            <i class="fa-solid fa-chevron-right"></i>
-          </button>
-          <div class="slide-panel">
-            <img src="img/UnterschriftJules.jpeg" alt="Unterschrift Bonnie Blonde" class="signature-img">
-            <p>Musical Influence:</p>
-            <p>hier entweder grafik oder raw text</p> <!-- TODO -->
+          <!-- Member: Bonnie Blonde -->
+          <div class="image-wrapper">
+            <h3 class="image-title">Bonnie Blonde</h3>
+            <img src="img/testfoto.webp" alt="Bonnie Blonde" class="main-image">
+            <button class="chevron-btn" aria-label="Info einblenden">
+              <i class="fa-solid fa-chevron-right"></i>
+            </button>
+            <div class="slide-panel">
+              <img src="img/UnterschriftJules.jpeg" alt="Unterschrift Bonnie Blonde" class="signature-img">
+              <p>Musical Influence:</p>
+              <p>hier entweder grafik oder raw text</p> <!-- TODO -->
+            </div>
           </div>
-        </div>
 
-        <br><br><br>
-
-        <!-- Member: Mr. Vanilla -->
-        <div class="image-wrapper">
-          <h3 class="image-title">Mr. Vanilla</h3>
-          <img src="img/SternWeiß.webp" alt="Mr. Vanilla" class="main-image">
-          <button class="chevron-btn" aria-label="Info einblenden">
-            <i class="fa-solid fa-chevron-right"></i>
-          </button>
-          <div class="slide-panel">
-            <h3>Grafik Unterschrift</h3> <!-- TODO -->
-            <p>Musical Influence:</p>
-            <p>hier entweder grafik oder raw text</p> <!-- TODO -->
+          <!-- Member: Mr. Vanilla -->
+          <div class="image-wrapper">
+            <h3 class="image-title">Mr. Vanilla</h3>
+            <img src="img/SternWeiß.webp" alt="Mr. Vanilla" class="main-image">
+            <button class="chevron-btn" aria-label="Info einblenden">
+              <i class="fa-solid fa-chevron-right"></i>
+            </button>
+            <div class="slide-panel">
+              <h3>Grafik Unterschrift</h3> <!-- TODO -->
+              <p>Musical Influence:</p>
+              <p>hier entweder grafik oder raw text</p> <!-- TODO -->
+            </div>
           </div>
-        </div>
 
-        <br><br><br>
-
-        <!-- Member: Charlie Chance -->
-        <div class="image-wrapper">
-          <h3 class="image-title">Charlie Chance</h3>
-          <img src="img/testfoto.webp" alt="Charlie Chance" class="main-image">
-          <button class="chevron-btn" aria-label="Info einblenden">
-            <i class="fa-solid fa-chevron-right"></i>
-          </button>
-          <div class="slide-panel">
-            <h3>Grafik Unterschrift</h3> <!-- TODO -->
-            <p>Musical Influence:</p>
-            <p>hier entweder grafik oder raw text</p> <!-- TODO -->
+          <!-- Member: Charlie Chance -->
+          <div class="image-wrapper">
+            <h3 class="image-title">Charlie Chance</h3>
+            <img src="img/testfoto.webp" alt="Charlie Chance" class="main-image">
+            <button class="chevron-btn" aria-label="Info einblenden">
+              <i class="fa-solid fa-chevron-right"></i>
+            </button>
+            <div class="slide-panel">
+              <h3>Grafik Unterschrift</h3> <!-- TODO -->
+              <p>Musical Influence:</p>
+              <p>hier entweder grafik oder raw text</p> <!-- TODO -->
+            </div>
           </div>
-        </div>
 
-        <br><br><br>
-
-        <!-- Member: Gio Goi -->
-        <div class="image-wrapper">
-          <h3 class="image-title">Gio Goi</h3>
-          <img src="img/testfoto.webp" alt="Gio Goi" class="main-image">
-          <button class="chevron-btn" aria-label="Info einblenden">
-            <i class="fa-solid fa-chevron-right"></i>
-          </button>
-          <div class="slide-panel">
-            <h3>Grafik Unterschrift</h3> <!-- TODO -->
-            <p>Musical Influence:</p>
-            <p>hier entweder grafik oder raw text</p> <!-- TODO -->
+          <!-- Member: Gio Goi -->
+          <div class="image-wrapper">
+            <h3 class="image-title">Gio Goi</h3>
+            <img src="img/testfoto.webp" alt="Gio Goi" class="main-image">
+            <button class="chevron-btn" aria-label="Info einblenden">
+              <i class="fa-solid fa-chevron-right"></i>
+            </button>
+            <div class="slide-panel">
+              <h3>Grafik Unterschrift</h3> <!-- TODO -->
+              <p>Musical Influence:</p>
+              <p>hier entweder grafik oder raw text</p> <!-- TODO -->
+            </div>
           </div>
-        </div>
 
-        <br><br><br>
-
-        <!-- Member: Jules -->
-        <div class="image-wrapper">
-          <h3 class="image-title">Jules</h3>
-          <img src="img/testfoto.webp" alt="Jules" class="main-image">
-          <button class="chevron-btn" aria-label="Info einblenden">
-            <i class="fa-solid fa-chevron-right"></i>
-          </button>
-          <div class="slide-panel">
-            <h3>Grafik Unterschrift</h3> <!-- TODO -->
-            <p>Musical Influence:</p>
-            <p>hier entweder grafik oder raw text</p> <!-- TODO -->
+          <!-- Member: Jules -->
+          <div class="image-wrapper">
+            <h3 class="image-title">Jules</h3>
+            <img src="img/testfoto.webp" alt="Jules" class="main-image">
+            <button class="chevron-btn" aria-label="Info einblenden">
+              <i class="fa-solid fa-chevron-right"></i>
+            </button>
+            <div class="slide-panel">
+              <h3>Grafik Unterschrift</h3> <!-- TODO -->
+              <p>Musical Influence:</p>
+              <p>hier entweder grafik oder raw text</p> <!-- TODO -->
+            </div>
           </div>
-        </div>
 
-        <br><br><br>
-
+        </div><!-- /.members-grid -->
       </div>
     </section>
 
@@ -278,7 +376,7 @@
                  target="_blank" rel="noopener noreferrer">The Loft</a>
             <div class="countdown" id="countdown-1"></div>
           </li>
-          
+
           <!-- Show: Gasometer -->
           <li>
             <span class="show-date" data-date="2026-05-30T20:00">30. Mai 2026</span>
@@ -307,13 +405,50 @@
 
   <!-- ============================================================
        FOOTER
+       Gebrandeter Block mit SVG-Logo, Social-Icons, Booking-Link
+       und Copyright. Inspiriert von paulmccartney.com.
        ============================================================ -->
   <footer>
-    <p>© 2026 Ano Malie</p>
+
+    <!-- Bandname als Logo-Schrift im Footer -->
+    <div class="footer__logo">ANO MALIE</div>
+
+    <!-- Social-Links im Footer -->
+    <div class="footer__socials">
+      <a href="https://www.instagram.com/ano.maliemusik?igsh=enIxbWpjOXB6bm9r"
+         target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+        <i class="fa-brands fa-instagram"></i>
+      </a>
+      <a href="https://www.tiktok.com/@anomalie.musik?_r=1&_t=ZN-93o8aaHGXV0"
+         target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+        <i class="fa-brands fa-tiktok"></i>
+      </a>
+      <a href="https://open.spotify.com/artist/4UuqOiFmFzIZBT1Ac7YFdl"
+         target="_blank" rel="noopener noreferrer" aria-label="Spotify">
+        <i class="fa-brands fa-spotify"></i>
+      </a>
+      <a href="https://www.youtube.com/@ano.malie.visual"
+         target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+        <i class="fa-brands fa-youtube"></i>
+      </a>
+      <a href="https://music.apple.com/at/artist/ano-malie/1830211826"
+         target="_blank" rel="noopener noreferrer" aria-label="Apple Music">
+        <i class="fa-brands fa-apple"></i>
+      </a>
+    </div>
+
+    <!-- Booking-Link -->
+    <p class="footer__booking">
+      Booking: <a href="mailto:ano.maili@gmx.at">ano.maili@gmx.at</a>
+    </p>
+
+    <!-- Copyright -->
+    <p class="footer__copy">© 2026 Ano Malie. Alle Rechte vorbehalten.</p>
+
   </footer>
 
 
-  <!-- Back-To-Top Button (nur Mobile, CSS: #back-to-top) -->
+  <!-- Back-To-Top Button (erscheint nach 300px Scroll) -->
   <button id="back-to-top" aria-label="Nach oben scrollen">
     <i class="fa-solid fa-chevron-up"></i>
   </button>
@@ -347,46 +482,77 @@
   </script>
 
 
-  <!-- Script: Smooth Scrolling für Navigations-Links -->
+  <!-- Script: Sticky-Nav – Hintergrund beim Scrollen einblenden
+       Nach 80px Scroll bekommt die Nav-Leiste die Klasse .scrolled
+       und erhält einen dunklen Glasmorphism-Hintergrund. -->
   <script>
-    document.querySelectorAll('.nav-links a').forEach(link => {
+    const stickyNav = document.querySelector('.sticky-nav');
+
+    window.addEventListener('scroll', () => {
+      stickyNav.classList.toggle('scrolled', window.scrollY > 80);
+    });
+  </script>
+
+
+  <!-- Script: Smooth Scrolling für alle Navigations-Links
+       Gilt für sticky-nav, overlay und hero-cta-Links. -->
+  <script>
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
       link.addEventListener('click', e => {
-        e.preventDefault();
         const target = document.querySelector(link.getAttribute('href'));
-        if (target) target.scrollIntoView({ behavior: 'smooth' });
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
       });
     });
   </script>
 
 
-  <!-- Script: Burger-Menü für Mobile Navigation -->
+  <!-- Script: Burger-Menü – Vollbild-Overlay öffnen/schließen
+       Der Burger-Button (.burger-btn) togglet die Klasse .overlay--open
+       auf dem Overlay-Div (#navOverlay).
+       Overlay-Links schließen das Menü automatisch. -->
   <script>
-    const burger   = document.querySelector('.burger');
-    const navLinks = document.querySelector('.nav-links');
+    const burgerBtn   = document.querySelector('.burger-btn');
+    const navOverlay  = document.getElementById('navOverlay');
+    const overlayClose = document.querySelector('.nav-overlay__close');
+    const overlayLinks = document.querySelectorAll('.nav-overlay__link');
 
-    // Burger-Klick: Menü öffnen/schließen
-    burger.addEventListener('click', () => {
-      const isOpen = navLinks.classList.toggle('open');
-      burger.classList.toggle('active', isOpen);
-      burger.setAttribute('aria-expanded', isOpen);
+    // Hilfsfunktion: Overlay öffnen
+    function openOverlay() {
+      navOverlay.classList.add('overlay--open');
+      navOverlay.setAttribute('aria-hidden', 'false');
+      burgerBtn.setAttribute('aria-expanded', 'true');
+      burgerBtn.classList.add('active');
+      document.body.classList.add('no-scroll'); // Scrollen sperren
+    }
+
+    // Hilfsfunktion: Overlay schließen
+    function closeOverlay() {
+      navOverlay.classList.remove('overlay--open');
+      navOverlay.setAttribute('aria-hidden', 'true');
+      burgerBtn.setAttribute('aria-expanded', 'false');
+      burgerBtn.classList.remove('active');
+      document.body.classList.remove('no-scroll');
+    }
+
+    // Burger-Klick: Overlay öffnen/schließen
+    burgerBtn.addEventListener('click', () => {
+      navOverlay.classList.contains('overlay--open') ? closeOverlay() : openOverlay();
     });
 
-    // Klick auf Nav-Link: Menü schließen
-    document.querySelectorAll('.nav-links a').forEach(link => {
-      link.addEventListener('click', () => {
-        navLinks.classList.remove('open');
-        burger.classList.remove('active');
-        burger.setAttribute('aria-expanded', 'false');
-      });
+    // Schließen-Button im Overlay
+    overlayClose.addEventListener('click', closeOverlay);
+
+    // Klick auf Nav-Link: Overlay schließen
+    overlayLinks.forEach(link => {
+      link.addEventListener('click', closeOverlay);
     });
 
-    // Klick außerhalb: Menü schließen
-    document.addEventListener('click', e => {
-      if (!navLinks.contains(e.target) && !burger.contains(e.target)) {
-        navLinks.classList.remove('open');
-        burger.classList.remove('active');
-        burger.setAttribute('aria-expanded', 'false');
-      }
+    // Escape-Taste: Overlay schließen
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeOverlay();
     });
   </script>
 
@@ -509,58 +675,6 @@
     updateCountdowns();
     setInterval(updateCountdowns, 1000);
   </script>
-
-
-  <!-- Script: Cursor-Trail-Effekt (inaktiv)
-       Animierter Partikel-Trail dem Mauszeiger folgend, nur Desktop.
-       
-       Um zu aktivieren:
-         1. Diesen Kommentarblock entfernen (den inneren <script>-Block freilegen)
-         2. CSS-Block in style.css, Abschnitt 24 aktivieren
-
-  <script>
-    if (window.matchMedia('(pointer: fine)').matches) {
-      const trail = [];
-      const TRAIL_LENGTH = 10;
-
-      for (let i = 0; i < TRAIL_LENGTH; i++) {
-        const dot = document.createElement('div');
-        dot.classList.add('cursor-trail');
-        dot.style.opacity = 1 - (i / TRAIL_LENGTH);
-        dot.style.scale   = 1 - (i / TRAIL_LENGTH) * 0.6;
-        document.body.appendChild(dot);
-        trail.push({ el: dot, x: 0, y: 0 });
-      }
-
-      let mouseX = 0, mouseY = 0;
-
-      window.addEventListener('mousemove', e => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-      });
-
-      function animateTrail() {
-        trail[0].x += (mouseX - trail[0].x) * 0.4;
-        trail[0].y += (mouseY - trail[0].y) * 0.4;
-
-        for (let i = 1; i < TRAIL_LENGTH; i++) {
-          trail[i].x += (trail[i - 1].x - trail[i].x) * 0.4;
-          trail[i].y += (trail[i - 1].y - trail[i].y) * 0.4;
-        }
-
-        trail.forEach(dot => {
-          dot.el.style.left = dot.x + 'px';
-          dot.el.style.top  = dot.y + 'px';
-        });
-
-        requestAnimationFrame(animateTrail);
-      }
-
-      animateTrail();
-    }
-  <\/script>
-
-  -->
 
 </body>
 </html>

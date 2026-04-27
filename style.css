@@ -1,45 +1,52 @@
 /* =============================================================
    ANO MALIE – Stylesheet
- 
+
    INHALTSVERZEICHNIS
    ----------------------------------------------------------
    1.  Globale Variablen (Design-Tokens)
    2.  Globale Link-Farben
    3.  Grundlayout (Body)
    4.  Globales Hintergrundbild (Sternbild-Overlay)
-   5.  Header (Bannerfoto, Titel, Overlay)
-   6.  Navigation – Desktop
-   7.  Navigation – Burger-Icon
-   8.  Navigation – Burger-Animation (X-Form)
-   9.  Hauptbereich (main)
-   10. Sektionen (Einblend-Animation)
-   11. Überschriften (h2, h3)
-   12. Social Links & Musik-Links
-   13. Show-Liste
-   14. Kontakt-Sektion
-   15. Musik-Sektion (#music)
-   16. Section-Bubble (Glasmorphism-Karte)
-   17. Video-Wrapper (16:9 iFrame)
-   18. Member-Images & Slide-Panel – Desktop
-   19. Countdown (Shows)
-   20. Back-To-Top Button
-   21. Footer
-   22. Header-Animation: Variante B – Draw-On  ← AKTIV
-   23. Header-Animation: Variante A – Glitch + Neon-Puls  ← INAKTIV (auskommentiert)
-   24. Cursor-Trail-Effekt  ← INAKTIV (auskommentiert)
-   25. Responsive – Mobile (max. 768px)
+   5.  Sticky Navigation – Desktop
+   6.  Sticky Navigation – Scroll-Zustand (.scrolled)
+   7.  Burger-Button (top-right, fixed, kreisförmig)
+   8.  Burger-Animation (X-Form) & Overlay-Menü
+   9.  Hero / Header (Vollbild, 100vh)
+   10. Hero-Content (SVG, Tagline, CTAs, Scroll-Indikator)
+   11. CTA-Buttons (.btn, .btn--primary, .btn--outline)
+   12. Hauptbereich (main)
+   13. Sektionen (Einblend-Animation)
+   14. Überschriften (h2, h3)
+   15. Social Links & Musik-Links (Pill-Buttons)
+   16. Streaming-Pill-Buttons (.stream-pill)
+   17. Show-Liste
+   18. Kontakt-Sektion
+   19. Musik-Sektion (#music)
+   20. Section-Bubble (Glasmorphism-Karte)
+   21. Video-Wrapper (16:9 iFrame)
+   22. Members Grid (CSS Grid)
+   23. Member-Images & Slide-Panel – Desktop
+   24. Countdown (Shows)
+   25. Back-To-Top Button
+   26. Footer (gebrandeter Block)
+   27. Header-Animation: Variante B – Draw-On  ← AKTIV
+   28. Header-Animation: Variante A – Glitch + Neon-Puls  ← INAKTIV
+   29. Responsive – Mobile (max. 768px)
    ============================================================= */
 
 
 /* =============================================================
    1. GLOBALE VARIABLEN
-   Zentrale Design-Tokens – hier Farben global ändern
+   Zentrale Design-Tokens – hier Farben, Schriften global ändern
    ============================================================= */
 
    :root {
-    --accent:     #d74191;  /* Pink-Akzentfarbe für Highlights, Glows, Links */
-    --bg-dark:    #111;     /* Seitenhintergrund */
-    --text-light: #eee;     /* Standard-Textfarbe */
+    --accent:       #d74191;   /* Pink-Akzentfarbe für Highlights, Glows, Links */
+    --bg-dark:      #111;      /* Seitenhintergrund */
+    --text-light:   #eee;      /* Standard-Textfarbe */
+    --nav-height:   56px;      /* Höhe der sticky Nav-Leiste */
+    --font-title:   'Bebas Neue', Copperplate, fantasy;  /* Bandname, Überschriften */
+    --font-body:    'DM Sans', Arial, sans-serif;        /* Fließtext, Navigation */
   }
   
   
@@ -56,21 +63,27 @@
   
   a:hover {
     color: var(--text-light);
-    border-radius: 6px;
   }
   
   
   /* =============================================================
      3. GRUNDLAYOUT
-     Body-Basis: Hintergrund, Schrift, Textfarbe
+     Body-Basis: Hintergrund, Schrift, Textfarbe.
+     no-scroll wird per JS beim Öffnen des Overlay-Menüs gesetzt.
      ============================================================= */
   
   body {
-    font-family: Arial, sans-serif;
+    font-family: var(--font-body);
+    font-weight: 300;
     margin: 0;
     background: var(--bg-dark);
     color: var(--text-light);
-    position: relative; /* Nötig damit body::before korrekt positioniert */
+    position: relative;
+  }
+  
+  /* Scrollen sperren wenn Overlay-Menü offen (per JS gesetzt) */
+  body.no-scroll {
+    overflow: hidden;
   }
   
   
@@ -93,9 +106,300 @@
   
   
   /* =============================================================
-     5. HEADER
-     Vollbild-Bannerfoto mit zentriertem Titel und Navigation.
-     Enthält ein dunkles Overlay (::before) mit leichtem Blur.
+     5. STICKY NAVIGATION – DESKTOP
+     Eigenständige Leiste die immer oben klebt.
+     Slim, uppercase, letter-spaced – inspiriert von paulmccartney.com.
+     Auf Mobile unsichtbar (Burger-Button übernimmt).
+     ============================================================= */
+  
+  .sticky-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--nav-height);
+    z-index: 900;
+  
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+  
+    /* Startet transparent – Hintergrund kommt erst beim Scrollen */
+    background: transparent;
+    transition: background 0.4s ease, backdrop-filter 0.4s ease, box-shadow 0.4s ease;
+  }
+  
+  /* Bandname links in der Nav */
+  .sticky-nav__logo {
+    font-family: var(--font-title);
+    font-size: 22px;
+    letter-spacing: 4px;
+    color: var(--accent);
+    text-decoration: none;
+  }
+  
+  /* Nav-Links rechts */
+  .sticky-nav__links {
+    display: flex;
+    gap: 32px;
+  }
+  
+  .sticky-nav__links a {
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(238, 238, 238, 0.75);
+    text-decoration: none;
+    padding-bottom: 3px;
+    border-bottom: 1px solid transparent;
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+  
+  .sticky-nav__links a:hover {
+    color: var(--accent);
+    border-bottom-color: rgba(215, 65, 145, 0.5);
+  }
+  
+  
+  /* =============================================================
+     6. STICKY NAVIGATION – SCROLL-ZUSTAND
+     Klasse .scrolled wird per JS nach 80px Scroll gesetzt.
+     Aktiviert dunklen Glasmorphism-Hintergrund.
+     ============================================================= */
+  
+  .sticky-nav.scrolled {
+    background: rgba(10, 10, 10, 0.88);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 1px 0 rgba(215, 65, 145, 0.15);
+  }
+  
+  
+  /* =============================================================
+     7. BURGER-BUTTON
+     Kreisförmiger Button, fixed top-right, immer sichtbar.
+     Auf Desktop sichtbar – öffnet das Vollbild-Overlay.
+     Drei Striche mit Accent-Glow.
+     ============================================================= */
+  
+  .burger-btn {
+    position: fixed;
+    top: 12px;
+    right: 20px;
+    z-index: 1100; /* Über dem Overlay */
+  
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1px solid rgba(215, 65, 145, 0.35);
+    background: rgba(10, 10, 10, 0.6);
+    backdrop-filter: blur(8px);
+    cursor: pointer;
+  
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+  
+    transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .burger-btn:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 12px rgba(215, 65, 145, 0.35);
+  }
+  
+  /* Einzelne Striche */
+  .burger-btn span {
+    width: 16px;
+    height: 1.5px;
+    background: var(--accent);
+    border-radius: 1px;
+    transition: transform 0.35s ease, opacity 0.25s ease;
+    display: block;
+  }
+  
+  /* Aktiver Zustand: Striche formen ein X */
+  .burger-btn.active span:nth-child(1) {
+    transform: translateY(6.5px) rotate(45deg);
+  }
+  
+  .burger-btn.active span:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  
+  .burger-btn.active span:nth-child(3) {
+    transform: translateY(-6.5px) rotate(-45deg);
+  }
+  
+  
+  /* =============================================================
+     8. VOLLBILD-OVERLAY MENÜ
+     Deckt den gesamten Bildschirm ab (position: fixed, inset: 0).
+     Öffnet sich durch Klasse .overlay--open (per JS gesetzt).
+     Enthält Nav-Links + Social Icons.
+     ============================================================= */
+  
+  .nav-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1050;
+  
+    background: rgba(8, 8, 8, 0.97);
+    backdrop-filter: blur(16px);
+  
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+  
+    /* Startzustand: unsichtbar, pointer-events deaktiviert */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+  
+  /* Overlay offen: sichtbar, klickbar */
+  .nav-overlay.overlay--open {
+    opacity: 1;
+    pointer-events: all;
+  }
+  
+  /* Schließen-Button: X oben rechts im Overlay */
+  .nav-overlay__close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1px solid rgba(215, 65, 145, 0.3);
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.2s ease;
+  }
+  
+  .nav-overlay__close:hover {
+    border-color: var(--accent);
+  }
+  
+  /* X-Striche des Schließen-Buttons */
+  .nav-overlay__close span {
+    position: absolute;
+    width: 16px;
+    height: 1.5px;
+    background: var(--accent);
+    border-radius: 1px;
+  }
+  
+  .nav-overlay__close span:nth-child(1) {
+    transform: rotate(45deg);
+  }
+  
+  .nav-overlay__close span:nth-child(2) {
+    transform: rotate(-45deg);
+  }
+  
+  /* Kleines Bandname-Label oben im Overlay */
+  .nav-overlay__brand {
+    position: absolute;
+    top: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--font-title);
+    font-size: 14px;
+    letter-spacing: 5px;
+    color: var(--accent);
+    opacity: 0.7;
+  }
+  
+  /* Nav-Links Container */
+  .nav-overlay__links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 40px;
+  }
+  
+  /* Einzelne Nav-Links: groß, spaced, elegant */
+  .nav-overlay__link {
+    font-family: var(--font-body);
+    font-size: 28px;
+    font-weight: 300;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: rgba(238, 238, 238, 0.85);
+    text-decoration: none;
+    padding: 6px 0;
+    border-bottom: 1px solid transparent;
+    transition: color 0.2s ease, border-color 0.2s ease, letter-spacing 0.2s ease;
+  
+    /* Staggered Einblend-Animation wenn Overlay öffnet */
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      color 0.2s ease,
+      border-color 0.2s ease,
+      opacity 0.4s ease,
+      transform 0.4s ease;
+  }
+  
+  /* Overlay offen: Links einblenden mit Stagger per nth-child */
+  .nav-overlay.overlay--open .nav-overlay__link:nth-child(1) { opacity: 1; transform: none; transition-delay: 0.08s; }
+  .nav-overlay.overlay--open .nav-overlay__link:nth-child(2) { opacity: 1; transform: none; transition-delay: 0.14s; }
+  .nav-overlay.overlay--open .nav-overlay__link:nth-child(3) { opacity: 1; transform: none; transition-delay: 0.20s; }
+  .nav-overlay.overlay--open .nav-overlay__link:nth-child(4) { opacity: 1; transform: none; transition-delay: 0.26s; }
+  .nav-overlay.overlay--open .nav-overlay__link:nth-child(5) { opacity: 1; transform: none; transition-delay: 0.32s; }
+  
+  .nav-overlay__link:hover {
+    color: var(--accent);
+    border-bottom-color: rgba(215, 65, 145, 0.4);
+    letter-spacing: 8px; /* Kleiner Stretch-Effekt beim Hover */
+  }
+  
+  /* Social Icons am unteren Rand des Overlays */
+  .nav-overlay__socials {
+    position: absolute;
+    bottom: 36px;
+    display: flex;
+    gap: 14px;
+  }
+  
+  .nav-overlay__social {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid rgba(215, 65, 145, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: var(--accent);
+    text-decoration: none;
+    transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .nav-overlay__social:hover {
+    border-color: var(--accent);
+    background: rgba(215, 65, 145, 0.12);
+    box-shadow: 0 0 10px rgba(215, 65, 145, 0.25);
+    color: var(--accent);
+  }
+  
+  
+  /* =============================================================
+     9. HERO / HEADER
+     Vollbild-Banner: 100vh, Bandfoto, dunkles Overlay.
+     Enthält: SVG-Animation, Tagline, CTA-Buttons, Scroll-Indikator.
      ============================================================= */
   
   header {
@@ -103,20 +407,18 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    padding: 60px 20px;
+    background-attachment: fixed; /* Parallax-Effekt beim Scrollen */
+    min-height: 100vh;
     color: white;
   
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     text-align: center;
-    gap: 20px;
   
     position: relative;
-    overflow: visible; /* Erlaubt das Burger-Dropdown über den Header hinauszuragen */
-    text-shadow:
-      0 0 10px rgba(0, 0, 0, 0.8),
-      0 0 4px var(--accent);
+    overflow: hidden;
   }
   
   /* Dunkles Overlay mit leichtem Blur über dem Hintergrundfoto */
@@ -124,125 +426,139 @@
     content: "";
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.45);
+    background: rgba(0, 0, 0, 0.50);
     backdrop-filter: blur(2px);
-    z-index: -1;
+    z-index: 0;
   }
   
   /* Alle direkten Kind-Elemente über dem Overlay positionieren */
-  header * {
+  header > * {
     position: relative;
+    z-index: 1;
   }
   
-  /* Bandname – nur sichtbar wenn KEINE SVG-Animation aktiv ist.
-     Bei Variante A (Glitch) oder B (Draw-On) wird dieses Element
-     durch das SVG bzw. .glitch-wrap ersetzt. */
-  header h1 {
-    font-size: 48px;
-    letter-spacing: 2px;
+  
+  /* =============================================================
+     10. HERO-CONTENT
+     Zentrierter Block mit SVG, Tagline, CTAs und Scroll-Indikator.
+     ============================================================= */
+  
+  /* Wrapper für alle Hero-Elemente */
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+  }
+  
+  /* Tagline unter dem Bandnamen */
+  .hero-tagline {
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: rgba(238, 238, 238, 0.65);
     margin: 0;
-    font-family: Copperplate, Papyrus, fantasy;
-    text-shadow:
-      0 0 20px rgba(0, 0, 0, 10),
-      0 0 20px var(--accent);
   }
   
-  
-  /* =============================================================
-     6. NAVIGATION – DESKTOP
-     Horizontale Link-Leiste im Header.
-     Burger-Button ist auf Desktop standardmäßig versteckt.
-     ============================================================= */
-  
-  nav {
+  /* Scroll-Indikator: Oval mit animiertem Punkt */
+  .scroll-indicator {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 22px;
+    height: 34px;
+    border: 1.5px solid rgba(215, 65, 145, 0.45);
+    border-radius: 11px;
     display: flex;
+    align-items: flex-start;
     justify-content: center;
-    gap: 20px;
-    position: relative;
-    text-shadow:
-      0 0 20px rgba(0, 0, 0, 10),
-      0 0 20px var(--accent);
+    padding-top: 5px;
+    z-index: 1;
   }
   
-  /* Burger auf Desktop ausblenden */
-  .burger {
-    display: none;
-  }
-  
-  /* Links horizontal nebeneinander */
-  .nav-links {
-    display: flex;
-    gap: 20px;
-  }
-  
-  /* Einzelne Nav-Links */
-  .nav-links a {
-    color: var(--text-light);
-    text-decoration: none;
-    font-size: 36px;
-    transition: color 0.2s ease, text-shadow 0.2s ease, transform 0.2s ease;
-    display: inline-block;
-    padding: 4px 0;
-  }
-  
-  /* Hover-Effekt: Pink-Glow */
-  .nav-links a:hover {
-    color: var(--accent);
-    text-shadow: 0 0 6px var(--accent);
-    transform: translateY(-1px);
-  }
-  
-  
-  /* =============================================================
-     7. NAVIGATION – BURGER-ICON
-     Drei Balken mit Accent-Glow. Nur auf Mobile sichtbar
-     (wird im @media-Block weiter unten aktiviert).
-     ============================================================= */
-  
-  /* Einzelne Striche */
-  .burger span {
-    width: 28px;
-    height: 3px;
+  /* Animierter Punkt im Scroll-Indikator */
+  .scroll-indicator__dot {
+    width: 4px;
+    height: 6px;
     background: var(--accent);
-    box-shadow: 0 0 8px var(--accent);
-    transition: 0.3s;
+    border-radius: 2px;
+    animation: scrollBounce 1.6s ease-in-out infinite;
   }
   
-  /* Hover: Striche leuchten stärker */
-  .burger:hover span {
-    background: #fff;
-    box-shadow: 0 0 12px var(--accent);
-    transform: scale(1.05);
-  }
-  
-  /* Aktiver Zustand (Menü offen): Striche weiß */
-  .burger.active span {
-    background: #fff;
-    box-shadow: 0 0 14px var(--accent);
+  @keyframes scrollBounce {
+    0%, 100% { opacity: 1; transform: translateY(0); }
+    50%       { opacity: 0.3; transform: translateY(8px); }
   }
   
   
   /* =============================================================
-     8. NAVIGATION – BURGER-ANIMATION
-     Wenn .active gesetzt: Striche formen ein X.
+     11. CTA-BUTTONS
+     Zwei Varianten: --primary (gefüllt) und --outline (transparent).
+     Werden im Hero und ggf. anderen Sektionen verwendet.
      ============================================================= */
   
-  .burger.active span:nth-child(1) {
-    transform: translateY(9px) rotate(45deg);
+  /* CTA-Button Container */
+  .hero-ctas {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 8px;
   }
   
-  .burger.active span:nth-child(2) {
-    opacity: 0; /* Mittlerer Strich verschwindet */
+  /* Basis-Stil für alle Buttons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 26px;
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
   }
   
-  .burger.active span:nth-child(3) {
-    transform: translateY(-9px) rotate(-45deg);
+  /* Gefüllter Button */
+  .btn--primary {
+    background: var(--accent);
+    color: #fff;
+    border: 1px solid var(--accent);
+  }
+  
+  .btn--primary:hover {
+    background: transparent;
+    color: var(--accent);
+    box-shadow: 0 0 14px rgba(215, 65, 145, 0.35);
+    transform: translateY(-2px);
+  }
+  
+  /* Outline-Button */
+  .btn--outline {
+    background: transparent;
+    color: rgba(238, 238, 238, 0.85);
+    border: 1px solid rgba(238, 238, 238, 0.35);
+  }
+  
+  .btn--outline:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    box-shadow: 0 0 10px rgba(215, 65, 145, 0.2);
+    transform: translateY(-2px);
   }
   
   
   /* =============================================================
-     9. HAUPTBEREICH
+     12. HAUPTBEREICH
      Zentrierter Content-Wrapper mit maximaler Breite.
+     padding-top kompensiert die sticky Nav-Höhe.
      ============================================================= */
   
   main {
@@ -254,17 +570,18 @@
   
   
   /* =============================================================
-     10. SEKTIONEN
+     13. SEKTIONEN
      Einzelne Inhaltsbereiche mit Einblend-Animation beim Scrollen.
      Die Klasse .visible wird per IntersectionObserver (JS) gesetzt.
+     Luxuriösere Kurve + größeres translateY für mehr Wirkung.
      ============================================================= */
   
   section {
     margin-bottom: 60px;
     opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-    border-bottom: 1px solid #222;
+    transform: translateY(40px);
+    transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    border-bottom: 1px solid #1e1e1e;
     padding-bottom: 25px;
   }
   
@@ -276,19 +593,21 @@
   
   
   /* =============================================================
-     11. ÜBERSCHRIFTEN
-     H2 mit dekorativem Akzent-Unterstrich (::after),
+     14. ÜBERSCHRIFTEN
+     H2 mit Bebas Neue und dekorativem Akzent-Unterstrich,
      H3 als leichtere Unterüberschrift.
      ============================================================= */
   
   h2 {
-    font-size: 30px;
+    font-family: var(--font-title);
+    font-size: 32px;
+    font-weight: 400; /* Bebas Neue hat nur Regular */
     margin-bottom: 15px;
-    letter-spacing: 1px;
-    position: relative;    /* Nötig für ::after-Positionierung */
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    position: relative;
     display: inline-block;
-    padding-bottom: 6px;
-    font-family: Copperplate, Papyrus, fantasy;
+    padding-bottom: 10px;
   }
   
   /* Dekorativer Akzent-Unterstrich unter h2 */
@@ -298,43 +617,120 @@
     left: 50%;
     transform: translateX(-50%);
     bottom: 0;
-    width: 40px;
-    height: 2px;
-    font-family: Copperplate, Papyrus, fantasy;
+    width: 32px;
+    height: 1.5px;
+    background: var(--accent);
   }
   
   h3 {
-    font-size: 26px;
+    font-family: var(--font-body);
+    font-size: 18px;
+    font-weight: 400;
+    letter-spacing: 1px;
   }
   
   
   /* =============================================================
-     12. SOCIAL LINKS & MUSIK-LINKS
-     Inline-Buttons mit Accent-Farbe und Hover-Hintergrund-Effekt.
+     15. SOCIAL LINKS & MUSIK-LINKS (Pill-Buttons)
+     Pill-Buttons mit Border, Hover-Fill-Animation und Icon.
+     Ersetzt die alten Plain-Text-Links.
      ============================================================= */
   
-  .social-links a,
-  .music-links a {
-    display: inline-block;
-    margin: 8px 10px;
-    font-size: 22px;
-    color: var(--accent);
-    text-decoration: none;
-    transition: color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  .social-links,
+  .music-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 16px;
   }
   
-  /* Hover: Pink-Hintergrund mit Glow */
-  .social-links a:hover,
-  .music-links a:hover {
-    color: #fff;
+  /* Pill-Button Basis */
+  .pill-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 20px;
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--accent);
+    border: 1px solid rgba(215, 65, 145, 0.4);
+    border-radius: 20px;
+    transition: background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
+  }
+  
+  .pill-link:hover {
     background: var(--accent);
-    transform: translateY(-1px);
-    box-shadow: 0 0 12px var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+    box-shadow: 0 0 14px rgba(215, 65, 145, 0.4);
+    transform: translateY(-2px);
   }
   
   
   /* =============================================================
-     13. SHOW-LISTE
+     16. STREAMING-PILL-BUTTONS (.stream-pill)
+     Erweiterte Pill-Buttons für Plattform-Links mit Farbpunkt.
+     Plattformspezifische Farben via Modifier-Klassen.
+     ============================================================= */
+  
+  /* Wrapper für alle Stream-Pills */
+  .stream-pills {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin: 18px 0;
+  }
+  
+  /* Basis Stream-Pill */
+  .stream-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 22px;
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--text-light);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 20px;
+    transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
+  }
+  
+  /* Kleiner Farbpunkt links im Pill */
+  .stream-pill__dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  
+  /* Plattform-Farben für die Dots */
+  .stream-pill--youtube .stream-pill__dot { background: #ff0000; }
+  .stream-pill--spotify .stream-pill__dot { background: #1db954; }
+  .stream-pill--apple   .stream-pill__dot { background: #fc3c44; }
+  
+  /* Hover: Hintergrund leicht aufhellen */
+  .stream-pill:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+    transform: translateY(-2px);
+    color: #fff;
+  }
+  
+  
+  /* =============================================================
+     17. SHOW-LISTE
      Einfache Liste der kommenden Konzertdaten.
      ============================================================= */
   
@@ -345,20 +741,33 @@
   }
   
   .show-list li {
-    margin: 8px 0;
-    font-size: 20px;
+    margin: 10px 0;
+    font-size: 18px;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+  }
+  
+  .show-list a {
+    color: var(--accent);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  
+  .show-list a:hover {
+    color: var(--text-light);
   }
   
   
   /* =============================================================
-     14. KONTAKT-SEKTION
+     18. KONTAKT-SEKTION
      Link-Styling speziell im #contact-Bereich.
      ============================================================= */
   
   #contact a {
     color: var(--accent);
     text-decoration: none;
-    font-size: 20px;
+    font-size: 18px;
+    font-weight: 400;
     transition: color 0.2s ease, text-shadow 0.2s ease;
   }
   
@@ -367,9 +776,15 @@
     text-shadow: 0 0 6px var(--accent);
   }
   
+  #contact p {
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.7;
+  }
+  
   
   /* =============================================================
-     15. MUSIK-SEKTION (#music)
+     19. MUSIK-SEKTION (#music)
      Single-Cover als Hintergrundbild mit Blur-Overlay.
      z-index: -1 beim ::before damit Links/iFrame klickbar bleiben.
      ============================================================= */
@@ -392,26 +807,32 @@
     inset: 0;
     background: rgba(0, 0, 0, 0.55);
     backdrop-filter: blur(2px);
-    z-index: -1;
+    z-index: 0;
+  }
+  
+  /* Alle direkten Kinder über dem Overlay */
+  #music > * {
+    position: relative;
+    z-index: 1;
   }
   
   
   /* =============================================================
-     16. SECTION-BUBBLE
+     20. SECTION-BUBBLE
      Halbtransparente Glasmorphism-Karte für Sektions-Inhalte.
      ============================================================= */
   
   .section-bubble {
     background: rgba(0, 0, 0, 0.45);
     backdrop-filter: blur(6px);
-    padding: 20px;
+    padding: 28px;
     border-radius: 12px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
   }
   
   
   /* =============================================================
-     17. VIDEO-WRAPPER
+     21. VIDEO-WRAPPER
      Responsiver 16:9-Container für eingebettete YouTube-iFrames.
      Das padding-bottom-Trick erhält das Seitenverhältnis.
      ============================================================= */
@@ -420,12 +841,12 @@
     position: relative;
     width: 100%;
     max-width: 800px;
-    margin: 20px auto;
+    margin: 24px auto;
     padding-bottom: 56.25%; /* 16:9 = 9/16 = 56.25% */
     height: 0;
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.6);
     z-index: 1;
   }
   
@@ -441,23 +862,38 @@
   
   
   /* =============================================================
-     18. MEMBER-IMAGES & SLIDE-PANEL – DESKTOP
+     22. MEMBERS GRID
+     CSS Grid ersetzt die alte gestapelte Darstellung mit <br>-Tags.
+     2 Spalten auf Desktop, 1 Spalte auf Mobile (→ Abschnitt 30).
+     ============================================================= */
+  
+  .members-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 48px 60px;
+    justify-items: center;
+    margin-top: 24px;
+  }
+  
+  
+  /* =============================================================
+     23. MEMBER-IMAGES & SLIDE-PANEL – DESKTOP
      Jeder Member hat ein Foto (.main-image) und ein ausklappbares
      Info-Panel (.slide-panel), das per Chevron-Button geöffnet wird.
      Auf Desktop: Panel gleitet horizontal nach rechts.
-     Auf Mobile: Panel klappt nach unten (→ Abschnitt 25).
+     Auf Mobile: Panel klappt nach unten (→ Abschnitt 30).
      ============================================================= */
   
   /* Wrapper: relativ positioniert als Anker für absolute Kind-Elemente */
   .image-wrapper {
     position: relative;
     display: inline-block;
-    margin-bottom: 40px;
+    margin-bottom: 0; /* Grid-Gap übernimmt den Abstand */
   }
   
   /* Hauptbild des Members */
   .main-image {
-    width: 350px;
+    width: 320px;
     border-radius: 12px;
     position: relative;
     z-index: 2;
@@ -472,7 +908,11 @@
   /* Member-Name über dem Bild */
   .image-title {
     margin-bottom: 10px;
-    font-size: 22px;
+    font-family: var(--font-title);
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 3px;
+    text-transform: uppercase;
     transition: transform 0.45s ease;
   }
   
@@ -530,15 +970,15 @@
   
     background: rgba(0, 0, 0, 0.45);
     backdrop-filter: blur(4px);
-    border: none;
+    border: 1px solid rgba(215, 65, 145, 0.2);
     padding: 10px 14px;
     border-radius: 10px;
   
     color: var(--accent);
-    font-size: 20px;
+    font-size: 18px;
     cursor: pointer;
   
-    box-shadow: 0 0 12px rgba(215, 65, 145, 0.4);
+    box-shadow: 0 0 10px rgba(215, 65, 145, 0.3);
     transition: transform 0.45s ease, background 0.2s ease, box-shadow 0.2s ease;
     z-index: 4;
   }
@@ -567,49 +1007,151 @@
   
   
   /* =============================================================
-     19. COUNTDOWN (SHOWS)
+     24. COUNTDOWN (SHOWS)
      Tickender Countdown unter jedem Show-Eintrag.
      Wert wird per JS jede Sekunde aktualisiert.
      ============================================================= */
   
   .countdown {
-    font-size: 14px;
+    font-size: 13px;
     color: var(--accent);
     letter-spacing: 1px;
     margin-top: 4px;
-    font-family: monospace;
-    text-shadow: 0 0 6px var(--accent);
+    font-family: 'DM Sans', monospace;
+    font-weight: 300;
+    text-shadow: 0 0 6px rgba(215, 65, 145, 0.5);
   }
   
   
   /* =============================================================
-     20. BACK-TO-TOP BUTTON
-     Nur auf Mobile sichtbar (Desktop: display:none).
+     25. BACK-TO-TOP BUTTON
      Erscheint nach 300px Scroll-Tiefe (Klasse .visible per JS).
+     Auf Desktop und Mobile sichtbar.
      ============================================================= */
   
-  /* Desktop: komplett versteckt */
   #back-to-top {
-    display: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+    position: fixed;
+    bottom: 28px;
+    right: 20px;
+    z-index: 999;
+  
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1px solid rgba(215, 65, 145, 0.3);
+    cursor: pointer;
+  
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(6px);
+    color: var(--accent);
+    font-size: 16px;
+    box-shadow: 0 0 12px rgba(215, 65, 145, 0.3);
+  
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, box-shadow 0.2s ease, background 0.2s ease;
+  }
+  
+  /* Klasse .visible wird per JS nach 300px Scroll gesetzt */
+  #back-to-top.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  
+  #back-to-top:hover {
+    background: var(--accent);
+    color: #fff;
+    box-shadow: 0 0 20px var(--accent);
   }
   
   
   /* =============================================================
-     21. FOOTER
-     Schmale Fußzeile mit Copyright-Text.
+     26. FOOTER
+     Gebrandeter Block mit Logo, Social Icons, Booking-Link und Copyright.
+     Inspiriert von paulmccartney.com: Logo + Socials + Fine Print.
      ============================================================= */
   
   footer {
-    text-align: center;
-    padding: 20px;
     background: #000;
-    font-size: 14px;
-    opacity: 0.8;
+    padding: 56px 20px 40px;
+    text-align: center;
+    border-top: 1px solid #1a1a1a;
+  }
+  
+  /* Bandname als Logo-Schrift */
+  .footer__logo {
+    font-family: var(--font-title);
+    font-size: 36px;
+    letter-spacing: 8px;
+    color: var(--accent);
+    margin-bottom: 24px;
+    opacity: 0.9;
+  }
+  
+  /* Social-Icons Zeile */
+  .footer__socials {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+  
+  .footer__socials a {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid rgba(215, 65, 145, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    color: rgba(238, 238, 238, 0.5);
+    text-decoration: none;
+    transition: color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .footer__socials a:hover {
+    color: var(--accent);
+    border-color: rgba(215, 65, 145, 0.5);
+    box-shadow: 0 0 10px rgba(215, 65, 145, 0.2);
+  }
+  
+  /* Booking-Link */
+  .footer__booking {
+    font-size: 13px;
+    font-weight: 300;
+    letter-spacing: 1px;
+    color: rgba(238, 238, 238, 0.45);
+    margin-bottom: 10px;
+  }
+  
+  .footer__booking a {
+    color: rgba(215, 65, 145, 0.7);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  
+  .footer__booking a:hover {
+    color: var(--accent);
+  }
+  
+  /* Copyright */
+  .footer__copy {
+    font-size: 11px;
+    font-weight: 300;
+    letter-spacing: 2px;
+    color: rgba(238, 238, 238, 0.2);
+    text-transform: uppercase;
+    margin: 0;
   }
   
   
   /* =============================================================
-     22. HEADER-ANIMATION: VARIANTE B – DRAW-ON  ← AKTIV
+     27. HEADER-ANIMATION: VARIANTE B – DRAW-ON  ← AKTIV
      ----------------------------------------------------------
      Der Bandname "zeichnet sich" beim Laden der Seite ein.
      Funktionsweise:
@@ -617,23 +1159,23 @@
                           stroke-dashoffset von 2000 → 0 (2.4s)
        2. .draw-fill    → gefüllter Text blendet ein sobald der
                           Stroke fertig ist (Delay 2.4s, Dauer 0.5s)
-     
+  
      HTML-Struktur (in index.html):
-       <svg width="420" height="80" viewBox="0 0 420 80"
+       <svg width="520" height="90" viewBox="0 0 520 90"
             style="overflow:visible" aria-label="ANO MALIE" role="img">
-         <text class="draw-stroke" x="210" y="66" text-anchor="middle">ANO MALIE</text>
-         <text class="draw-fill"   x="210" y="66" text-anchor="middle">ANO MALIE</text>
+         <text class="draw-stroke" x="260" y="72" text-anchor="middle">ANO MALIE</text>
+         <text class="draw-fill"   x="260" y="72" text-anchor="middle">ANO MALIE</text>
        </svg>
      ============================================================= */
   
   /* Phase 1: Stroke-Outline zeichnet sich ein */
   .draw-stroke {
-    font-family: Copperplate, Papyrus, fantasy;
-    font-size: 56px;
-    letter-spacing: 2px;
+    font-family: var(--font-title);
+    font-size: 72px;
+    letter-spacing: 6px;
     fill: none;
     stroke: var(--accent);
-    stroke-width: 1.2;
+    stroke-width: 1px;
     paint-order: stroke fill;   /* Stroke unter Fill rendern */
     stroke-dasharray: 2000;     /* Gesamtlänge des Stroke-Pfads */
     stroke-dashoffset: 2000;    /* Startwert: Stroke komplett versteckt */
@@ -642,12 +1184,12 @@
   
   /* Phase 2: Gefüllter Text blendet ein nach Ende des Stroke */
   .draw-fill {
-    font-family: Copperplate, Papyrus, fantasy;
-    font-size: 56px;
-    letter-spacing: 2px;
-    fill: var(--accent);
+    font-family: var(--font-title);
+    font-size: 72px;
+    letter-spacing: 6px;
+    fill: var(--text-light);
     opacity: 0;
-    animation: fillAppear 0.5s ease 0.6s forwards;
+    animation: fillAppear 0.5s ease 2.2s forwards;
   }
   
   /* Stroke-Dashoffset von voll-versteckt auf 0 = vollständig gezeichnet */
@@ -664,16 +1206,16 @@
   
   
   /* =============================================================
-     23. HEADER-ANIMATION: VARIANTE A – GLITCH + NEON-PULS  ← INAKTIV
+     28. HEADER-ANIMATION: VARIANTE A – GLITCH + NEON-PULS  ← INAKTIV
      ----------------------------------------------------------
      Kombination aus dauerhaftem Neon-Puls und periodischem
      RGB-Glitch-Effekt. Alle ~6 Sekunden glitcht der Titel kurz.
-     
+  
      Um Variante A zu aktivieren:
-       1. Diesen Block auskommentieren  (/* ... *‌/)  entfernen
-       2. Variante B (Abschnitt 22) auskommentieren
+       1. Diesen Block auskommentieren (/* ... *‌/)  entfernen
+       2. Variante B (Abschnitt 27) auskommentieren
        3. In index.html das <svg>-Element durch folgendes ersetzen:
-     
+  
      HTML-Struktur für Variante A:
        <div class="glitch-wrap">
          <span class="glitch-b" aria-hidden="true">ANO MALIE</span>
@@ -692,9 +1234,9 @@
   .glitch-wrap h1,
   .glitch-wrap .glitch-r,
   .glitch-wrap .glitch-b {
-    font-family: Copperplate, Papyrus, fantasy;
-    font-size: 48px;
-    letter-spacing: 2px;
+    font-family: var(--font-title);
+    font-size: 72px;
+    letter-spacing: 6px;
     position: absolute;
     top: 0;
     left: 0;
@@ -761,131 +1303,67 @@
   }
   
   */
-  
-  
+
   /* =============================================================
-     24. CURSOR-TRAIL-EFFEKT  ← INAKTIV (auskommentiert)
-     ----------------------------------------------------------
-     Animierter Partikel-Trail der dem Mauszeiger folgt.
-     Nur auf Desktop aktiv (JS prüft pointer: fine).
-     
-     Um zu aktivieren:
-       1. Diesen CSS-Block auskommentieren entfernen
-       2. Im HTML den zugehörigen <script>-Block aktivieren
-          (letztes <script>-Tag am Ende von index.html)
-     ============================================================= */
-  
-  /*
-  
-  .cursor-trail {
-    position: fixed;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: var(--accent);
-    box-shadow: 0 0 8px var(--accent), 0 0 16px var(--accent);
-    pointer-events: none;
-    z-index: 9999;
-    transform: translate(-50%, -50%);
-    transition: background 0.2s ease;
-  }
-  
-  */
-  
-  
-  /* =============================================================
-     25. RESPONSIVE – MOBILE (max. 768px)
+     29. RESPONSIVE – MOBILE (max. 768px)
      Alle Anpassungen für kleine Bildschirme gebündelt.
      ============================================================= */
   
   @media (max-width: 768px) {
   
-    /* --- Header --- */
+    /* --- Sticky Nav auf Mobile ausblenden
+           (Burger-Button übernimmt die Navigation) --- */
+  
+    .sticky-nav {
+      display: none;
+    }
+  
+  
+    /* --- Header / Hero --- */
   
     header {
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      padding: 30px 20px;
+      background-attachment: scroll; /* Parallax auf Mobile deaktivieren (Performance) */
+      min-height: 100svh;            /* Safe-area-aware Viewport-Höhe auf iOS */
     }
   
-    /* Kleinerer Bandname auf Mobile (gilt auch wenn kein SVG aktiv) */
-    header h1 {
-      font-size: 56px;
-      margin-bottom: 0;
-      padding-right: 0;
-    }
-  
-    /* Draw-On SVG auf Mobile verkleinern */
+    /* SVG-Bandname auf Mobile verkleinern */
     header svg {
-      width: 280px;
+      width: 300px;
       height: auto;
     }
   
     /* Draw-On Schriftgröße anpassen */
     .draw-stroke,
     .draw-fill {
-      font-size: 56px;
+      font-size: 52px;
+      letter-spacing: 3px;
     }
   
     /* Glitch-Wrap Schriftgröße anpassen (Variante A) */
     .glitch-wrap h1,
     .glitch-wrap .glitch-r,
     .glitch-wrap .glitch-b {
-      font-size: 32px;
+      font-size: 40px;
     }
   
-    /* --- Navigation --- */
-  
-    nav {
-      position: static;
+    /* Tagline kleiner */
+    .hero-tagline {
+      font-size: 10px;
+      letter-spacing: 4px;
     }
   
-    /* Burger-Button sichtbar machen und zentrieren */
-    .burger {
-      display: flex;
-      flex-direction: column;
-      cursor: pointer;
-      gap: 6px;
-      background: none;
-      border: none;
-      padding: 0;
-      outline: none;
-      margin: 12px auto 0;
-      position: static;
-      z-index: 1001;
-    }
-  
-    /* Dropdown-Menü: schmal, zentriert, unter Burger-Button */
-    .nav-links {
-      display: none;
+    /* CTA-Buttons untereinander */
+    .hero-ctas {
       flex-direction: column;
       align-items: center;
-      position: absolute;
-      top: 100%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 220px;
-      background: rgba(0, 0, 0, 0.95);
-      backdrop-filter: blur(10px);
-      padding: 10px 0 16px;
-      text-align: center;
-      z-index: 1000;
-      border-radius: 12px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7);
+      gap: 10px;
     }
   
-    /* Klasse .open wird per JS beim Burger-Klick gesetzt */
-    .nav-links.open {
-      display: flex;
+    .btn {
+      font-size: 10px;
+      padding: 10px 22px;
     }
   
-    .nav-links a {
-      font-size: 20px;
-      padding: 8px 0;
-      margin: 0;
-      width: 100%;
-    }
   
     /* --- Hauptbereich & Sektionen --- */
   
@@ -899,32 +1377,39 @@
       padding-bottom: 20px;
     }
   
+  
     /* --- Überschriften --- */
   
     h2 {
       font-size: 26px;
+      letter-spacing: 3px;
     }
   
     h3 {
-      font-size: 16px;
+      font-size: 15px;
     }
   
-    /* --- Links --- */
   
-    .social-links a,
-    .music-links a {
-      font-size: 18px;
-      margin: 6px;
-      padding: 4px 8px;
+    /* --- Pill-Links & Stream-Pills --- */
+  
+    .pill-link,
+    .stream-pill {
+      font-size: 11px;
+      padding: 7px 16px;
     }
   
     .show-list li {
-      font-size: 18px;
+      font-size: 16px;
     }
   
     #contact a {
-      font-size: 18px;
+      font-size: 16px;
     }
+  
+    #contact p {
+      font-size: 14px;
+    }
+  
   
     /* --- Musik-Sektion --- */
   
@@ -933,6 +1418,15 @@
       background-position: center;
     }
   
+  
+    /* --- Members Grid: 1 Spalte auf Mobile --- */
+  
+    .members-grid {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+  
+  
     /* --- Member-Bilder & Slide-Panel auf Mobile ---
        Auf Mobile klappt das Panel nach unten statt nach rechts.
        Kein horizontales Verschieben von Bild/Titel/Button. */
@@ -940,13 +1434,13 @@
     .image-wrapper {
       display: block;
       width: 100%;
-      margin-bottom: 20px;
+      margin-bottom: 0;
     }
   
     /* Bild: zentriert, volle Breite bis max 320px */
     .main-image {
       width: 100%;
-      max-width: 320px;
+      max-width: 300px;
       display: block;
       margin: 0 auto;
       transform: none !important; /* Kein shift-left auf Mobile */
@@ -956,7 +1450,8 @@
     .image-title {
       transform: none !important;
       text-align: center;
-      font-size: 20px;
+      font-size: 18px;
+      letter-spacing: 3px;
     }
   
     /* Chevron-Button unter dem Bild, zentriert */
@@ -983,7 +1478,7 @@
       position: static;
       width: 100%;
       height: auto;
-      max-width: 320px;
+      max-width: 300px;
       margin: 12px auto 0;
       box-sizing: border-box;
       max-height: 0;
@@ -1006,46 +1501,27 @@
       z-index: auto;
     }
   
+  
+    /* --- Footer --- */
+  
+    .footer__logo {
+      font-size: 28px;
+      letter-spacing: 6px;
+    }
+  
+    .footer__socials {
+      gap: 10px;
+    }
+  
+  
     /* --- Back-To-Top Button --- */
   
     #back-to-top {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-  
-      position: fixed;
-      bottom: 24px;
-      right: 20px;
-      z-index: 999;
-  
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      border: none;
-      cursor: pointer;
-  
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(6px);
-      color: var(--accent);
-      font-size: 18px;
-      box-shadow: 0 0 14px rgba(215, 65, 145, 0.5);
-  
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease, box-shadow 0.2s ease;
-    }
-  
-    /* Klasse .visible wird per JS nach 300px Scroll gesetzt */
-    #back-to-top.visible {
-      opacity: 1;
-      pointer-events: auto;
-    }
-  
-    #back-to-top:hover {
-      background: var(--accent);
-      color: #fff;
-      box-shadow: 0 0 20px var(--accent);
+      bottom: 20px;
+      right: 16px;
+      width: 40px;
+      height: 40px;
+      font-size: 14px;
     }
   
   } /* Ende @media (max-width: 768px) */
-
