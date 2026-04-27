@@ -5,33 +5,34 @@
    ----------------------------------------------------------
    1.  Globale Variablen (Design-Tokens)
    2.  Globale Link-Farben
-   3.  Grundlayout (Body)
+   3.  Grundlayout (Body) + Smooth Scroll
    4.  Globales Hintergrundbild (Sternbild-Overlay)
    5.  Sticky Navigation – Desktop
    6.  Sticky Navigation – Scroll-Zustand (.scrolled)
    7.  Burger-Button (top-right, fixed, kreisförmig)
    8.  Burger-Animation (X-Form) & Overlay-Menü
    9.  Hero / Header (Vollbild, 100vh)
-   10. Hero-Content (SVG, Tagline, CTAs, Scroll-Indikator)
-   11. CTA-Buttons (.btn, .btn--primary, .btn--outline)
-   12. Hauptbereich (main)
-   13. Sektionen (Einblend-Animation)
-   14. Überschriften (h2, h3)
-   15. Social Links & Musik-Links (Pill-Buttons)
-   16. Streaming-Pill-Buttons (.stream-pill)
-   17. Show-Liste
-   18. Kontakt-Sektion
-   19. Musik-Sektion (#music)
-   20. Section-Bubble (Glasmorphism-Karte)
-   21. Video-Wrapper (16:9 iFrame)
-   22. Members Grid (CSS Grid)
-   23. Member-Images & Slide-Panel – Desktop
-   24. Countdown (Shows)
-   25. Back-To-Top Button
-   26. Footer (gebrandeter Block)
-   27. Header-Animation: Variante B – Draw-On  ← AKTIV
-   28. Header-Animation: Variante A – Glitch + Neon-Puls  ← INAKTIV
-   29. Responsive – Mobile (max. 768px)
+   10. Hero-Hintergrund (.hero-bg) – GPU-beschleunigter Parallax
+   11. Hero-Content (SVG, Tagline, CTAs, Scroll-Indikator)
+   12. CTA-Buttons (.btn, .btn--primary, .btn--outline)
+   13. Hauptbereich (main)
+   14. Sektionen (Einblend-Animation)
+   15. Überschriften (h2, h3)
+   16. Social Links & Musik-Links (Pill-Buttons)
+   17. Streaming-Pill-Buttons (.stream-pill)
+   18. Show-Liste
+   19. Kontakt-Sektion
+   20. Musik-Sektion (#music)
+   21. Section-Bubble (Glasmorphism-Karte)
+   22. Video-Wrapper (16:9 iFrame)
+   23. Members Grid (CSS Grid)
+   24. Member-Images & Slide-Panel – Desktop
+   25. Countdown (Shows)
+   26. Back-To-Top Button
+   27. Footer (gebrandeter Block)
+   28. Header-Animation: Variante B – Draw-On  ← AKTIV
+   29. Header-Animation: Variante A – Glitch + Neon-Puls  ← INAKTIV
+   30. Responsive – Mobile (max. 768px)
    ============================================================= */
 
 
@@ -68,10 +69,16 @@
   
   
   /* =============================================================
-     3. GRUNDLAYOUT
+     3. GRUNDLAYOUT + SMOOTH SCROLL
      Body-Basis: Hintergrund, Schrift, Textfarbe.
+     html { scroll-behavior: smooth } ersetzt das JS-Scroll-Loop –
+     identisches Ergebnis, weniger Overhead.
      no-scroll wird per JS beim Öffnen des Overlay-Menüs gesetzt.
      ============================================================= */
+  
+  html {
+    scroll-behavior: smooth; /* Smooth Scrolling nativ per CSS – kein JS nötig */
+  }
   
   body {
     font-family: var(--font-body);
@@ -130,6 +137,9 @@
     /* Startet transparent – Hintergrund kommt erst beim Scrollen */
     background: transparent;
     transition: background 0.4s ease, backdrop-filter 0.4s ease, box-shadow 0.4s ease;
+  
+    /* GPU-Layer: verhindert Repaint beim Einblenden des Hintergrunds */
+    will-change: background;
   }
   
   /* Bandname links in der Nav */
@@ -184,6 +194,10 @@
      Kreisförmiger Button, fixed top-right, immer sichtbar.
      Auf Desktop sichtbar – öffnet das Vollbild-Overlay.
      Drei Striche mit Accent-Glow.
+  
+     PERFORMANCE: backdrop-filter entfernt – bei 42×42px war der
+     Blur-Effekt kaum sichtbar, hat aber einen GPU-Compositing-Layer
+     verbraucht. background wird stattdessen etwas opaker gesetzt.
      ============================================================= */
   
   .burger-btn {
@@ -196,8 +210,7 @@
     height: 42px;
     border-radius: 50%;
     border: 1px solid rgba(215, 65, 145, 0.35);
-    background: rgba(10, 10, 10, 0.6);
-    backdrop-filter: blur(8px);
+    background: rgba(10, 10, 10, 0.82); /* etwas opaker statt backdrop-filter blur */
     cursor: pointer;
   
     display: flex;
@@ -362,16 +375,12 @@
   
   /* =============================================================
      9. HERO / HEADER
-     Vollbild-Banner: 100vh, Bandfoto, dunkles Overlay.
-     Enthält: SVG-Animation, Tagline, CTA-Buttons, Scroll-Indikator.
+     Vollbild-Banner: 100vh, kein Hintergrundbild direkt am header.
+     Das Bild liegt im separaten .hero-bg Element (→ Abschnitt 10)
+     für GPU-beschleunigten Parallax ohne Ruckeln.
      ============================================================= */
   
   header {
-    background-image: url("img/Header-Bandfoto.webp");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed; /* Parallax-Effekt beim Scrollen */
     min-height: 100vh;
     color: white;
   
@@ -392,18 +401,50 @@
     inset: 0;
     background: rgba(0, 0, 0, 0.50);
     backdrop-filter: blur(2px);
-    z-index: 0;
+    z-index: 1; /* Über .hero-bg, unter hero-content */
   }
   
   /* Alle direkten Kind-Elemente über dem Overlay positionieren */
-  header > * {
+  header > *:not(.hero-bg) {
     position: relative;
-    z-index: 1;
+    z-index: 2;
   }
   
   
   /* =============================================================
-     10. HERO-CONTENT
+     10. HERO-HINTERGRUND (.hero-bg)
+     Separates div für das Bandfoto – löst das Ruckeln von
+     background-attachment: fixed komplett:
+  
+     Warum ruckelt fixed?: Der Browser muss bei jedem Scroll-Event
+     das gesamte Element neu zeichnen (kein eigener Compositing-Layer).
+     Das führt zu Paint-Operationen auf dem Main Thread → Ruckeln.
+  
+     Lösung: will-change: transform legt das Element auf einen
+     eigenen GPU-Layer. translateZ(0) erzwingt das Compositing.
+     Der Parallax-Effekt kommt per requestAnimationFrame aus dem JS
+     (→ index.html, Script "Scroll-Handler").
+     ============================================================= */
+  
+  .hero-bg {
+    position: absolute;
+    /* etwas größer als 100% damit beim Parallax-Shift kein weißer Rand sichtbar wird */
+    inset: -12%;
+    background-image: url("img/Header-Bandfoto.webp");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 0;
+  
+    /* GPU-Beschleunigung: Browser reserviert vorab einen Compositing-Layer.
+       Das verhindert Layout und Paint beim Animieren via transform. */
+    will-change: transform;
+    transform: translateZ(0); /* Layer sofort aktivieren */
+  }
+  
+  
+  /* =============================================================
+     11. HERO-CONTENT
      Zentrierter Block mit SVG, Tagline, CTAs und Scroll-Indikator.
      ============================================================= */
   
@@ -440,7 +481,7 @@
     align-items: flex-start;
     justify-content: center;
     padding-top: 5px;
-    z-index: 1;
+    z-index: 2;
   }
   
   /* Animierter Punkt im Scroll-Indikator */
@@ -459,7 +500,7 @@
   
   
   /* =============================================================
-     11. CTA-BUTTONS
+     12. CTA-BUTTONS
      Zwei Varianten: --primary (gefüllt) und --outline (transparent).
      Werden im Hero und ggf. anderen Sektionen verwendet.
      ============================================================= */
@@ -526,7 +567,7 @@
   
   
   /* =============================================================
-     12. HAUPTBEREICH
+     13. HAUPTBEREICH
      Zentrierter Content-Wrapper mit maximaler Breite.
      padding-top kompensiert die sticky Nav-Höhe.
      ============================================================= */
@@ -540,7 +581,7 @@
   
   
   /* =============================================================
-     13. SEKTIONEN
+     14. SEKTIONEN
      Einzelne Inhaltsbereiche mit Einblend-Animation beim Scrollen.
      Die Klasse .visible wird per IntersectionObserver (JS) gesetzt.
      Luxuriösere Kurve + größeres translateY für mehr Wirkung.
@@ -553,6 +594,9 @@
     transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
     border-bottom: 1px solid #1e1e1e;
     padding-bottom: 25px;
+  
+    /* GPU-Layer für die Einblend-Animation */
+    will-change: opacity, transform;
   }
   
   /* Sichtbar: wird per JS gesetzt wenn Sektion ins Viewport scrollt */
@@ -563,7 +607,7 @@
   
   
   /* =============================================================
-     14. ÜBERSCHRIFTEN
+     15. ÜBERSCHRIFTEN
      H2 mit Bebas Neue und dekorativem Akzent-Unterstrich,
      H3 als leichtere Unterüberschrift.
      ============================================================= */
@@ -601,7 +645,7 @@
   
   
   /* =============================================================
-     15. SOCIAL LINKS & MUSIK-LINKS (Pill-Buttons)
+     16. SOCIAL LINKS & MUSIK-LINKS (Pill-Buttons)
      Pill-Buttons mit Border, Hover-Fill-Animation und Icon.
      Ersetzt die alten Plain-Text-Links.
      ============================================================= */
@@ -643,7 +687,7 @@
   
   
   /* =============================================================
-     16. STREAMING-PILL-BUTTONS (.stream-pill)
+     17. STREAMING-PILL-BUTTONS (.stream-pill)
      Erweiterte Pill-Buttons für Plattform-Links mit Farbpunkt.
      Plattformspezifische Farben via Modifier-Klassen.
      ============================================================= */
@@ -686,9 +730,9 @@
     box-shadow: 0 0 14px rgba(215, 65, 145, 0.4);
     transform: translateY(-2px);
   }
-
+    
   /* =============================================================
-     17. SHOW-LISTE
+     18. SHOW-LISTE
      Einfache Liste der kommenden Konzertdaten.
      ============================================================= */
   
@@ -717,7 +761,7 @@
   
   
   /* =============================================================
-     18. KONTAKT-SEKTION
+     19. KONTAKT-SEKTION
      Link-Styling speziell im #contact-Bereich.
      ============================================================= */
   
@@ -742,7 +786,7 @@
   
   
   /* =============================================================
-     19. MUSIK-SEKTION (#music)
+     20. MUSIK-SEKTION (#music)
      Single-Cover als Hintergrundbild mit Blur-Overlay.
      z-index: -1 beim ::before damit Links/iFrame klickbar bleiben.
      ============================================================= */
@@ -776,7 +820,7 @@
   
   
   /* =============================================================
-     20. SECTION-BUBBLE
+     21. SECTION-BUBBLE
      Halbtransparente Glasmorphism-Karte für Sektions-Inhalte.
      ============================================================= */
   
@@ -790,7 +834,7 @@
   
   
   /* =============================================================
-     21. VIDEO-WRAPPER
+     22. VIDEO-WRAPPER
      Responsiver 16:9-Container für eingebettete YouTube-iFrames.
      Das padding-bottom-Trick erhält das Seitenverhältnis.
      ============================================================= */
@@ -820,7 +864,7 @@
   
   
   /* =============================================================
-     22. MEMBERS GRID
+     23. MEMBERS GRID
      CSS Grid ersetzt die alte gestapelte Darstellung mit <br>-Tags.
      2 Spalten auf Desktop, 1 Spalte auf Mobile (→ Abschnitt 30).
      ============================================================= */
@@ -835,7 +879,7 @@
   
   
   /* =============================================================
-     23. MEMBER-IMAGES & SLIDE-PANEL – DESKTOP
+     24. MEMBER-IMAGES & SLIDE-PANEL – DESKTOP
      Jeder Member hat ein Foto (.main-image) und ein ausklappbares
      Info-Panel (.slide-panel), das per Chevron-Button geöffnet wird.
      Auf Desktop: Panel gleitet horizontal nach rechts.
@@ -856,6 +900,7 @@
     position: relative;
     z-index: 2;
     transition: transform 0.45s ease;
+    will-change: transform;
   }
   
   /* Panel offen: Bild nach links verschieben um Platz zu machen */
@@ -872,6 +917,7 @@
     letter-spacing: 3px;
     text-transform: uppercase;
     transition: transform 0.45s ease;
+    will-change: transform;
   }
   
   /* Panel offen: Titel ebenfalls nach links verschieben */
@@ -939,6 +985,7 @@
     box-shadow: 0 0 10px rgba(215, 65, 145, 0.3);
     transition: transform 0.45s ease, background 0.2s ease, box-shadow 0.2s ease;
     z-index: 4;
+    will-change: transform;
   }
   
   /* Panel offen: Button ebenfalls nach links mitbewegen */
@@ -965,7 +1012,7 @@
   
   
   /* =============================================================
-     24. COUNTDOWN (SHOWS)
+     25. COUNTDOWN (SHOWS)
      Tickender Countdown unter jedem Show-Eintrag.
      Wert wird per JS jede Sekunde aktualisiert.
      ============================================================= */
@@ -982,7 +1029,7 @@
   
   
   /* =============================================================
-     25. BACK-TO-TOP BUTTON
+     26. BACK-TO-TOP BUTTON
      Erscheint nach 300px Scroll-Tiefe (Klasse .visible per JS).
      Auf Desktop und Mobile sichtbar.
      ============================================================= */
@@ -1028,7 +1075,7 @@
   
   
   /* =============================================================
-     26. FOOTER
+     27. FOOTER
      Gebrandeter Block mit Logo, Social Icons, Booking-Link und Copyright.
      Inspiriert von paulmccartney.com: Logo + Socials + Fine Print.
      ============================================================= */
@@ -1109,7 +1156,7 @@
   
   
   /* =============================================================
-     27. HEADER-ANIMATION: VARIANTE B – DRAW-ON  ← AKTIV
+     28. HEADER-ANIMATION: VARIANTE B – DRAW-ON  ← AKTIV
      ----------------------------------------------------------
      Der Bandname "zeichnet sich" beim Laden der Seite ein.
      Funktionsweise:
@@ -1164,14 +1211,14 @@
   
   
   /* =============================================================
-     28. HEADER-ANIMATION: VARIANTE A – GLITCH + NEON-PULS  ← INAKTIV
+     29. HEADER-ANIMATION: VARIANTE A – GLITCH + NEON-PULS  ← INAKTIV
      ----------------------------------------------------------
      Kombination aus dauerhaftem Neon-Puls und periodischem
      RGB-Glitch-Effekt. Alle ~6 Sekunden glitcht der Titel kurz.
   
      Um Variante A zu aktivieren:
-       1. Diesen Block auskommentieren (/* ... *‌/)  entfernen
-       2. Variante B (Abschnitt 27) auskommentieren
+       1. Diesen Block auskommentieren entfernen
+       2. Variante B (Abschnitt 28) auskommentieren
        3. In index.html das <svg>-Element durch folgendes ersetzen:
   
      HTML-Struktur für Variante A:
@@ -1263,7 +1310,7 @@
   */
   
   /* =============================================================
-     29. RESPONSIVE – MOBILE (max. 768px)
+     30. RESPONSIVE – MOBILE (max. 768px)
      Alle Anpassungen für kleine Bildschirme gebündelt.
      ============================================================= */
   
@@ -1280,8 +1327,14 @@
     /* --- Header / Hero --- */
   
     header {
-      background-attachment: scroll; /* Parallax auf Mobile deaktivieren (Performance) */
-      min-height: 100svh;            /* Safe-area-aware Viewport-Höhe auf iOS */
+      min-height: 100svh; /* Safe-area-aware Viewport-Höhe auf iOS */
+    }
+  
+    /* Parallax auf Mobile deaktivieren: .hero-bg bleibt statisch */
+    .hero-bg {
+      inset: 0;          /* Kein Überschuss nötig, da kein Shift */
+      will-change: auto; /* GPU-Layer freigeben – nicht benötigt */
+      transform: none;   /* JS setzt kein Transform auf Mobile */
     }
   
     /* SVG-Bandname auf Mobile verkleinern */
@@ -1402,6 +1455,7 @@
       display: block;
       margin: 0 auto;
       transform: none !important; /* Kein shift-left auf Mobile */
+      will-change: auto;
     }
   
     /* Titel: kein Shift, immer zentriert */
@@ -1410,6 +1464,7 @@
       text-align: center;
       font-size: 18px;
       letter-spacing: 3px;
+      will-change: auto;
     }
   
     /* Chevron-Button unter dem Bild, zentriert */
@@ -1419,6 +1474,7 @@
       margin: 12px auto 0;
       transform: none !important;
       padding: 10px 24px;
+      will-change: auto;
     }
   
     /* Icon zeigt nach unten (Panel geschlossen) */

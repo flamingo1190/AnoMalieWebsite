@@ -14,6 +14,13 @@
      – Bandmembers: CSS Grid statt gestapelte Bilder mit <br>-Tags
      – Streaming-Links: Pill-Buttons mit Plattform-Farbpunkten
      – Footer: Gebrandeter Block mit Logo, Social Icons & Booking-Link
+
+     PERFORMANCE-OPTIMIERUNGEN (April 2026):
+     – background-attachment:fixed entfernt → kein Ruckeln mehr im Header
+     – Parallax via requestAnimationFrame + will-change: transform
+     – Alle scroll-Events in einem einzigen rAF-Listener gebündelt
+     – backdrop-filter am Burger-Button entfernt (GPU-Entlastung)
+     – Smooth Scrolling per CSS html { scroll-behavior: smooth } statt JS
      ============================================================= -->
 
 <head>
@@ -47,6 +54,9 @@
   <!-- Preload: kritische Bilder früh laden um Layout-Shift zu vermeiden -->
   <link rel="preload" href="img/Header-Bandfoto.webp" as="image">
   <link rel="preload" href="img/CoverCliche.webp"     as="image">
+  <link rel="preload" href="img/SternWeiß.webp"       as="image">
+  <link rel="preload" href="img/testfoto.webp"         as="image">
+  <link rel="preload" href="img/UnterschriftJules.jpeg" as="image">
 
 </head>
 
@@ -74,13 +84,23 @@
        HEADER / HERO
        Vollbild-Banner (100vh) mit Bandfoto, Draw-On-SVG-Animation,
        CTA-Buttons und Scroll-Indikator.
+
+       PERFORMANCE: Das Hintergrundbild liegt jetzt in einem eigenen
+       .hero-bg div (statt background-attachment: fixed am header).
+       Parallax wird via requestAnimationFrame animiert → kein Ruckeln.
        ============================================================ -->
   <header>
+
+    <!-- HERO-HINTERGRUND: Separates Element für GPU-beschleunigten Parallax.
+         Wird per JS mit translateY animiert. will-change: transform sorgt
+         dafür, dass der Browser dieses Element auf einen eigenen
+         Compositing-Layer legt → kein Layout/Paint-Trigger beim Scrollen. -->
+    <div class="hero-bg" aria-hidden="true"></div>
 
     <!-- HEADER-ANIMATION: VARIANTE B – Draw-On (aktiv)
          Der Bandname zeichnet sich beim Laden der Seite ein.
          Animationsklassen: .draw-stroke (Phase 1) + .draw-fill (Phase 2)
-         → CSS-Details in style.css, Abschnitt 22 -->
+         → CSS-Details in style.css, Abschnitt 27 -->
     <div class="hero-content">
       <svg
         width="520"
@@ -114,12 +134,12 @@
 
     <!-- HEADER-ANIMATION: VARIANTE A – Glitch + Neon-Puls (inaktiv)
          Dauerhafter Neon-Puls + periodischer RGB-Glitch alle ~6 Sekunden.
-         → CSS-Details in style.css, Abschnitt 23
+         → CSS-Details in style.css, Abschnitt 28
          
          Um Variante A zu aktivieren:
            1. Diesen Kommentarblock entfernen (den <div class="glitch-wrap">-Block freilegen)
            2. Den <svg>-Block von Variante B oben auskommentieren
-           3. In style.css Abschnitt 22 auskommentieren, Abschnitt 23 aktivieren
+           3. In style.css Abschnitt 27 auskommentieren, Abschnitt 28 aktivieren
 
     <div class="glitch-wrap">
       <span class="glitch-b" aria-hidden="true">ANO MALIE</span>
@@ -475,30 +495,47 @@
   </script>
 
 
-  <!-- Script: Sticky-Nav – Hintergrund beim Scrollen einblenden
-       Nach 80px Scroll bekommt die Nav-Leiste die Klasse .scrolled
-       und erhält einen dunklen Glasmorphism-Hintergrund. -->
+  <!-- Script: Scroll-Handler (optimiert)
+       ALLE scroll-abhängigen Aufgaben werden in einem einzigen
+       requestAnimationFrame-Zyklus gebündelt:
+         1. Sticky-Nav Hintergrund (.scrolled)
+         2. Back-To-Top Button (.visible)
+         3. Header-Parallax (.hero-bg translateY)
+
+       Auf Mobile wird der Parallax-Effekt deaktiviert (Performance).
+       Das „ticking"-Flag verhindert, dass rAF mehrfach pro Frame
+       aufgerufen wird (klassisches scroll-throttling Pattern). -->
   <script>
-    const stickyNav = document.querySelector('.sticky-nav');
+    const stickyNav  = document.querySelector('.sticky-nav');
+    const backToTop  = document.getElementById('back-to-top');
+    const heroBg     = document.querySelector('.hero-bg');
+    const isMobileParallax = () => window.innerWidth <= 768;
+
+    let ticking = false;
+
+    function onScroll() {
+      const y = window.scrollY;
+
+      // 1. Sticky Nav: Hintergrund nach 80px Scroll einblenden
+      stickyNav.classList.toggle('scrolled', y > 80);
+
+      // 2. Back-To-Top: nach 300px einblenden
+      backToTop.classList.toggle('visible', y > 300);
+
+      // 3. Parallax: nur auf Desktop, nur wenn header noch sichtbar
+      if (!isMobileParallax() && heroBg) {
+        heroBg.style.transform = `translateY(${y * 0.35}px) translateZ(0)`;
+      }
+
+      ticking = false;
+    }
 
     window.addEventListener('scroll', () => {
-      stickyNav.classList.toggle('scrolled', window.scrollY > 80);
-    });
-  </script>
-
-
-  <!-- Script: Smooth Scrolling für alle Navigations-Links
-       Gilt für sticky-nav, overlay und hero-cta-Links. -->
-  <script>
-    document.querySelectorAll('a[href^="#"]').forEach(link => {
-      link.addEventListener('click', e => {
-        const target = document.querySelector(link.getAttribute('href'));
-        if (target) {
-          e.preventDefault();
-          target.scrollIntoView({ behavior: 'smooth' });
-        }
-      });
-    });
+      if (!ticking) {
+        requestAnimationFrame(onScroll);
+        ticking = true;
+      }
+    }, { passive: true }); // passive: true → Browser kann nativ scrollen ohne auf JS zu warten
   </script>
 
 
@@ -507,8 +544,8 @@
        auf dem Overlay-Div (#navOverlay) und morpht zu einem X.
        Overlay-Links schließen das Menü automatisch. -->
   <script>
-    const burgerBtn   = document.querySelector('.burger-btn');
-    const navOverlay  = document.getElementById('navOverlay');
+    const burgerBtn    = document.querySelector('.burger-btn');
+    const navOverlay   = document.getElementById('navOverlay');
     const overlayLinks = document.querySelectorAll('.nav-overlay__link');
 
     // Hilfsfunktion: Overlay öffnen
@@ -542,21 +579,6 @@
     // Escape-Taste: Overlay schließen
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape') closeOverlay();
-    });
-  </script>
-
-
-  <!-- Script: Back-To-Top Button
-       Wird nach 300px Scroll eingeblendet (Klasse .visible). -->
-  <script>
-    const backToTop = document.getElementById('back-to-top');
-
-    window.addEventListener('scroll', () => {
-      backToTop.classList.toggle('visible', window.scrollY > 300);
-    });
-
-    backToTop.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   </script>
 
@@ -638,32 +660,43 @@
 
   <!-- Script: Countdown für Shows
        Aktualisiert sich jede Sekunde. Vergangene Shows werden ausgegraut. -->
-  <script>
-    function updateCountdowns() {
-      document.querySelectorAll('.show-date').forEach(el => {
-        const showDate  = new Date(el.dataset.date);
-        const now       = new Date();
-        const diff      = showDate - now;
-        const container = el.closest('li').querySelector('.countdown');
-
-        if (diff <= 0) {
-          el.closest('li').style.opacity = '0.4';
-          container.textContent = 'Show vorbei';
-          return;
+       <script>
+        function updateCountdowns() {
+          document.querySelectorAll('.show-date').forEach(el => {
+            const showDate  = new Date(el.dataset.date);
+            const now       = new Date();
+            const diff      = showDate - now;
+            const li        = el.closest('li');
+            const container = li.querySelector('.countdown');
+            const link      = li.querySelector('a');   // <— Link im selben <li>
+      
+            if (diff <= 0) {
+              li.style.opacity = '0.4';
+              container.textContent = 'Show vorbei';
+      
+              // Link deaktivieren
+              if (link) {
+                link.removeAttribute('href');          // kein Reflink mehr
+                link.classList.add('disabled');        // optional für CSS
+              }
+      
+              return;
+            }
+      
+            const days    = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours   = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((diff / (1000 * 60)) % 60);
+            const seconds = Math.floor((diff / 1000) % 60);
+      
+            container.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+          });
         }
+      
+        updateCountdowns();
+        setInterval(updateCountdowns, 1000);
+      </script>
+      
 
-        const days    = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const hours   = Math.floor((diff / (1000 * 60 * 60)) % 24);
-        const minutes = Math.floor((diff / (1000 * 60)) % 60);
-        const seconds = Math.floor((diff / 1000) % 60);
-
-        container.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-      });
-    }
-
-    updateCountdowns();
-    setInterval(updateCountdowns, 1000);
-  </script>
 
 </body>
 </html>
