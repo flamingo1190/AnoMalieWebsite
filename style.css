@@ -676,19 +676,6 @@
     transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
   }
   
-  /* Kleiner Farbpunkt links im Pill */
-  .stream-pill__dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-  
-  /* Plattform-Farben für die Dots */
-  .stream-pill--youtube .stream-pill__dot { background: #ff0000; }
-  .stream-pill--spotify .stream-pill__dot { background: #1db954; }
-  .stream-pill--apple   .stream-pill__dot { background: #fc3c44; }
-  
   /* Hover: Hintergrund leicht aufhellen */
   .stream-pill:hover {
     background: rgba(255, 255, 255, 0.1);
