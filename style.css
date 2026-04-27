@@ -826,7 +826,7 @@
   
   .members-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(1, 1fr);
     gap: 48px 60px;
     justify-items: center;
     margin-top: 24px;
@@ -1146,7 +1146,7 @@
     letter-spacing: 6px;
     fill: var(--text-light);
     opacity: 0;
-    animation: fillAppear 0.5s ease 2.2s forwards;
+    animation: fillAppear 0.5s ease 1s forwards;
   }
   
   /* Stroke-Dashoffset von voll-versteckt auf 0 = vollständig gezeichnet */
