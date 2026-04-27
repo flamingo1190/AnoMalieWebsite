@@ -1,0 +1,1051 @@
+/* =============================================================
+   ANO MALIE – Stylesheet
+ 
+   INHALTSVERZEICHNIS
+   ----------------------------------------------------------
+   1.  Globale Variablen (Design-Tokens)
+   2.  Globale Link-Farben
+   3.  Grundlayout (Body)
+   4.  Globales Hintergrundbild (Sternbild-Overlay)
+   5.  Header (Bannerfoto, Titel, Overlay)
+   6.  Navigation – Desktop
+   7.  Navigation – Burger-Icon
+   8.  Navigation – Burger-Animation (X-Form)
+   9.  Hauptbereich (main)
+   10. Sektionen (Einblend-Animation)
+   11. Überschriften (h2, h3)
+   12. Social Links & Musik-Links
+   13. Show-Liste
+   14. Kontakt-Sektion
+   15. Musik-Sektion (#music)
+   16. Section-Bubble (Glasmorphism-Karte)
+   17. Video-Wrapper (16:9 iFrame)
+   18. Member-Images & Slide-Panel – Desktop
+   19. Countdown (Shows)
+   20. Back-To-Top Button
+   21. Footer
+   22. Header-Animation: Variante B – Draw-On  ← AKTIV
+   23. Header-Animation: Variante A – Glitch + Neon-Puls  ← INAKTIV (auskommentiert)
+   24. Cursor-Trail-Effekt  ← INAKTIV (auskommentiert)
+   25. Responsive – Mobile (max. 768px)
+   ============================================================= */
+
+
+/* =============================================================
+   1. GLOBALE VARIABLEN
+   Zentrale Design-Tokens – hier Farben global ändern
+   ============================================================= */
+
+   :root {
+    --accent:     #d74191;  /* Pink-Akzentfarbe für Highlights, Glows, Links */
+    --bg-dark:    #111;     /* Seitenhintergrund */
+    --text-light: #eee;     /* Standard-Textfarbe */
+  }
+  
+  
+  /* =============================================================
+     2. GLOBALE LINK-FARBEN
+     Gilt für alle <a>-Elemente als Basis-Reset
+     ============================================================= */
+  
+  a:link,
+  a:visited,
+  a:active {
+    color: var(--accent);
+  }
+  
+  a:hover {
+    color: var(--text-light);
+    border-radius: 6px;
+  }
+  
+  
+  /* =============================================================
+     3. GRUNDLAYOUT
+     Body-Basis: Hintergrund, Schrift, Textfarbe
+     ============================================================= */
+  
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: var(--bg-dark);
+    color: var(--text-light);
+    position: relative; /* Nötig damit body::before korrekt positioniert */
+  }
+  
+  
+  /* =============================================================
+     4. GLOBALES HINTERGRUNDBILD
+     Fixiertes Sternbild-Overlay hinter dem gesamten Inhalt.
+     z-index: -2 damit es hinter allem anderen liegt.
+     ============================================================= */
+  
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image: url("img/SternWeiß.webp");
+    background-size: cover;
+    background-position: center;
+    opacity: 0.35;
+    z-index: -2;
+  }
+  
+  
+  /* =============================================================
+     5. HEADER
+     Vollbild-Bannerfoto mit zentriertem Titel und Navigation.
+     Enthält ein dunkles Overlay (::before) mit leichtem Blur.
+     ============================================================= */
+  
+  header {
+    background-image: url("img/Header-Bandfoto.webp");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 60px 20px;
+    color: white;
+  
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 20px;
+  
+    position: relative;
+    overflow: visible; /* Erlaubt das Burger-Dropdown über den Header hinauszuragen */
+    text-shadow:
+      0 0 10px rgba(0, 0, 0, 0.8),
+      0 0 4px var(--accent);
+  }
+  
+  /* Dunkles Overlay mit leichtem Blur über dem Hintergrundfoto */
+  header::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(2px);
+    z-index: -1;
+  }
+  
+  /* Alle direkten Kind-Elemente über dem Overlay positionieren */
+  header * {
+    position: relative;
+  }
+  
+  /* Bandname – nur sichtbar wenn KEINE SVG-Animation aktiv ist.
+     Bei Variante A (Glitch) oder B (Draw-On) wird dieses Element
+     durch das SVG bzw. .glitch-wrap ersetzt. */
+  header h1 {
+    font-size: 48px;
+    letter-spacing: 2px;
+    margin: 0;
+    font-family: Copperplate, Papyrus, fantasy;
+    text-shadow:
+      0 0 20px rgba(0, 0, 0, 10),
+      0 0 20px var(--accent);
+  }
+  
+  
+  /* =============================================================
+     6. NAVIGATION – DESKTOP
+     Horizontale Link-Leiste im Header.
+     Burger-Button ist auf Desktop standardmäßig versteckt.
+     ============================================================= */
+  
+  nav {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    position: relative;
+    text-shadow:
+      0 0 20px rgba(0, 0, 0, 10),
+      0 0 20px var(--accent);
+  }
+  
+  /* Burger auf Desktop ausblenden */
+  .burger {
+    display: none;
+  }
+  
+  /* Links horizontal nebeneinander */
+  .nav-links {
+    display: flex;
+    gap: 20px;
+  }
+  
+  /* Einzelne Nav-Links */
+  .nav-links a {
+    color: var(--text-light);
+    text-decoration: none;
+    font-size: 36px;
+    transition: color 0.2s ease, text-shadow 0.2s ease, transform 0.2s ease;
+    display: inline-block;
+    padding: 4px 0;
+  }
+  
+  /* Hover-Effekt: Pink-Glow */
+  .nav-links a:hover {
+    color: var(--accent);
+    text-shadow: 0 0 6px var(--accent);
+    transform: translateY(-1px);
+  }
+  
+  
+  /* =============================================================
+     7. NAVIGATION – BURGER-ICON
+     Drei Balken mit Accent-Glow. Nur auf Mobile sichtbar
+     (wird im @media-Block weiter unten aktiviert).
+     ============================================================= */
+  
+  /* Einzelne Striche */
+  .burger span {
+    width: 28px;
+    height: 3px;
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent);
+    transition: 0.3s;
+  }
+  
+  /* Hover: Striche leuchten stärker */
+  .burger:hover span {
+    background: #fff;
+    box-shadow: 0 0 12px var(--accent);
+    transform: scale(1.05);
+  }
+  
+  /* Aktiver Zustand (Menü offen): Striche weiß */
+  .burger.active span {
+    background: #fff;
+    box-shadow: 0 0 14px var(--accent);
+  }
+  
+  
+  /* =============================================================
+     8. NAVIGATION – BURGER-ANIMATION
+     Wenn .active gesetzt: Striche formen ein X.
+     ============================================================= */
+  
+  .burger.active span:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+  }
+  
+  .burger.active span:nth-child(2) {
+    opacity: 0; /* Mittlerer Strich verschwindet */
+  }
+  
+  .burger.active span:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
+  }
+  
+  
+  /* =============================================================
+     9. HAUPTBEREICH
+     Zentrierter Content-Wrapper mit maximaler Breite.
+     ============================================================= */
+  
+  main {
+    max-width: 900px;
+    margin: 60px auto;
+    padding: 0 20px;
+    text-align: center;
+  }
+  
+  
+  /* =============================================================
+     10. SEKTIONEN
+     Einzelne Inhaltsbereiche mit Einblend-Animation beim Scrollen.
+     Die Klasse .visible wird per IntersectionObserver (JS) gesetzt.
+     ============================================================= */
+  
+  section {
+    margin-bottom: 60px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    border-bottom: 1px solid #222;
+    padding-bottom: 25px;
+  }
+  
+  /* Sichtbar: wird per JS gesetzt wenn Sektion ins Viewport scrollt */
+  section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  
+  /* =============================================================
+     11. ÜBERSCHRIFTEN
+     H2 mit dekorativem Akzent-Unterstrich (::after),
+     H3 als leichtere Unterüberschrift.
+     ============================================================= */
+  
+  h2 {
+    font-size: 30px;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+    position: relative;    /* Nötig für ::after-Positionierung */
+    display: inline-block;
+    padding-bottom: 6px;
+    font-family: Copperplate, Papyrus, fantasy;
+  }
+  
+  /* Dekorativer Akzent-Unterstrich unter h2 */
+  h2::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+    width: 40px;
+    height: 2px;
+    font-family: Copperplate, Papyrus, fantasy;
+  }
+  
+  h3 {
+    font-size: 26px;
+  }
+  
+  
+  /* =============================================================
+     12. SOCIAL LINKS & MUSIK-LINKS
+     Inline-Buttons mit Accent-Farbe und Hover-Hintergrund-Effekt.
+     ============================================================= */
+  
+  .social-links a,
+  .music-links a {
+    display: inline-block;
+    margin: 8px 10px;
+    font-size: 22px;
+    color: var(--accent);
+    text-decoration: none;
+    transition: color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  /* Hover: Pink-Hintergrund mit Glow */
+  .social-links a:hover,
+  .music-links a:hover {
+    color: #fff;
+    background: var(--accent);
+    transform: translateY(-1px);
+    box-shadow: 0 0 12px var(--accent);
+  }
+  
+  
+  /* =============================================================
+     13. SHOW-LISTE
+     Einfache Liste der kommenden Konzertdaten.
+     ============================================================= */
+  
+  .show-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .show-list li {
+    margin: 8px 0;
+    font-size: 20px;
+  }
+  
+  
+  /* =============================================================
+     14. KONTAKT-SEKTION
+     Link-Styling speziell im #contact-Bereich.
+     ============================================================= */
+  
+  #contact a {
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 20px;
+    transition: color 0.2s ease, text-shadow 0.2s ease;
+  }
+  
+  #contact a:hover {
+    color: #fff;
+    text-shadow: 0 0 6px var(--accent);
+  }
+  
+  
+  /* =============================================================
+     15. MUSIK-SEKTION (#music)
+     Single-Cover als Hintergrundbild mit Blur-Overlay.
+     z-index: -1 beim ::before damit Links/iFrame klickbar bleiben.
+     ============================================================= */
+  
+  #music {
+    background-image: url("img/CoverCliche.webp");
+    background-size: cover;
+    background-position: center;
+    padding: 80px 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* Dunkles Overlay mit leichtem Blur über dem Cover */
+  #music::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(2px);
+    z-index: -1;
+  }
+  
+  
+  /* =============================================================
+     16. SECTION-BUBBLE
+     Halbtransparente Glasmorphism-Karte für Sektions-Inhalte.
+     ============================================================= */
+  
+  .section-bubble {
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(6px);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+  }
+  
+  
+  /* =============================================================
+     17. VIDEO-WRAPPER
+     Responsiver 16:9-Container für eingebettete YouTube-iFrames.
+     Das padding-bottom-Trick erhält das Seitenverhältnis.
+     ============================================================= */
+  
+  .video-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    margin: 20px auto;
+    padding-bottom: 56.25%; /* 16:9 = 9/16 = 56.25% */
+    height: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    z-index: 1;
+  }
+  
+  /* iFrame füllt den gesamten Container */
+  .video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+  
+  
+  /* =============================================================
+     18. MEMBER-IMAGES & SLIDE-PANEL – DESKTOP
+     Jeder Member hat ein Foto (.main-image) und ein ausklappbares
+     Info-Panel (.slide-panel), das per Chevron-Button geöffnet wird.
+     Auf Desktop: Panel gleitet horizontal nach rechts.
+     Auf Mobile: Panel klappt nach unten (→ Abschnitt 25).
+     ============================================================= */
+  
+  /* Wrapper: relativ positioniert als Anker für absolute Kind-Elemente */
+  .image-wrapper {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 40px;
+  }
+  
+  /* Hauptbild des Members */
+  .main-image {
+    width: 350px;
+    border-radius: 12px;
+    position: relative;
+    z-index: 2;
+    transition: transform 0.45s ease;
+  }
+  
+  /* Panel offen: Bild nach links verschieben um Platz zu machen */
+  .main-image.shift-left {
+    transform: translateX(-260px);
+  }
+  
+  /* Member-Name über dem Bild */
+  .image-title {
+    margin-bottom: 10px;
+    font-size: 22px;
+    transition: transform 0.45s ease;
+  }
+  
+  /* Panel offen: Titel ebenfalls nach links verschieben */
+  .image-title.shift-left {
+    transform: translateX(-260px);
+  }
+  
+  /* Info-Panel: startet hinter dem Bild, unsichtbar */
+  .slide-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 300px;
+    height: 85%;
+  
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(6px);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+  
+    opacity: 0;
+    transform: translateX(0);
+    z-index: 1;
+  
+    transition:
+      transform 0.45s ease,
+      opacity 0.45s ease;
+  }
+  
+  /* Panel offen: gleitet nach rechts neben das Bild */
+  .slide-panel.open {
+    transform: translateX(80%);
+    opacity: 1;
+    z-index: 3;
+  }
+  
+  /* Unterschriften-Foto im Panel: feste Größe mit object-fit */
+  .slide-panel .signature-img {
+    width: 250px;
+    height: 90px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 12px;
+    transform: scale(0.9);
+  }
+  
+  /* Chevron-Button: rechts neben dem Bild, vertikal zentriert */
+  .chevron-btn {
+    position: absolute;
+    top: 50%;
+    right: -45px;
+    transform: translateY(-50%);
+  
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(4px);
+    border: none;
+    padding: 10px 14px;
+    border-radius: 10px;
+  
+    color: var(--accent);
+    font-size: 20px;
+    cursor: pointer;
+  
+    box-shadow: 0 0 12px rgba(215, 65, 145, 0.4);
+    transition: transform 0.45s ease, background 0.2s ease, box-shadow 0.2s ease;
+    z-index: 4;
+  }
+  
+  /* Panel offen: Button ebenfalls nach links mitbewegen */
+  .chevron-btn.shift-left {
+    transform: translate(-200px, -50%);
+  }
+  
+  /* Hover: Button leuchtet pink */
+  .chevron-btn:hover {
+    background: var(--accent);
+    color: #fff;
+    box-shadow: 0 0 16px var(--accent);
+  }
+  
+  /* Chevron-Icon dreht sich wenn Panel offen */
+  .chevron-btn i {
+    display: inline-block;
+    transition: transform 0.35s ease;
+  }
+  
+  .chevron-btn.rotate i {
+    transform: rotate(180deg);
+  }
+  
+  
+  /* =============================================================
+     19. COUNTDOWN (SHOWS)
+     Tickender Countdown unter jedem Show-Eintrag.
+     Wert wird per JS jede Sekunde aktualisiert.
+     ============================================================= */
+  
+  .countdown {
+    font-size: 14px;
+    color: var(--accent);
+    letter-spacing: 1px;
+    margin-top: 4px;
+    font-family: monospace;
+    text-shadow: 0 0 6px var(--accent);
+  }
+  
+  
+  /* =============================================================
+     20. BACK-TO-TOP BUTTON
+     Nur auf Mobile sichtbar (Desktop: display:none).
+     Erscheint nach 300px Scroll-Tiefe (Klasse .visible per JS).
+     ============================================================= */
+  
+  /* Desktop: komplett versteckt */
+  #back-to-top {
+    display: none;
+  }
+  
+  
+  /* =============================================================
+     21. FOOTER
+     Schmale Fußzeile mit Copyright-Text.
+     ============================================================= */
+  
+  footer {
+    text-align: center;
+    padding: 20px;
+    background: #000;
+    font-size: 14px;
+    opacity: 0.8;
+  }
+  
+  
+  /* =============================================================
+     22. HEADER-ANIMATION: VARIANTE B – DRAW-ON  ← AKTIV
+     ----------------------------------------------------------
+     Der Bandname "zeichnet sich" beim Laden der Seite ein.
+     Funktionsweise:
+       1. .draw-stroke  → unsichtbarer Stroke-Text zieht sich über
+                          stroke-dashoffset von 2000 → 0 (2.4s)
+       2. .draw-fill    → gefüllter Text blendet ein sobald der
+                          Stroke fertig ist (Delay 2.4s, Dauer 0.5s)
+     
+     HTML-Struktur (in index.html):
+       <svg width="420" height="80" viewBox="0 0 420 80"
+            style="overflow:visible" aria-label="ANO MALIE" role="img">
+         <text class="draw-stroke" x="210" y="66" text-anchor="middle">ANO MALIE</text>
+         <text class="draw-fill"   x="210" y="66" text-anchor="middle">ANO MALIE</text>
+       </svg>
+     ============================================================= */
+  
+  /* Phase 1: Stroke-Outline zeichnet sich ein */
+  .draw-stroke {
+    font-family: Copperplate, Papyrus, fantasy;
+    font-size: 56px;
+    letter-spacing: 2px;
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 1.2;
+    paint-order: stroke fill;   /* Stroke unter Fill rendern */
+    stroke-dasharray: 2000;     /* Gesamtlänge des Stroke-Pfads */
+    stroke-dashoffset: 2000;    /* Startwert: Stroke komplett versteckt */
+    animation: drawStroke 2.4s cubic-bezier(0.4, 0, 0.2, 1) 0.3s forwards;
+  }
+  
+  /* Phase 2: Gefüllter Text blendet ein nach Ende des Stroke */
+  .draw-fill {
+    font-family: Copperplate, Papyrus, fantasy;
+    font-size: 56px;
+    letter-spacing: 2px;
+    fill: var(--accent);
+    opacity: 0;
+    animation: fillAppear 0.5s ease 0.6s forwards;
+  }
+  
+  /* Stroke-Dashoffset von voll-versteckt auf 0 = vollständig gezeichnet */
+  @keyframes drawStroke {
+    from { stroke-dashoffset: 2000; }
+    to   { stroke-dashoffset: 0; }
+  }
+  
+  /* Fill blendet ein */
+  @keyframes fillAppear {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  
+  
+  /* =============================================================
+     23. HEADER-ANIMATION: VARIANTE A – GLITCH + NEON-PULS  ← INAKTIV
+     ----------------------------------------------------------
+     Kombination aus dauerhaftem Neon-Puls und periodischem
+     RGB-Glitch-Effekt. Alle ~6 Sekunden glitcht der Titel kurz.
+     
+     Um Variante A zu aktivieren:
+       1. Diesen Block auskommentieren  (/* ... *‌/)  entfernen
+       2. Variante B (Abschnitt 22) auskommentieren
+       3. In index.html das <svg>-Element durch folgendes ersetzen:
+     
+     HTML-Struktur für Variante A:
+       <div class="glitch-wrap">
+         <span class="glitch-b" aria-hidden="true">ANO MALIE</span>
+         <span class="glitch-r" aria-hidden="true">ANO MALIE</span>
+         <h1>ANO MALIE</h1>
+       </div>
+     ============================================================= */
+  
+  /*
+  
+  .glitch-wrap {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .glitch-wrap h1,
+  .glitch-wrap .glitch-r,
+  .glitch-wrap .glitch-b {
+    font-family: Copperplate, Papyrus, fantasy;
+    font-size: 48px;
+    letter-spacing: 2px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .glitch-wrap h1 {
+    position: relative;
+    color: var(--accent);
+    animation: neonPulse 3s ease-in-out infinite;
+  }
+  
+  .glitch-r {
+    color: #ff2255;
+    opacity: 0;
+    mix-blend-mode: screen;
+    animation: glitchR 6s ease-in-out infinite;
+  }
+  
+  .glitch-b {
+    color: #4422ff;
+    opacity: 0;
+    mix-blend-mode: screen;
+    animation: glitchB 6s ease-in-out infinite;
+  }
+  
+  @keyframes neonPulse {
+    0%, 100% {
+      text-shadow:
+        0 0 8px var(--accent),
+        0 0 18px rgba(215, 65, 145, 0.4);
+    }
+    50% {
+      text-shadow:
+        0 0 16px var(--accent),
+        0 0 40px rgba(215, 65, 145, 0.7),
+        0 0 70px rgba(215, 65, 145, 0.3);
+    }
+  }
+  
+  @keyframes glitchR {
+    0%, 8%, 13%, 60%, 63%, 100% {
+      opacity: 0;
+      clip-path: inset(0 0 100% 0);
+      transform: translate(0, 0);
+    }
+    9%  { opacity: .7; transform: translate(-4px,  2px); clip-path: inset(15% 0 40% 0); }
+    10% { opacity: .5; transform: translate( 3px, -1px); clip-path: inset(55% 0  8% 0); }
+    61% { opacity: .5; transform: translate( 4px, -2px); clip-path: inset(70% 0  3% 0); }
+    62% { opacity: .3; transform: translate(-3px,  1px); clip-path: inset( 5% 0 60% 0); }
+  }
+  
+  @keyframes glitchB {
+    0%, 8%, 13%, 60%, 63%, 100% {
+      opacity: 0;
+      clip-path: inset(0 0 100% 0);
+      transform: translate(0, 0);
+    }
+    9%  { opacity: .6; transform: translate( 4px, -1px); clip-path: inset(40% 0 15% 0); }
+    10% { opacity: .4; transform: translate(-3px,  2px); clip-path: inset( 8% 0 55% 0); }
+    61% { opacity: .4; transform: translate(-4px,  2px); clip-path: inset( 3% 0 70% 0); }
+    62% { opacity: .3; transform: translate( 3px, -1px); clip-path: inset(60% 0  5% 0); }
+  }
+  
+  */
+  
+  
+  /* =============================================================
+     24. CURSOR-TRAIL-EFFEKT  ← INAKTIV (auskommentiert)
+     ----------------------------------------------------------
+     Animierter Partikel-Trail der dem Mauszeiger folgt.
+     Nur auf Desktop aktiv (JS prüft pointer: fine).
+     
+     Um zu aktivieren:
+       1. Diesen CSS-Block auskommentieren entfernen
+       2. Im HTML den zugehörigen <script>-Block aktivieren
+          (letztes <script>-Tag am Ende von index.html)
+     ============================================================= */
+  
+  /*
+  
+  .cursor-trail {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent), 0 0 16px var(--accent);
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: background 0.2s ease;
+  }
+  
+  */
+  
+  
+  /* =============================================================
+     25. RESPONSIVE – MOBILE (max. 768px)
+     Alle Anpassungen für kleine Bildschirme gebündelt.
+     ============================================================= */
+  
+  @media (max-width: 768px) {
+  
+    /* --- Header --- */
+  
+    header {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 30px 20px;
+    }
+  
+    /* Kleinerer Bandname auf Mobile (gilt auch wenn kein SVG aktiv) */
+    header h1 {
+      font-size: 56px;
+      margin-bottom: 0;
+      padding-right: 0;
+    }
+  
+    /* Draw-On SVG auf Mobile verkleinern */
+    header svg {
+      width: 280px;
+      height: auto;
+    }
+  
+    /* Draw-On Schriftgröße anpassen */
+    .draw-stroke,
+    .draw-fill {
+      font-size: 56px;
+    }
+  
+    /* Glitch-Wrap Schriftgröße anpassen (Variante A) */
+    .glitch-wrap h1,
+    .glitch-wrap .glitch-r,
+    .glitch-wrap .glitch-b {
+      font-size: 32px;
+    }
+  
+    /* --- Navigation --- */
+  
+    nav {
+      position: static;
+    }
+  
+    /* Burger-Button sichtbar machen und zentrieren */
+    .burger {
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 6px;
+      background: none;
+      border: none;
+      padding: 0;
+      outline: none;
+      margin: 12px auto 0;
+      position: static;
+      z-index: 1001;
+    }
+  
+    /* Dropdown-Menü: schmal, zentriert, unter Burger-Button */
+    .nav-links {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 220px;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 10px 0 16px;
+      text-align: center;
+      z-index: 1000;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7);
+    }
+  
+    /* Klasse .open wird per JS beim Burger-Klick gesetzt */
+    .nav-links.open {
+      display: flex;
+    }
+  
+    .nav-links a {
+      font-size: 20px;
+      padding: 8px 0;
+      margin: 0;
+      width: 100%;
+    }
+  
+    /* --- Hauptbereich & Sektionen --- */
+  
+    main {
+      margin: 30px auto;
+      padding: 0 15px;
+    }
+  
+    section {
+      margin-bottom: 40px;
+      padding-bottom: 20px;
+    }
+  
+    /* --- Überschriften --- */
+  
+    h2 {
+      font-size: 26px;
+    }
+  
+    h3 {
+      font-size: 16px;
+    }
+  
+    /* --- Links --- */
+  
+    .social-links a,
+    .music-links a {
+      font-size: 18px;
+      margin: 6px;
+      padding: 4px 8px;
+    }
+  
+    .show-list li {
+      font-size: 18px;
+    }
+  
+    #contact a {
+      font-size: 18px;
+    }
+  
+    /* --- Musik-Sektion --- */
+  
+    #music {
+      padding: 50px 20px;
+      background-position: center;
+    }
+  
+    /* --- Member-Bilder & Slide-Panel auf Mobile ---
+       Auf Mobile klappt das Panel nach unten statt nach rechts.
+       Kein horizontales Verschieben von Bild/Titel/Button. */
+  
+    .image-wrapper {
+      display: block;
+      width: 100%;
+      margin-bottom: 20px;
+    }
+  
+    /* Bild: zentriert, volle Breite bis max 320px */
+    .main-image {
+      width: 100%;
+      max-width: 320px;
+      display: block;
+      margin: 0 auto;
+      transform: none !important; /* Kein shift-left auf Mobile */
+    }
+  
+    /* Titel: kein Shift, immer zentriert */
+    .image-title {
+      transform: none !important;
+      text-align: center;
+      font-size: 20px;
+    }
+  
+    /* Chevron-Button unter dem Bild, zentriert */
+    .chevron-btn {
+      position: static;
+      display: block;
+      margin: 12px auto 0;
+      transform: none !important;
+      padding: 10px 24px;
+    }
+  
+    /* Icon zeigt nach unten (Panel geschlossen) */
+    .chevron-btn i {
+      transform: rotate(90deg);
+    }
+  
+    /* Icon zeigt nach oben (Panel offen) */
+    .chevron-btn.rotate i {
+      transform: rotate(270deg);
+    }
+  
+    /* Panel: klappt nach unten auf (max-height Trick für smooth Animation) */
+    .slide-panel {
+      position: static;
+      width: 100%;
+      height: auto;
+      max-width: 320px;
+      margin: 12px auto 0;
+      box-sizing: border-box;
+      max-height: 0;
+      overflow: hidden;
+      padding: 0 20px;
+      opacity: 0;
+      transform: none;
+      transition:
+        max-height 0.45s ease,
+        opacity 0.35s ease,
+        padding 0.35s ease;
+    }
+  
+    /* Panel offen: max-height groß genug für Inhalt setzen */
+    .slide-panel.open {
+      max-height: 400px;
+      opacity: 1;
+      padding: 20px;
+      transform: none;
+      z-index: auto;
+    }
+  
+    /* --- Back-To-Top Button --- */
+  
+    #back-to-top {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+  
+      position: fixed;
+      bottom: 24px;
+      right: 20px;
+      z-index: 999;
+  
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+  
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(6px);
+      color: var(--accent);
+      font-size: 18px;
+      box-shadow: 0 0 14px rgba(215, 65, 145, 0.5);
+  
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease, box-shadow 0.2s ease;
+    }
+  
+    /* Klasse .visible wird per JS nach 300px Scroll gesetzt */
+    #back-to-top.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  
+    #back-to-top:hover {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 0 20px var(--accent);
+    }
+  
+  } /* Ende @media (max-width: 768px) */
+

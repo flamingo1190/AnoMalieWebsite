@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<!-- =============================================================
+     ANO MALIE – Offizielle Website
+
+     Letzte Änderung: April 2026
+     AKTIVE HEADER-ANIMATION: Variante B (Draw-On SVG)
+     → Zum Wechseln auf Variante A: Kommentare in HTML und CSS tauschen
+       (Details in style.css, Abschnitt 22/23)
+     ============================================================= -->
+
+<head>
+
+  <!-- Zeichensatz & Beschreibung -->
+  <meta charset="UTF-8">
+  <meta name="description" content="ANO MALIE – Alternative Rock aus Wien & Berlin. Neue Single 'CLICHÈ' jetzt auf Spotify, YouTube & Apple Music. Shows, Musik & Kontakt.">
+  <meta name="keywords" content="Ano Malie, Alternative Rock, Band Wien, Band Berlin, Rockmusik, Clichè, neue Musik, Live Shows">
+
+  <!-- Open Graph (Social Media Vorschau) -->
+  <meta property="og:title"       content="ANO MALIE – Offizielle Website">
+  <meta property="og:description" content="Alternative Rock aus Wien & Berlin. Musik, Shows & mehr.">
+  <meta property="og:image"       content="img/CoverFilmcasino.jpeg">
+  <meta property="og:type"        content="website">
+  <meta property="og:url"         content=""> <!-- TODO: echte Domain eintragen -->
+
+  <!-- Viewport für Mobile -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>ANO MALIE – Offizielle Website</title>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- Preload: kritische Bilder früh laden um Layout-Shift zu vermeiden -->
+  <link rel="preload" href="img/Header-Bandfoto.webp" as="image">
+  <link rel="preload" href="img/CoverCliche.webp"     as="image">
+
+</head>
+
+<body>
+
+  <!-- ============================================================
+       HEADER
+       Enthält: Bandname (als SVG-Animation), Burger-Button, Navigation
+       ============================================================ -->
+  <header>
+
+    <!-- HEADER-ANIMATION: VARIANTE B – Draw-On (aktiv)
+         Der Bandname zeichnet sich beim Laden der Seite ein.
+         Animationsklassen: .draw-stroke (Phase 1) + .draw-fill (Phase 2)
+         → CSS-Details in style.css, Abschnitt 22 -->
+    <svg
+      width="420"
+      height="80"
+      viewBox="0 0 420 80"
+      style="overflow: visible"
+      aria-label="ANO MALIE"
+      role="img">
+      <text class="draw-stroke" x="210" y="66" text-anchor="middle">ANO MALIE</text>
+      <text class="draw-fill"   x="210" y="66" text-anchor="middle">ANO MALIE</text>
+    </svg>
+
+    <!-- HEADER-ANIMATION: VARIANTE A – Glitch + Neon-Puls (inaktiv)
+         Dauerhafter Neon-Puls + periodischer RGB-Glitch alle ~6 Sekunden.
+         → CSS-Details in style.css, Abschnitt 23
+         
+         Um Variante A zu aktivieren:
+           1. Diesen Kommentarblock entfernen (den <div class="glitch-wrap">-Block freilegen)
+           2. Den <svg>-Block von Variante B oben auskommentieren
+           3. In style.css Abschnitt 22 auskommentieren, Abschnitt 23 aktivieren
+
+    <div class="glitch-wrap">
+      <span class="glitch-b" aria-hidden="true">ANO MALIE</span>
+      <span class="glitch-r" aria-hidden="true">ANO MALIE</span>
+      <h1>ANO MALIE</h1>
+    </div>
+
+    -->
+
+    <!-- Burger-Button (nur Mobile sichtbar, gesteuert per JS) -->
+    <button class="burger" aria-expanded="false" aria-label="Menü öffnen">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <!-- Hauptnavigation
+         position:relative damit das Mobile-Dropdown sich darunter ausrichtet -->
+    <nav class="main-nav" style="position: relative;">
+      <div class="nav-links">
+        <a href="#band">Band</a>
+        <a href="#music">Musik</a>
+        <a href="#members">Members</a>
+        <a href="#shows">Shows</a>
+        <a href="#contact">Kontakt</a>
+      </div>
+    </nav>
+
+  </header>
+
+
+  <!-- ============================================================
+       MAIN – Hauptinhalt
+       ============================================================ -->
+  <main>
+
+    <!-- --------------------------------------------------------
+         SEKTION: Band / Über Uns
+         -------------------------------------------------------- -->
+    <section id="band">
+      <div class="section-bubble">
+        <h2>Über Uns</h2>
+        <p>Alternative Rock oder whatever</p> <!-- TODO: Bandtext ergänzen -->
+
+        <div class="social-links">
+          <a href="https://www.instagram.com/ano.maliemusik?igsh=enIxbWpjOXB6bm9r"
+             target="_blank" rel="noopener noreferrer">
+            <i class="fa-brands fa-instagram"></i> Instagram
+          </a>
+          <a href="https://www.tiktok.com/@anomalie.musik?_r=1&_t=ZN-93o8aaHGXV0"
+             target="_blank" rel="noopener noreferrer">
+            <i class="fa-brands fa-tiktok"></i> TikTok
+          </a>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- --------------------------------------------------------
+         SEKTION: Musik
+         Hintergrund: Single-Cover mit Blur-Overlay (CSS: #music)
+         -------------------------------------------------------- -->
+    <section id="music">
+      <h2>Unsere Musik</h2>
+
+      <div class="music-links">
+        <h3>"CLICHÈ" OUT NOW auf allen Streamingplattformen !!!</h3>
+        <br>
+        <a href="https://www.youtube.com/@ano.malie.visual"
+           target="_blank" rel="noopener noreferrer">
+          <i class="fa-brands fa-youtube"></i> YouTube
+        </a>
+        <a href="https://open.spotify.com/artist/4UuqOiFmFzIZBT1Ac7YFdl"
+           target="_blank" rel="noopener noreferrer">
+          <i class="fa-brands fa-spotify"></i> Spotify
+        </a>
+        <a href="https://music.apple.com/at/artist/ano-malie/1830211826"
+           target="_blank" rel="noopener noreferrer">
+          <i class="fa-brands fa-apple"></i> Apple Music
+        </a>
+      </div>
+
+      <!-- Responsiver 16:9 YouTube-Embed -->
+      <div class="video-wrapper">
+        <iframe
+          src="https://www.youtube.com/embed/jQS7CIgvUHY"
+          title="ANO MALIE – CLICHÈ (offizielles Video)"
+          loading="lazy"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+    </section>
+
+
+    <!-- --------------------------------------------------------
+         SEKTION: Band Members
+         Jeder Member hat ein Foto + ausklappbares Info-Panel.
+         Desktop: Panel gleitet horizontal → CSS: .slide-panel.open
+         Mobile:  Panel klappt nach unten → CSS: @media max-width 768px
+         -------------------------------------------------------- -->
+    <section id="members">
+      <div class="section-bubble">
+        <h2>Bandmembers</h2>
+
+        <br>
+
+        <!-- Member: Bonnie Blonde -->
+        <div class="image-wrapper">
+          <h3 class="image-title">Bonnie Blonde</h3>
+          <img src="img/testfoto.webp" alt="Bonnie Blonde" class="main-image">
+          <button class="chevron-btn" aria-label="Info einblenden">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+          <div class="slide-panel">
+            <img src="img/UnterschriftJules.jpeg" alt="Unterschrift Bonnie Blonde" class="signature-img">
+            <p>Musical Influence:</p>
+            <p>hier entweder grafik oder raw text</p> <!-- TODO -->
+          </div>
+        </div>
+
+        <br><br><br>
+
+        <!-- Member: Mr. Vanilla -->
+        <div class="image-wrapper">
+          <h3 class="image-title">Mr. Vanilla</h3>
+          <img src="img/SternWeiß.webp" alt="Mr. Vanilla" class="main-image">
+          <button class="chevron-btn" aria-label="Info einblenden">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+          <div class="slide-panel">
+            <h3>Grafik Unterschrift</h3> <!-- TODO -->
+            <p>Musical Influence:</p>
+            <p>hier entweder grafik oder raw text</p> <!-- TODO -->
+          </div>
+        </div>
+
+        <br><br><br>
+
+        <!-- Member: Charlie Chance -->
+        <div class="image-wrapper">
+          <h3 class="image-title">Charlie Chance</h3>
+          <img src="img/testfoto.webp" alt="Charlie Chance" class="main-image">
+          <button class="chevron-btn" aria-label="Info einblenden">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+          <div class="slide-panel">
+            <h3>Grafik Unterschrift</h3> <!-- TODO -->
+            <p>Musical Influence:</p>
+            <p>hier entweder grafik oder raw text</p> <!-- TODO -->
+          </div>
+        </div>
+
+        <br><br><br>
+
+        <!-- Member: Gio Goi -->
+        <div class="image-wrapper">
+          <h3 class="image-title">Gio Goi</h3>
+          <img src="img/testfoto.webp" alt="Gio Goi" class="main-image">
+          <button class="chevron-btn" aria-label="Info einblenden">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+          <div class="slide-panel">
+            <h3>Grafik Unterschrift</h3> <!-- TODO -->
+            <p>Musical Influence:</p>
+            <p>hier entweder grafik oder raw text</p> <!-- TODO -->
+          </div>
+        </div>
+
+        <br><br><br>
+
+        <!-- Member: Jules -->
+        <div class="image-wrapper">
+          <h3 class="image-title">Jules</h3>
+          <img src="img/testfoto.webp" alt="Jules" class="main-image">
+          <button class="chevron-btn" aria-label="Info einblenden">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+          <div class="slide-panel">
+            <h3>Grafik Unterschrift</h3> <!-- TODO -->
+            <p>Musical Influence:</p>
+            <p>hier entweder grafik oder raw text</p> <!-- TODO -->
+          </div>
+        </div>
+
+        <br><br><br>
+
+      </div>
+    </section>
+
+
+    <!-- --------------------------------------------------------
+         SEKTION: Shows
+         Countdown wird per JS jede Sekunde aktualisiert.
+         -------------------------------------------------------- -->
+    <section id="shows">
+      <div class="section-bubble">
+        <h2>Shows</h2>
+        <ul class="show-list">
+
+          <!-- Show: The Loft -->
+          <li>
+            <span class="show-date" data-date="2026-04-25T19:00">25. April 2026</span>
+            – <a href="https://ticket1389.tickethome.at/buchen/267/25.04.2026/1900"
+                 target="_blank" rel="noopener noreferrer">The Loft</a>
+            <div class="countdown" id="countdown-1"></div>
+          </li>
+          
+          <!-- Show: Gasometer -->
+          <li>
+            <span class="show-date" data-date="2026-05-30T20:00">30. Mai 2026</span>
+            – <a href="#shows">Gasometer</a> <!-- TODO: Ticket-Link ergänzen -->
+            <div class="countdown" id="countdown-2"></div>
+          </li>
+
+        </ul>
+      </div>
+    </section>
+
+
+    <!-- --------------------------------------------------------
+         SEKTION: Kontakt
+         -------------------------------------------------------- -->
+    <section id="contact">
+      <div class="section-bubble">
+        <h2>Kontakt</h2>
+        <p>Für Booking-Anfragen, Presse oder Kollaborationen erreichst du uns per Mail.</p>
+        <p>Booking: <a href="mailto:ano.maili@gmx.at">ano.maili@gmx.at</a></p>
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer>
+    <p>© 2026 Ano Malie</p>
+  </footer>
+
+
+  <!-- Back-To-Top Button (nur Mobile, CSS: #back-to-top) -->
+  <button id="back-to-top" aria-label="Nach oben scrollen">
+    <i class="fa-solid fa-chevron-up"></i>
+  </button>
+
+
+  <!-- ============================================================
+       SCRIPTS
+       ============================================================ -->
+
+  <!-- Script: Einblend-Animation beim Scrollen
+       Sektionen starten mit opacity:0 und werden sichtbar sobald
+       sie ins Viewport scrollen (IntersectionObserver). -->
+  <script>
+    const sections = document.querySelectorAll('section');
+
+    // Sektionen die beim Laden bereits sichtbar sind sofort einblenden
+    sections.forEach(sec => {
+      if (sec.getBoundingClientRect().top < window.innerHeight) {
+        sec.classList.add('visible');
+      }
+    });
+
+    // Observer: Klasse .visible setzen sobald 30% der Sektion sichtbar
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.3 });
+
+    sections.forEach(sec => observer.observe(sec));
+  </script>
+
+
+  <!-- Script: Smooth Scrolling für Navigations-Links -->
+  <script>
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const target = document.querySelector(link.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+  </script>
+
+
+  <!-- Script: Burger-Menü für Mobile Navigation -->
+  <script>
+    const burger   = document.querySelector('.burger');
+    const navLinks = document.querySelector('.nav-links');
+
+    // Burger-Klick: Menü öffnen/schließen
+    burger.addEventListener('click', () => {
+      const isOpen = navLinks.classList.toggle('open');
+      burger.classList.toggle('active', isOpen);
+      burger.setAttribute('aria-expanded', isOpen);
+    });
+
+    // Klick auf Nav-Link: Menü schließen
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        burger.classList.remove('active');
+        burger.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    // Klick außerhalb: Menü schließen
+    document.addEventListener('click', e => {
+      if (!navLinks.contains(e.target) && !burger.contains(e.target)) {
+        navLinks.classList.remove('open');
+        burger.classList.remove('active');
+        burger.setAttribute('aria-expanded', 'false');
+      }
+    });
+  </script>
+
+
+  <!-- Script: Back-To-Top Button
+       Wird nach 300px Scroll eingeblendet (Klasse .visible). -->
+  <script>
+    const backToTop = document.getElementById('back-to-top');
+
+    window.addEventListener('scroll', () => {
+      backToTop.classList.toggle('visible', window.scrollY > 300);
+    });
+
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+
+
+  <!-- Script: SEO Structured Data (JSON-LD)
+       Maschinenlesbare Metadaten für Google/Suchmaschinen.
+       TODO: og:url und url im MusicGroup-Block mit echter Domain befüllen. -->
+  <script type="application/ld+json">
+  [
+    {
+      "@context": "https://schema.org",
+      "@type": "MusicGroup",
+      "name": "ANO MALIE",
+      "genre": "Alternative Rock",
+      "url": "",
+      "sameAs": [
+        "https://www.instagram.com/ano.maliemusik",
+        "https://www.tiktok.com/@anomalie.musik",
+        "https://open.spotify.com/artist/4UuqOiFmFzIZBT1Ac7YFdl",
+        "https://music.apple.com/at/artist/ano-malie/1830211826",
+        "https://www.youtube.com/@ano.malie.visual"
+      ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "MusicEvent",
+      "name": "ANO MALIE live @ The Loft",
+      "startDate": "2026-04-25T19:00",
+      "location": {
+        "@type": "MusicVenue",
+        "name": "The Loft",
+        "address": "Wien"
+      },
+      "url": "https://ticket1389.tickethome.at/buchen/267/25.04.2026/1900",
+      "performer": { "@type": "MusicGroup", "name": "ANO MALIE" }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "MusicEvent",
+      "name": "ANO MALIE live @ Gasometer",
+      "startDate": "2026-05-30",
+      "location": {
+        "@type": "MusicVenue",
+        "name": "Gasometer",
+        "address": "Wien"
+      },
+      "performer": { "@type": "MusicGroup", "name": "ANO MALIE" }
+    }
+  ]
+  </script>
+
+
+  <!-- Script: Member-Panel öffnen/schließen
+       Chevron-Button togglet .open am Panel und .rotate am Button.
+       Auf Desktop: Bild/Titel/Button verschieben sich per shift-left.
+       Auf Mobile: kein Shift, Panel klappt nach unten (per CSS). -->
+  <script>
+    document.querySelectorAll('.image-wrapper').forEach(wrapper => {
+      const btn   = wrapper.querySelector('.chevron-btn');
+      const panel = wrapper.querySelector('.slide-panel');
+      const image = wrapper.querySelector('.main-image');
+      const title = wrapper.querySelector('.image-title');
+
+      btn.addEventListener('click', () => {
+        panel.classList.toggle('open');
+        btn.classList.toggle('rotate');
+
+        // Shift-Left-Effekt nur auf Desktop
+        const isMobile = window.innerWidth <= 768;
+        if (!isMobile) {
+          image.classList.toggle('shift-left');
+          btn.classList.toggle('shift-left');
+          title.classList.toggle('shift-left');
+        }
+      });
+    });
+  </script>
+
+
+  <!-- Script: Countdown für Shows
+       Aktualisiert sich jede Sekunde. Vergangene Shows werden ausgegraut. -->
+  <script>
+    function updateCountdowns() {
+      document.querySelectorAll('.show-date').forEach(el => {
+        const showDate  = new Date(el.dataset.date);
+        const now       = new Date();
+        const diff      = showDate - now;
+        const container = el.closest('li').querySelector('.countdown');
+
+        if (diff <= 0) {
+          el.closest('li').style.opacity = '0.4';
+          container.textContent = 'Show vorbei';
+          return;
+        }
+
+        const days    = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours   = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((diff / (1000 * 60)) % 60);
+        const seconds = Math.floor((diff / 1000) % 60);
+
+        container.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+      });
+    }
+
+    updateCountdowns();
+    setInterval(updateCountdowns, 1000);
+  </script>
+
+
+  <!-- Script: Cursor-Trail-Effekt (inaktiv)
+       Animierter Partikel-Trail dem Mauszeiger folgend, nur Desktop.
+       
+       Um zu aktivieren:
+         1. Diesen Kommentarblock entfernen (den inneren <script>-Block freilegen)
+         2. CSS-Block in style.css, Abschnitt 24 aktivieren
+
+  <script>
+    if (window.matchMedia('(pointer: fine)').matches) {
+      const trail = [];
+      const TRAIL_LENGTH = 10;
+
+      for (let i = 0; i < TRAIL_LENGTH; i++) {
+        const dot = document.createElement('div');
+        dot.classList.add('cursor-trail');
+        dot.style.opacity = 1 - (i / TRAIL_LENGTH);
+        dot.style.scale   = 1 - (i / TRAIL_LENGTH) * 0.6;
+        document.body.appendChild(dot);
+        trail.push({ el: dot, x: 0, y: 0 });
+      }
+
+      let mouseX = 0, mouseY = 0;
+
+      window.addEventListener('mousemove', e => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+      });
+
+      function animateTrail() {
+        trail[0].x += (mouseX - trail[0].x) * 0.4;
+        trail[0].y += (mouseY - trail[0].y) * 0.4;
+
+        for (let i = 1; i < TRAIL_LENGTH; i++) {
+          trail[i].x += (trail[i - 1].x - trail[i].x) * 0.4;
+          trail[i].y += (trail[i - 1].y - trail[i].y) * 0.4;
+        }
+
+        trail.forEach(dot => {
+          dot.el.style.left = dot.x + 'px';
+          dot.el.style.top  = dot.y + 'px';
+        });
+
+        requestAnimationFrame(animateTrail);
+      }
+
+      animateTrail();
+    }
+  <\/script>
+
+  -->
+
+</body>
+</html>
