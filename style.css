@@ -61,7 +61,8 @@
     color: var(--accent);
   }
   
-  a:hover {
+  /* Nur plain Links, nicht Buttons oder Pills */
+  a:hover:not(.btn):not(.pill-link):not(.stream-pill):not(.nav-overlay__link):not(.nav-overlay__social):not(.sticky-nav__links a):not(.footer__socials a) {
     color: var(--text-light);
   }
   
@@ -123,7 +124,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 40px;
+    /* padding-right: 80px schafft Platz für den fixed Burger-Button (42px + 20px right + Luft) */
+    padding: 0 80px 0 40px;
   
     /* Startet transparent – Hintergrund kommt erst beim Scrollen */
     background: transparent;
@@ -268,44 +270,6 @@
   .nav-overlay.overlay--open {
     opacity: 1;
     pointer-events: all;
-  }
-  
-  /* Schließen-Button: X oben rechts im Overlay */
-  .nav-overlay__close {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    border: 1px solid rgba(215, 65, 145, 0.3);
-    background: transparent;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: border-color 0.2s ease;
-  }
-  
-  .nav-overlay__close:hover {
-    border-color: var(--accent);
-  }
-  
-  /* X-Striche des Schließen-Buttons */
-  .nav-overlay__close span {
-    position: absolute;
-    width: 16px;
-    height: 1.5px;
-    background: var(--accent);
-    border-radius: 1px;
-  }
-  
-  .nav-overlay__close span:nth-child(1) {
-    transform: rotate(45deg);
-  }
-  
-  .nav-overlay__close span:nth-child(2) {
-    transform: rotate(-45deg);
   }
   
   /* Kleines Bandname-Label oben im Overlay */
@@ -533,21 +497,27 @@
     border: 1px solid var(--accent);
   }
   
-  .btn--primary:hover {
+  /* Hover: Hintergrund transparent, Accent-Glow, Farbe bleibt accent */
+  .btn--primary:hover,
+  .btn--primary:link:hover,
+  .btn--primary:visited:hover {
     background: transparent;
     color: var(--accent);
     box-shadow: 0 0 14px rgba(215, 65, 145, 0.35);
     transform: translateY(-2px);
   }
   
-  /* Outline-Button */
+  /* Outline-Button: deutlichere Border für bessere Sichtbarkeit im Hero */
   .btn--outline {
     background: transparent;
-    color: rgba(238, 238, 238, 0.85);
-    border: 1px solid rgba(238, 238, 238, 0.35);
+    color: rgba(238, 238, 238, 0.9);
+    border: 1px solid rgba(238, 238, 238, 0.55);
   }
   
-  .btn--outline:hover {
+  /* Hover: Border und Text werden accent-pink */
+  .btn--outline:hover,
+  .btn--outline:link:hover,
+  .btn--outline:visited:hover {
     border-color: var(--accent);
     color: var(--accent);
     box-shadow: 0 0 10px rgba(215, 65, 145, 0.2);
@@ -1303,7 +1273,7 @@
   }
   
   */
-
+  
   /* =============================================================
      29. RESPONSIVE – MOBILE (max. 768px)
      Alle Anpassungen für kleine Bildschirme gebündelt.

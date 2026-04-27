@@ -146,15 +146,10 @@
        VOLLBILD-OVERLAY MENÜ (Mobile)
        Öffnet sich bei Burger-Klick. Enthält alle Nav-Links +
        Social-Icons. Wird per JS mit Klasse .overlay--open gesteuert.
+       Schließen: erneuter Klick auf den Burger-Button (wird zu X).
        → CSS: Abschnitt 8 / JS: Script "Burger-Menü"
        ============================================================ -->
   <div class="nav-overlay" id="navOverlay" aria-hidden="true">
-
-    <!-- Schließen-Button (X) oben rechts im Overlay -->
-    <button class="nav-overlay__close" aria-label="Menü schließen">
-      <span></span>
-      <span></span>
-    </button>
 
     <!-- Bandname als kleines Label im Overlay -->
     <span class="nav-overlay__brand">ANO MALIE</span>
@@ -511,12 +506,11 @@
 
   <!-- Script: Burger-Menü – Vollbild-Overlay öffnen/schließen
        Der Burger-Button (.burger-btn) togglet die Klasse .overlay--open
-       auf dem Overlay-Div (#navOverlay).
+       auf dem Overlay-Div (#navOverlay) und morpht zu einem X.
        Overlay-Links schließen das Menü automatisch. -->
   <script>
     const burgerBtn   = document.querySelector('.burger-btn');
     const navOverlay  = document.getElementById('navOverlay');
-    const overlayClose = document.querySelector('.nav-overlay__close');
     const overlayLinks = document.querySelectorAll('.nav-overlay__link');
 
     // Hilfsfunktion: Overlay öffnen
@@ -541,9 +535,6 @@
     burgerBtn.addEventListener('click', () => {
       navOverlay.classList.contains('overlay--open') ? closeOverlay() : openOverlay();
     });
-
-    // Schließen-Button im Overlay
-    overlayClose.addEventListener('click', closeOverlay);
 
     // Klick auf Nav-Link: Overlay schließen
     overlayLinks.forEach(link => {
