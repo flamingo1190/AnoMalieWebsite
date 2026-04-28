@@ -220,7 +220,8 @@
     background: rgba(10, 10, 10, 0.82); /* etwas opaker statt backdrop-filter blur */
     cursor: pointer;
   
-    flex-direction: column; /* Richtung für display:flex im Mobile-Breakpoint */
+    display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 5px;
@@ -948,6 +949,19 @@
     position: relative;
     display: inline-block;
     margin-bottom: 0; /* Grid-Gap übernimmt den Abstand */
+
+    /* PERFORMANCE: Karten starten unsichtbar und blenden einzeln ein
+       (gesteuert per IntersectionObserver → Klasse .member-visible).
+       Entlastet den Browser beim initialen Render der gesamten Sektion. */
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Karte sichtbar: per JS gesetzt wenn Karte ins Viewport scrollt */
+  .image-wrapper.member-visible {
+    opacity: 1;
+    transform: translateY(0);
   }
   
   /* Hauptbild des Members */
@@ -957,12 +971,13 @@
     position: relative;
     z-index: 2;
     transition: transform 0.45s ease;
-    will-change: transform;
+    /* PERFORMANCE: will-change nur wenn Panel offen ist (→ .shift-left) */
   }
   
   /* Panel offen: Bild nach links verschieben um Platz zu machen */
   .main-image.shift-left {
     transform: translateX(-260px);
+    will-change: transform; /* GPU-Layer nur während der Animation */
   }
   
   /* Member-Name über dem Bild */
@@ -974,12 +989,13 @@
     letter-spacing: 3px;
     text-transform: uppercase;
     transition: transform 0.45s ease;
-    will-change: transform;
+    /* PERFORMANCE: will-change nur wenn Panel offen ist (→ .shift-left) */
   }
   
   /* Panel offen: Titel ebenfalls nach links verschieben */
   .image-title.shift-left {
     transform: translateX(-260px);
+    will-change: transform; /* GPU-Layer nur während der Animation */
   }
   
   /* Info-Panel: startet hinter dem Bild, unsichtbar */
@@ -990,8 +1006,9 @@
     width: 300px;
     height: 85%;
   
-    background: rgba(0, 0, 0, 0.45);
-    backdrop-filter: blur(6px);
+    /* PERFORMANCE: backdrop-filter:blur entfernt – 5 gleichzeitige Blur-Layer
+       sind sehr GPU-intensiv. Kompensiert durch opakeren Hintergrund. */
+    background: rgba(0, 0, 0, 0.75);
     border-radius: 12px;
     padding: 20px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
@@ -1029,8 +1046,9 @@
     right: -45px;
     transform: translateY(-50%);
   
-    background: rgba(0, 0, 0, 0.45);
-    backdrop-filter: blur(4px);
+    /* PERFORMANCE: backdrop-filter:blur entfernt – 5 blur-Layer à 42×42px
+       erzeugen unverhältnismäßigen GPU-Aufwand. Opakerer Hintergrund als Ersatz. */
+    background: rgba(0, 0, 0, 0.72);
     border: 1px solid rgba(215, 65, 145, 0.2);
     padding: 10px 14px;
     border-radius: 10px;
@@ -1042,12 +1060,13 @@
     box-shadow: 0 0 10px rgba(215, 65, 145, 0.3);
     transition: transform 0.45s ease, background 0.2s ease, box-shadow 0.2s ease;
     z-index: 4;
-    will-change: transform;
+    /* PERFORMANCE: will-change nur während der Shift-Animation gesetzt */
   }
   
   /* Panel offen: Button ebenfalls nach links mitbewegen */
   .chevron-btn.shift-left {
     transform: translate(-200px, -50%);
+    will-change: transform; /* GPU-Layer nur während der Animation */
   }
   
   /* Hover: Button leuchtet pink */
