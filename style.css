@@ -220,8 +220,7 @@
     background: rgba(10, 10, 10, 0.82); /* etwas opaker statt backdrop-filter blur */
     cursor: pointer;
   
-    display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Richtung für display:flex im Mobile-Breakpoint */
     align-items: center;
     justify-content: center;
     gap: 5px;
