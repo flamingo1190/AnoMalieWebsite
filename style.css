@@ -204,24 +204,23 @@
      verbraucht. background wird stattdessen etwas opaker gesetzt.
      ============================================================= */
   
-/* =============================================================
+
   .burger-btn {
-     Auf Desktop versteckt – Burger nur auf Mobile (→ Abschnitt 30) 
+     /* Auf Desktop versteckt – Burger nur auf Mobile (→ Abschnitt 30) */
     display: none;
 
     position: fixed;
     top: 12px;
     right: 20px;
-    z-index: 1100;  Über dem Overlay 
+    z-index: 1100;  /* Über dem Overlay */
   
     width: 42px;
     height: 42px;
     border-radius: 50%;
     border: 1px solid rgba(215, 65, 145, 0.35);
-    background: rgba(10, 10, 10, 0.82);  etwas opaker statt backdrop-filter blur 
+    background: rgba(10, 10, 10, 0.82);  /* etwas opaker statt backdrop-filter blur */
     cursor: pointer;
   
-    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -235,7 +234,7 @@
     box-shadow: 0 0 12px rgba(215, 65, 145, 0.35);
   }
   
-   Einzelne Striche 
+    /* Einzelne Striche */
   .burger-btn span {
     width: 16px;
     height: 1.5px;
@@ -245,7 +244,7 @@
     display: block;
   }
   
-   Aktiver Zustand: Striche formen ein X 
+   /* Aktiver Zustand: Striche formen ein X */
   .burger-btn.active span:nth-child(1) {
     transform: translateY(6.5px) rotate(45deg);
   }
@@ -258,7 +257,7 @@
   .burger-btn.active span:nth-child(3) {
     transform: translateY(-6.5px) rotate(-45deg);
   }
-  ============================================================= */
+  
   
   /* =============================================================
      8. VOLLBILD-OVERLAY MENÜ
@@ -268,6 +267,7 @@
      ============================================================= */
   
   .nav-overlay {
+    display: none;
     position: fixed;
     inset: 0;
     z-index: 1050;
