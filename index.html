@@ -67,7 +67,7 @@
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-  <!-- GSAP – Animation Library (kostenlos seit 2024, Webflow-Support)
+  <!-- GSAP – Animation Library
        ScrollTrigger: scroll-basierte Animationen (ersetzt IntersectionObserver + rAF-Parallax)
        SplitText:     Text in Chars/Words/Lines zerlegen für buchstabenweise Animationen -->
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
@@ -159,23 +159,6 @@
     <div class="scroll-indicator" aria-hidden="true">
       <div class="scroll-indicator__dot"></div>
     </div>
-
-    <!-- HEADER-ANIMATION: VARIANTE A – Glitch + Neon-Puls (inaktiv)
-         Dauerhafter Neon-Puls + periodischer RGB-Glitch alle ~6 Sekunden.
-         → CSS-Details in style.css, Abschnitt 28
-         
-         Um Variante A zu aktivieren:
-           1. Diesen Kommentarblock entfernen (den <div class="glitch-wrap">-Block freilegen)
-           2. Den <svg>-Block von Variante B oben auskommentieren
-           3. In style.css Abschnitt 27 auskommentieren, Abschnitt 28 aktivieren
-
-    <div class="glitch-wrap">
-      <span class="glitch-b" aria-hidden="true">ANO MALIE</span>
-      <span class="glitch-r" aria-hidden="true">ANO MALIE</span>
-      <h1>ANO MALIE</h1>
-    </div>
-
-    -->
 
   </header>
 

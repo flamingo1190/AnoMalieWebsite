@@ -459,7 +459,7 @@
   }
   
   /* Alle direkten Kind-Elemente über dem Overlay positionieren */
-  header > *:not(.hero-bg) {
+  header > *:not(.hero-bg):not(.scroll-indicator) {
     position: relative;
     z-index: 2;
   }
@@ -522,21 +522,24 @@
   }
   
   /* Scroll-Indikator: Oval mit animiertem Punkt */
-  .scroll-indicator {
-    position: absolute;
-    bottom: 32px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 22px;
-    height: 34px;
-    border: 1.5px solid rgba(215, 65, 145, 0.45);
-    border-radius: 11px;
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    padding-top: 5px;
-    z-index: 2;
-  }
+.scroll-indicator {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 22px;
+  height: 34px;
+
+  border: 1.5px solid rgba(215, 65, 145, 0.45);
+  border-radius: 11px;
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 5px;
+
+  z-index: 2;
+}
   
   /* Animierter Punkt im Scroll-Indikator */
   .scroll-indicator__dot {
@@ -1438,7 +1441,8 @@
        sichtbaren Viewport füllt und nicht skaliert scrollt → kein Scroll-Artefakt. */
 
     body::before {
-      background-size: 100% 100%; /* Füllt exakt den fixed Viewport – kein Scrollen */
+      background-size: cover;           /* Proportional skalieren – kein Strecken */
+      background-position: top center;  /* Oberen Bildbereich priorisieren auf Mobile */
     }
   
     header {
