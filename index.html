@@ -21,6 +21,18 @@
      – Alle scroll-Events in einem einzigen rAF-Listener gebündelt
      – backdrop-filter am Burger-Button entfernt (GPU-Entlastung)
      – Smooth Scrolling per CSS html { scroll-behavior: smooth } statt JS
+     – contain: layout style auf Sektionen (Layout-Isolation)
+     – will-change: auto nach abgeschlossener Einblend-Animation
+
+     BUGFIXES & UX (April 2026):
+     – Desktop: Burger-Button entfernt, Nav-Links größer (14px)
+     – Mobile: Burger-Button vertikal zentriert in Nav-Höhe positioniert
+     – Mobile: Expliziter Schließen-Button (X) im Overlay ergänzt
+     – Mobile: Burger-Button aus dem Header heraus vor das Overlay verschoben
+               → auf Desktop gänzlich unsichtbar (display:none), auf Mobile fixed top-right
+     – Mobile: Burger-Button auf gleiche Position wie Schließen-Button (top:14px, right:20px)
+     – Mobile: body::before background-size:100% 100% statt position:absolute
+               → Hintergrundbild füllt Viewport korrekt ohne Scroll-Artefakt
      ============================================================= -->
 
 <head>
@@ -149,14 +161,6 @@
 
     -->
 
-    <!-- Burger-Button: Kreisförmig, top-right, fixed (gesteuert per JS)
-         Position und Sichtbarkeit via CSS: .burger-btn (Abschnitt 7) -->
-    <button class="burger-btn" aria-expanded="false" aria-label="Menü öffnen">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-
   </header>
 
 
@@ -164,13 +168,29 @@
        VOLLBILD-OVERLAY MENÜ (Mobile)
        Öffnet sich bei Burger-Klick. Enthält alle Nav-Links +
        Social-Icons. Wird per JS mit Klasse .overlay--open gesteuert.
-       Schließen: erneuter Klick auf den Burger-Button (wird zu X).
+       Schließen: Klick auf den Schließen-Button im Overlay oder
+       erneuter Klick auf den Burger-Button (wird zu X).
        → CSS: Abschnitt 8 / JS: Script "Burger-Menü"
        ============================================================ -->
+
+  <!-- Burger-Button: Fixed top-right, nur auf Mobile sichtbar (CSS: Abschnitt 7).
+       Außerhalb des Headers damit Desktop-Nav ihn nie überdeckt. -->
+  <button class="burger-btn" aria-expanded="false" aria-label="Menü öffnen">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
   <div class="nav-overlay" id="navOverlay" aria-hidden="true">
 
     <!-- Bandname als kleines Label im Overlay -->
     <span class="nav-overlay__brand">ANO MALIE</span>
+
+    <!-- Schließen-Button: X-Button oben rechts im Overlay (Mobile) -->
+    <button class="nav-overlay__close" id="navOverlayClose" aria-label="Menü schließen">
+      <span></span>
+      <span></span>
+    </button>
 
     <!-- Nav-Links: groß, spaced, staggered animation -->
     <nav class="nav-overlay__links" aria-label="Overlay Navigation">
@@ -542,11 +562,13 @@
   <!-- Script: Burger-Menü – Vollbild-Overlay öffnen/schließen
        Der Burger-Button (.burger-btn) togglet die Klasse .overlay--open
        auf dem Overlay-Div (#navOverlay) und morpht zu einem X.
+       Der Schließen-Button (#navOverlayClose) schließt das Overlay explizit.
        Overlay-Links schließen das Menü automatisch. -->
   <script>
-    const burgerBtn    = document.querySelector('.burger-btn');
-    const navOverlay   = document.getElementById('navOverlay');
-    const overlayLinks = document.querySelectorAll('.nav-overlay__link');
+    const burgerBtn       = document.querySelector('.burger-btn');
+    const navOverlay      = document.getElementById('navOverlay');
+    const navOverlayClose = document.getElementById('navOverlayClose');
+    const overlayLinks    = document.querySelectorAll('.nav-overlay__link');
 
     // Hilfsfunktion: Overlay öffnen
     function openOverlay() {
@@ -570,6 +592,9 @@
     burgerBtn.addEventListener('click', () => {
       navOverlay.classList.contains('overlay--open') ? closeOverlay() : openOverlay();
     });
+
+    // Schließen-Button im Overlay: Overlay schließen
+    navOverlayClose.addEventListener('click', closeOverlay);
 
     // Klick auf Nav-Link: Overlay schließen
     overlayLinks.forEach(link => {

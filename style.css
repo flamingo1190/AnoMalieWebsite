@@ -10,7 +10,7 @@
    5.  Sticky Navigation – Desktop
    6.  Sticky Navigation – Scroll-Zustand (.scrolled)
    7.  Burger-Button (top-right, fixed, kreisförmig)
-   8.  Burger-Animation (X-Form) & Overlay-Menü
+   8.  Burger-Animation (X-Form), Overlay-Menü & Schließen-Button
    9.  Hero / Header (Vollbild, 100vh)
    10. Hero-Hintergrund (.hero-bg) – GPU-beschleunigter Parallax
    11. Hero-Content (SVG, Tagline, CTAs, Scroll-Indikator)
@@ -99,6 +99,9 @@
      4. GLOBALES HINTERGRUNDBILD
      Fixiertes Sternbild-Overlay hinter dem gesamten Inhalt.
      z-index: -2 damit es hinter allem anderen liegt.
+     PERFORMANCE: position:fixed erzeugt einen eigenen Compositing-Layer
+     auf Desktop. Auf Mobile wird es auf position:fixed belassen, aber
+     background-attachment vermieden (→ Abschnitt 30 für Mobile-Reset).
      ============================================================= */
   
   body::before {
@@ -131,8 +134,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    /* padding-right: 80px schafft Platz für den fixed Burger-Button (42px + 20px right + Luft) */
-    padding: 0 80px 0 40px;
+    /* padding-right: 40px – kein Platz mehr für Burger-Button nötig (nur auf Mobile) */
+    padding: 0 40px;
   
     /* Startet transparent – Hintergrund kommt erst beim Scrollen */
     background: transparent;
@@ -159,7 +162,7 @@
   
   .sticky-nav__links a {
     font-family: var(--font-body);
-    font-size: 11px;
+    font-size: 14px; /* Vergrößert von 11px für bessere Lesbarkeit auf Desktop */
     font-weight: 500;
     letter-spacing: 3px;
     text-transform: uppercase;
@@ -191,16 +194,20 @@
   
   /* =============================================================
      7. BURGER-BUTTON
-     Kreisförmiger Button, fixed top-right, immer sichtbar.
-     Auf Desktop sichtbar – öffnet das Vollbild-Overlay.
-     Drei Striche mit Accent-Glow.
-  
+     Kreisförmiger Button, fixed top-right, nur auf Mobile sichtbar.
+     Liegt außerhalb des Headers direkt vor dem Overlay-Div.
+     Auf Desktop: display:none – Nav-Links übernehmen die Navigation.
+     Auf Mobile: eingeblendet via @media (→ Abschnitt 30).
+
      PERFORMANCE: backdrop-filter entfernt – bei 42×42px war der
      Blur-Effekt kaum sichtbar, hat aber einen GPU-Compositing-Layer
      verbraucht. background wird stattdessen etwas opaker gesetzt.
      ============================================================= */
   
   .burger-btn {
+    /* Auf Desktop versteckt – Burger nur auf Mobile (→ Abschnitt 30) */
+    display: none;
+
     position: fixed;
     top: 12px;
     right: 20px;
@@ -296,6 +303,52 @@
     letter-spacing: 5px;
     color: var(--accent);
     opacity: 0.7;
+  }
+
+  /* Schließen-Button (X) oben rechts im Overlay – nur auf Mobile sichtbar.
+     Klare Alternative zum Burger-Button-X für bessere UX. */
+  .nav-overlay__close {
+    display: none; /* Desktop: nicht sichtbar (kein Overlay auf Desktop nötig) */
+    position: absolute;
+    top: 14px;
+    right: 20px;
+
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1px solid rgba(215, 65, 145, 0.35);
+    background: rgba(10, 10, 10, 0.82);
+    cursor: pointer;
+
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .nav-overlay__close:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 12px rgba(215, 65, 145, 0.35);
+  }
+
+  /* X-Striche des Schließen-Buttons */
+  .nav-overlay__close span {
+    width: 16px;
+    height: 1.5px;
+    background: var(--accent);
+    border-radius: 1px;
+    display: block;
+    position: absolute;
+  }
+
+  .nav-overlay__close span:nth-child(1) {
+    transform: rotate(45deg);
+  }
+
+  .nav-overlay__close span:nth-child(2) {
+    transform: rotate(-45deg);
   }
   
   /* Nav-Links Container */
@@ -597,12 +650,17 @@
   
     /* GPU-Layer für die Einblend-Animation */
     will-change: opacity, transform;
+
+    /* PERFORMANCE: Layout-Berechnungen auf die Sektion begrenzen */
+    contain: layout style;
   }
   
   /* Sichtbar: wird per JS gesetzt wenn Sektion ins Viewport scrollt */
   section.visible {
     opacity: 1;
     transform: translateY(0);
+    /* PERFORMANCE: will-change nach abgeschlossener Animation freigeben */
+    will-change: auto;
   }
   
   
@@ -1322,9 +1380,79 @@
     .sticky-nav {
       display: none;
     }
+
+    /* --- Burger-Button auf Mobile einblenden und positionieren ---
+           Gleiche Position wie der Schließen-Button im Overlay (top: 14px, right: 20px),
+           damit der Übergang beim Öffnen/Schließen nahtlos wirkt. */
+           
+    .burger-btn {
+      /* Auf Desktop versteckt – Burger nur auf Mobile (→ Abschnitt 30) */
+      display: flex;
+  
+      position: fixed;
+      top: 14px;
+      right: 20px;
+      z-index: 1100; /* Über dem Overlay */
+    
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 1px solid rgba(215, 65, 145, 0.35);
+      background: rgba(10, 10, 10, 0.82); /* etwas opaker statt backdrop-filter blur */
+      cursor: pointer;
+    
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    
+      transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .burger-btn:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 12px rgba(215, 65, 145, 0.35);
+    }
+    
+    /* Einzelne Striche */
+    .burger-btn span {
+      width: 16px;
+      height: 1.5px;
+      background: var(--accent);
+      border-radius: 1px;
+      transition: transform 0.35s ease, opacity 0.25s ease;
+      display: block;
+    }
+    
+    /* Aktiver Zustand: Striche formen ein X */
+    .burger-btn.active span:nth-child(1) {
+      transform: translateY(6.5px) rotate(45deg);
+    }
+    
+    .burger-btn.active span:nth-child(2) {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+    
+    .burger-btn.active span:nth-child(3) {
+      transform: translateY(-6.5px) rotate(-45deg);
+    }
+
+    /* Schließen-Button im Overlay auf Mobile einblenden */
+    .nav-overlay__close {
+      display: flex;
+    }
   
   
-    /* --- Header / Hero --- */
+    /* --- Hintergrundbild Body (Sternbild-Overlay) ---
+       Auf Mobile: position:absolute hat keine Wirkung da body keine Höhe hat.
+       Stattdessen: background-size auf 100% 100% setzen damit das Bild den
+       sichtbaren Viewport füllt und nicht skaliert scrollt → kein Scroll-Artefakt. */
+
+    body::before {
+      background-size: 100% 100%; /* Füllt exakt den fixed Viewport – kein Scrollen */
+    }
   
     header {
       min-height: 100svh; /* Safe-area-aware Viewport-Höhe auf iOS */
