@@ -1372,62 +1372,14 @@
       display: none;
     }
 
-    /* --- Burger-Button auf Mobile einblenden und positionieren ---
-           Gleiche Position wie der Schließen-Button im Overlay (top: 14px, right: 20px),
-           damit der Übergang beim Öffnen/Schließen nahtlos wirkt. */
-           
+    /* --- Burger-Button auf Mobile einblenden ---
+           Alle anderen Styles sind bereits im globalen .burger-btn Block definiert.
+           Hier nur display umschalten und top leicht anpassen (gleiche Position
+           wie der Schließen-Button im Overlay → nahtloser Übergang). */
+
     .burger-btn {
-      /* Auf Desktop versteckt – Burger nur auf Mobile (→ Abschnitt 30) */
       display: flex;
-  
-      position: fixed;
       top: 14px;
-      right: 20px;
-      z-index: 1100; /* Über dem Overlay */
-    
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      border: 1px solid rgba(215, 65, 145, 0.35);
-      background: rgba(10, 10, 10, 0.82); /* etwas opaker statt backdrop-filter blur */
-      cursor: pointer;
-    
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 5px;
-    
-      transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
-    }
-    
-    .burger-btn:hover {
-      border-color: var(--accent);
-      box-shadow: 0 0 12px rgba(215, 65, 145, 0.35);
-    }
-    
-    /* Einzelne Striche */
-    .burger-btn span {
-      width: 16px;
-      height: 1.5px;
-      background: var(--accent);
-      border-radius: 1px;
-      transition: transform 0.35s ease, opacity 0.25s ease;
-      display: block;
-    }
-    
-    /* Aktiver Zustand: Striche formen ein X */
-    .burger-btn.active span:nth-child(1) {
-      transform: translateY(6.5px) rotate(45deg);
-    }
-    
-    .burger-btn.active span:nth-child(2) {
-      opacity: 0;
-      transform: scaleX(0);
-    }
-    
-    .burger-btn.active span:nth-child(3) {
-      transform: translateY(-6.5px) rotate(-45deg);
     }
 
     /* Schließen-Button im Overlay auf Mobile einblenden */

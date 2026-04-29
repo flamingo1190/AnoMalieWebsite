@@ -585,8 +585,20 @@
        ScrollTrigger-Overhead rechtfertigen.
        Der Hero-Parallax wurde in den GSAP-Block (oben) verschoben. -->
   <script>
+    // Scroll-Position beim Laden immer auf oben zurücksetzen (verhindert
+    // automatisches Springen zur letzten Position beim Desktop-Reload)
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+
     const stickyNav = document.querySelector('.sticky-nav');
     const backToTop = document.getElementById('back-to-top');
+
+    // Back-To-Top: Klick scrollt zur Seitenoberseite
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
 
     let ticking = false;
 
