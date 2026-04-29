@@ -100,9 +100,9 @@
     <div class="sticky-nav__logo">ANO MALIE</div>
     <div class="sticky-nav__links">
       <a href="#band">Band</a>
+      <a href="#shows">Shows</a>
       <a href="#music">Musik</a>
       <a href="#members">Members</a>
-      <a href="#shows">Shows</a>
       <a href="#contact">Kontakt</a>
     </div>
   </nav>
@@ -194,9 +194,9 @@
     <!-- Nav-Links: groß, spaced, staggered animation -->
     <nav class="nav-overlay__links" aria-label="Overlay Navigation">
       <a href="#band"    class="nav-overlay__link">Band</a>
+      <a href="#shows"   class="nav-overlay__link">Shows</a>
       <a href="#music"   class="nav-overlay__link">Musik</a>
       <a href="#members" class="nav-overlay__link">Members</a>
-      <a href="#shows"   class="nav-overlay__link">Shows</a>
       <a href="#contact" class="nav-overlay__link">Kontakt</a>
     </nav>
 
@@ -252,6 +252,35 @@
             <i class="fa-brands fa-tiktok"></i> TikTok
           </a>
         </div>
+      </div>
+    </section>
+
+
+        <!-- --------------------------------------------------------
+         SEKTION: Shows
+         Countdown wird per JS jede Sekunde aktualisiert.
+         -------------------------------------------------------- -->
+    <section id="shows">
+      <div class="section-bubble">
+        <h2>Shows & Tickets</h2>
+        <ul class="show-list">
+
+          <!-- Show: The Loft -->
+          <li>
+            <span class="show-date" data-date="2026-04-25T19:00">25. April 2026</span>
+            – <a href="https://ticket1389.tickethome.at/buchen/267/25.04.2026/1900"
+                 target="_blank" rel="noopener noreferrer">The Loft</a>
+            <div class="countdown" id="countdown-1"></div>
+          </li>
+
+          <!-- Show: Gasometer -->
+          <li>
+            <span class="show-date" data-date="2026-05-30T20:00">30. Mai 2026</span>
+            – <a href="https://pretix.eu/ano.malie.planet/gasometer/">Gasometer</a> <!-- TODO: Ticket-Link ergänzen -->
+            <div class="countdown" id="countdown-2"></div>
+          </li>
+
+        </ul>
       </div>
     </section>
 
@@ -391,36 +420,6 @@
         </div><!-- /.members-grid -->
       </div>
     </section>
-
-
-    <!-- --------------------------------------------------------
-         SEKTION: Shows
-         Countdown wird per JS jede Sekunde aktualisiert.
-         -------------------------------------------------------- -->
-    <section id="shows">
-      <div class="section-bubble">
-        <h2>Shows & Tickets</h2>
-        <ul class="show-list">
-
-          <!-- Show: The Loft -->
-          <li>
-            <span class="show-date" data-date="2026-04-25T19:00">25. April 2026</span>
-            – <a href="https://ticket1389.tickethome.at/buchen/267/25.04.2026/1900"
-                 target="_blank" rel="noopener noreferrer">The Loft</a>
-            <div class="countdown" id="countdown-1"></div>
-          </li>
-
-          <!-- Show: Gasometer -->
-          <li>
-            <span class="show-date" data-date="2026-05-30T20:00">30. Mai 2026</span>
-            – <a href="https://pretix.eu/ano.malie.planet/gasometer/">Gasometer</a> <!-- TODO: Ticket-Link ergänzen -->
-            <div class="countdown" id="countdown-2"></div>
-          </li>
-
-        </ul>
-      </div>
-    </section>
-
 
     <!-- --------------------------------------------------------
          SEKTION: Kontakt
