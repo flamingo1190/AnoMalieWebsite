@@ -63,6 +63,15 @@
 
   <title>ANO MALIE – Offizielle Website</title>
 
+  <!-- Scroll-Position beim Laden sofort auf oben fixieren.
+       Muss im <head> stehen damit der Browser die Position nicht
+       wiederherstellen kann bevor das Script läuft. -->
+  <script>
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+  </script>
+
   <!-- Stylesheets -->
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -97,7 +106,7 @@
        Auf Desktop: slim, uppercase, letter-spaced Links.
        ============================================================ -->
   <nav class="sticky-nav" aria-label="Hauptnavigation">
-    <div class="sticky-nav__logo">ANO MALIE</div>
+    <a href="#" class="sticky-nav__logo">ANO MALIE</a>
     <div class="sticky-nav__links">
       <a href="#band">Band</a>
       <a href="#shows">Shows</a>
@@ -340,17 +349,35 @@
     <section id="merch">
       <div class="section-bubble">
         <h2>Merchandise</h2>
-        <div class="members-grid">
-        <div class="image-wrapper">
-          <h3 class="image-title">Stern Weiß</h3>
-          <img src="img/SternWeiß.webp" alt="Merch Stern Weiß" class="main-image">
+        <h3>Bei allen Konzerten gibt es einen Merch-Stand</h3>
+        <h3>Bei sonstigem Interesse per email melden!</h3>
+
+        <!-- T-Shirt Motive: übergeordnete Überschrift + zwei Motive nebeneinander -->
+        <div class="merch-category">
+          <h4 class="merch-category__title">T-Shirt-Motive</h4>
+          <div class="merch-grid">
+            <div class="merch-item">
+              <img src="img/SternWeiß.webp" alt="Merch Stern Weiß" class="merch-image">
+              <h5 class="merch-item__title">Stern Weiß</h5>
+            </div>
+            <div class="merch-item">
+              <img src="img/Camo Stern.png" alt="Merch Stern Camo" class="merch-image">
+              <h5 class="merch-item__title">Stern Camo</h5>
+            </div>
+          </div>
         </div>
 
-        <div class="image-wrapper">
-          <h3 class="image-title">Stern Camo</h3>
-          <img src="img/Camo Stern.png" alt="Merch Stern Camo" class="main-image">
+        <!-- Taschen Motive -->
+        <div class="merch-category">
+          <h4 class="merch-category__title">Taschen-Motive</h4>
+          <div class="merch-grid">
+            <div class="merch-item">
+              <img src="img/SternWeiß.webp" alt="Merch Stern Weiß" class="merch-image">
+              <h5 class="merch-item__title">Stern Weiß</h5>
+            </div>
+          </div>
         </div>
-      </div>
+
       </div>
     </section>
 
@@ -612,6 +639,14 @@
     if ('scrollRestoration' in history) {
       history.scrollRestoration = 'manual';
     }
+
+    // Vor dem Verlassen der Seite: Position auf 0 setzen, damit beim
+    // Reload keine alte Position wiederhergestellt werden kann
+    window.addEventListener('beforeunload', () => {
+      window.scrollTo(0, 0);
+    });
+
+    // Zusätzlich beim Laden direkt auf 0 springen (doppelte Absicherung)
     window.scrollTo(0, 0);
 
     const stickyNav = document.querySelector('.sticky-nav');

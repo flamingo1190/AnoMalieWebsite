@@ -152,6 +152,7 @@
     letter-spacing: 4px;
     color: var(--accent);
     text-decoration: none;
+    cursor: pointer;
   }
   
   /* Nav-Links rechts */
@@ -649,8 +650,10 @@
     border-bottom: 1px solid #1e1e1e;
     padding-bottom: 25px;
 
-    /* PERFORMANCE: Layout-Berechnungen auf die Sektion begrenzen */
-    contain: layout style;
+    /* Scroll-Offset: kompensiert die sticky Nav-Höhe beim Anspringen per Anker-Link */
+    scroll-margin-top: calc(var(--nav-height) + 32px);
+
+    /* contain entfernt – würde absolute Kinder wie .slide-panel abschneiden */
   }
   
   
@@ -877,14 +880,96 @@
     background: rgba(0, 0, 0, 0.45);
     backdrop-filter: blur(6px);
     padding: 28px;
+    padding-right: 60px; /* Platz für Chevron-Buttons (right: -45px) in der Members-Sektion */
     border-radius: 12px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+    overflow: visible; /* Slide-Panels und Chevron-Buttons dürfen überlappen */
   }
   
   
   /* =============================================================
-     22. VIDEO-WRAPPER
-     Responsiver 16:9-Container für eingebettete YouTube-iFrames.
+     21a. MERCH-LAYOUT
+     Übergeordnete Kategorie-Überschrift + Motive nebeneinander im Grid.
+     Auf Mobile: 1 Spalte.
+     ============================================================= */
+
+  /* Kategorie-Block: Überschrift + Grid-Reihe */
+  .merch-category {
+    margin-top: 28px;
+  }
+
+  /* Kategorie-Überschrift: größer, zentriert, mit Akzentlinie */
+  .merch-category__title {
+    font-family: var(--font-title);
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--text-light);
+    text-align: center;
+    margin-bottom: 20px;
+    position: relative;
+    display: block;
+    padding-bottom: 8px;
+  }
+
+  .merch-category__title::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+    width: 24px;
+    height: 1px;
+    background: var(--accent);
+    opacity: 0.6;
+  }
+
+  /* Motive-Grid: max. 2 Spalten nebeneinander */
+  .merch-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px 32px;
+    justify-items: center;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  /* Einzelnes Motiv: Bild + Überschrift darunter */
+  .merch-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  /* Merch-Bild */
+  .merch-image {
+    width: 100%;
+    max-width: 280px;
+    border-radius: 10px;
+    display: block;
+  }
+
+  /* Motiv-Bezeichnung unter dem Bild */
+  .merch-item__title {
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0;
+    text-align: center;
+  }
+
+  @media (max-width: 768px) {
+    .merch-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+     /* Responsiver 16:9-Container für eingebettete YouTube-iFrames.
      Das padding-bottom-Trick erhält das Seitenverhältnis.
      ============================================================= */
   
@@ -924,6 +1009,7 @@
     gap: 48px 60px;
     justify-items: center;
     margin-top: 24px;
+    overflow: visible; /* Slide-Panels dürfen über den Grid-Container hinausragen */
   }
   
   
