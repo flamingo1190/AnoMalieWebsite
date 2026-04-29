@@ -454,7 +454,6 @@
     position: absolute;
     inset: 0;
     background: rgba(0, 0, 0, 0.50);
-    backdrop-filter: blur(2px);
     z-index: 1; /* Über .hero-bg, unter hero-content */
   }
   
@@ -484,7 +483,7 @@
     position: absolute;
     /* etwas größer als 100% damit beim Parallax-Shift kein weißer Rand sichtbar wird */
     inset: -12%;
-    background-image: url("img/Header-Bandfoto.webp");
+    background-image: url("img/DSC_6644.jpeg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -513,11 +512,11 @@
   /* Tagline unter dem Bandnamen */
   .hero-tagline {
     font-family: var(--font-body);
-    font-size: 12px;
+    font-size: 16px;
     font-weight: 400;
     letter-spacing: 5px;
     text-transform: uppercase;
-    color: rgba(238, 238, 238, 0.65);
+    color: var(--accent);
     margin: 0;
   }
   
@@ -723,6 +722,7 @@
     color: var(--accent);
     border: 1px solid rgba(215, 65, 145, 0.4);
     border-radius: 20px;
+    background: black;
     transition: background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
   }
   
@@ -764,7 +764,7 @@
     text-decoration: none;
     color: var(--accent);
     border: 1px solid rgba(215, 65, 145, 0.4);
-    background: transparent;
+    background: black;
     border-radius: 20px;
   
     transition: background 0.25s ease, color 0.25s ease,
@@ -841,7 +841,7 @@
      ============================================================= */
   
   #music {
-    background-image: url("img/CoverCliche.webp");
+    /* background-image: url("img/CoverCliche.webp"); */
     background-size: cover;
     background-position: center;
     padding: 80px 20px;
@@ -1370,6 +1370,10 @@
   
     .sticky-nav {
       display: none;
+    }
+
+    .hero-bg{
+      background-image: url("img/DSC_6536\ \(1\).jpeg");
     }
 
     /* --- Burger-Button auf Mobile einblenden ---
