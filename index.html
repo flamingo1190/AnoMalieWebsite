@@ -113,6 +113,7 @@
       <a href="#music">Musik</a>
       <a href="#merch">Merch</a>
       <a href="#members">Members</a>
+      <a href="#gallery">Galerie</a>
       <a href="#contact">Kontakt</a>
     </div>
   </nav>
@@ -208,6 +209,7 @@
       <a href="#music"   class="nav-overlay__link">Musik</a>
       <a href="#merch" class="nav-overlay__link">Merch</a>
       <a href="#members" class="nav-overlay__link">Members</a>
+      <a href="#gallery" class="nav-overlay__link">Galerie</a>
       <a href="#contact" class="nav-overlay__link">Kontakt</a>
     </nav>
 
@@ -419,6 +421,8 @@
       </div>
     </section>
 
+   
+
     <!-- --------------------------------------------------------
          SEKTION: Band Members
          CSS Grid ersetzt die alte gestapelte Darstellung mit <br>-Tags.
@@ -497,6 +501,70 @@
         </div><!-- /.members-grid -->
       </div>
     </section>
+
+     <!-- --------------------------------------------------------
+         SEKTION: Galerie
+         Responsive Fotogalerie mit Lightbox. Bilder per Klick
+         vergrößern. Navigation mit Pfeilen oder Tastatur (←/→/Esc).
+         -------------------------------------------------------- -->
+         <section id="gallery">
+          <div class="section-bubble">
+            <h2>Galerie</h2>
+            <h3>Fotos aus dem Leben von ANO MALIE</h3>
+    
+            <div class="gallery" id="photoGallery">
+              <!-- Galerie-Bilder – src gegen echte Pfade austauschen -->
+              <div class="gallery-item" data-index="0">
+                <img src="img/DSC_6409 Kopie.jpeg" alt="ANO MALIE live" loading="lazy">
+                <span class="gallery-item__icon"><i class="fa-solid fa-magnifying-glass-plus"></i></span>
+              </div>
+              <div class="gallery-item" data-index="1">
+                <img src="img/DSC_6504 Kopie.jpeg" alt="Bonnie Blonde" loading="lazy">
+                <span class="gallery-item__icon"><i class="fa-solid fa-magnifying-glass-plus"></i></span>
+              </div>
+              <div class="gallery-item" data-index="2">
+                <img src="img/DSC_6514 Kopie.jpeg" alt="Charlie Chance" loading="lazy">
+                <span class="gallery-item__icon"><i class="fa-solid fa-magnifying-glass-plus"></i></span>
+              </div>
+              <div class="gallery-item" data-index="3">
+                <img src="img/DSC_6549 Kopie.jpeg" alt="Gio Goi" loading="lazy">
+                <span class="gallery-item__icon"><i class="fa-solid fa-magnifying-glass-plus"></i></span>
+              </div>
+              <div class="gallery-item" data-index="4">
+                <img src="img/03.04.2026_Ano_Malie_005 Kopie.jpg" alt="Jules" loading="lazy">
+                <span class="gallery-item__icon"><i class="fa-solid fa-magnifying-glass-plus"></i></span>
+              </div>
+              <div class="gallery-item" data-index="5">
+                <img src="img/03.04.2026_Ano_Malie_011 Kopie.jpg" alt="Mr. Vanilla" loading="lazy">
+                <span class="gallery-item__icon"><i class="fa-solid fa-magnifying-glass-plus"></i></span>
+              </div>
+              <div class="gallery-item" data-index="6">
+                <img src="img/03.04.2026_Ano_Malie_014 Kopie.jpg" alt="Bandfoto" loading="lazy">
+                <span class="gallery-item__icon"><i class="fa-solid fa-magnifying-glass-plus"></i></span>
+              </div>
+              <div class="gallery-item" data-index="7">
+                <img src="img/Soundbase_Mainstage_c_Liebentritt_153 Kopie.jpg" alt="CLICHÈ Cover" loading="lazy">
+                <span class="gallery-item__icon"><i class="fa-solid fa-magnifying-glass-plus"></i></span>
+              </div>
+            </div>
+          </div>
+        </section>
+    
+        <!-- Lightbox Overlay (wird per JS gesteuert) -->
+        <div class="gallery-lightbox" id="galleryLightbox" aria-modal="true" role="dialog" aria-label="Bildvorschau">
+          <button class="gallery-lightbox__close" id="lightboxClose" aria-label="Schließen">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+          <button class="gallery-lightbox__prev" id="lightboxPrev" aria-label="Vorheriges Bild">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+          <img class="gallery-lightbox__img" id="lightboxImg" src="" alt="">
+          <button class="gallery-lightbox__next" id="lightboxNext" aria-label="Nächstes Bild">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+          <span class="gallery-lightbox__caption" id="lightboxCaption"></span>
+        </div>
+    
 
     <!-- --------------------------------------------------------
          SEKTION: Kontakt
@@ -870,6 +938,73 @@
         setInterval(updateCountdowns, 1000);
       </script>
       
+  <!-- Script: Image Gallery Lightbox
+       Klick auf ein Galerie-Bild öffnet es vergrößert im Overlay.
+       Navigation per Pfeilen (Buttons + Tastatur), Schließen per X / Escape / Klick außen. -->
+  <script>
+    (function () {
+      const gallery    = document.getElementById('photoGallery');
+      const lightbox   = document.getElementById('galleryLightbox');
+      const lbImg      = document.getElementById('lightboxImg');
+      const lbCaption  = document.getElementById('lightboxCaption');
+      const lbClose    = document.getElementById('lightboxClose');
+      const lbPrev     = document.getElementById('lightboxPrev');
+      const lbNext     = document.getElementById('lightboxNext');
+
+      if (!gallery || !lightbox) return;
+
+      // Alle Galerie-Bilder einsammeln
+      const items = Array.from(gallery.querySelectorAll('.gallery-item img'));
+      let currentIndex = 0;
+
+      function openLightbox(index) {
+        currentIndex = index;
+        const img = items[currentIndex];
+        lbImg.src = img.src;
+        lbImg.alt = img.alt;
+        lbCaption.textContent = img.alt ? img.alt + ` · ${currentIndex + 1} / ${items.length}` : `${currentIndex + 1} / ${items.length}`;
+        lightbox.classList.add('open');
+        document.body.classList.add('no-scroll');
+      }
+
+      function closeLightbox() {
+        lightbox.classList.remove('open');
+        document.body.classList.remove('no-scroll');
+      }
+
+      function showPrev() {
+        currentIndex = (currentIndex - 1 + items.length) % items.length;
+        openLightbox(currentIndex);
+      }
+
+      function showNext() {
+        currentIndex = (currentIndex + 1) % items.length;
+        openLightbox(currentIndex);
+      }
+
+      // Klick auf Galerie-Item öffnet Lightbox
+      gallery.querySelectorAll('.gallery-item').forEach((item, i) => {
+        item.addEventListener('click', () => openLightbox(i));
+      });
+
+      lbClose.addEventListener('click', closeLightbox);
+      lbPrev.addEventListener('click', showPrev);
+      lbNext.addEventListener('click', showNext);
+
+      // Klick außerhalb des Bildes schließt Lightbox
+      lightbox.addEventListener('click', e => {
+        if (e.target === lightbox) closeLightbox();
+      });
+
+      // Tastatursteuerung
+      document.addEventListener('keydown', e => {
+        if (!lightbox.classList.contains('open')) return;
+        if (e.key === 'Escape')     closeLightbox();
+        if (e.key === 'ArrowLeft')  showPrev();
+        if (e.key === 'ArrowRight') showNext();
+      });
+    })();
+  </script>
 
 
 </body>
