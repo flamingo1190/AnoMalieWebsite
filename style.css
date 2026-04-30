@@ -1597,104 +1597,7 @@
   }
   
   
-  /* =============================================================
-     29. HEADER-ANIMATION: VARIANTE A – GLITCH + NEON-PULS  ← INAKTIV
-     ----------------------------------------------------------
-     Kombination aus dauerhaftem Neon-Puls und periodischem
-     RGB-Glitch-Effekt. Alle ~6 Sekunden glitcht der Titel kurz.
-  
-     Um Variante A zu aktivieren:
-       1. Diesen Block auskommentieren entfernen
-       2. Variante B (Abschnitt 28) auskommentieren
-       3. In index.html das <svg>-Element durch folgendes ersetzen:
-  
-     HTML-Struktur für Variante A:
-       <div class="glitch-wrap">
-         <span class="glitch-b" aria-hidden="true">ANO MALIE</span>
-         <span class="glitch-r" aria-hidden="true">ANO MALIE</span>
-         <h1>ANO MALIE</h1>
-       </div>
-     ============================================================= */
-  
-  /*
-  
-  .glitch-wrap {
-    position: relative;
-    display: inline-block;
-  }
-  
-  .glitch-wrap h1,
-  .glitch-wrap .glitch-r,
-  .glitch-wrap .glitch-b {
-    font-family: var(--font-title);
-    font-size: 72px;
-    letter-spacing: 6px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    text-align: center;
-  }
-  
-  .glitch-wrap h1 {
-    position: relative;
-    color: var(--accent);
-    animation: neonPulse 3s ease-in-out infinite;
-  }
-  
-  .glitch-r {
-    color: #ff2255;
-    opacity: 0;
-    mix-blend-mode: screen;
-    animation: glitchR 6s ease-in-out infinite;
-  }
-  
-  .glitch-b {
-    color: #4422ff;
-    opacity: 0;
-    mix-blend-mode: screen;
-    animation: glitchB 6s ease-in-out infinite;
-  }
-  
-  @keyframes neonPulse {
-    0%, 100% {
-      text-shadow:
-        0 0 8px var(--accent),
-        0 0 18px rgba(215, 65, 145, 0.4);
-    }
-    50% {
-      text-shadow:
-        0 0 16px var(--accent),
-        0 0 40px rgba(215, 65, 145, 0.7),
-        0 0 70px rgba(215, 65, 145, 0.3);
-    }
-  }
-  
-  @keyframes glitchR {
-    0%, 8%, 13%, 60%, 63%, 100% {
-      opacity: 0;
-      clip-path: inset(0 0 100% 0);
-      transform: translate(0, 0);
-    }
-    9%  { opacity: .7; transform: translate(-4px,  2px); clip-path: inset(15% 0 40% 0); }
-    10% { opacity: .5; transform: translate( 3px, -1px); clip-path: inset(55% 0  8% 0); }
-    61% { opacity: .5; transform: translate( 4px, -2px); clip-path: inset(70% 0  3% 0); }
-    62% { opacity: .3; transform: translate(-3px,  1px); clip-path: inset( 5% 0 60% 0); }
-  }
-  
-  @keyframes glitchB {
-    0%, 8%, 13%, 60%, 63%, 100% {
-      opacity: 0;
-      clip-path: inset(0 0 100% 0);
-      transform: translate(0, 0);
-    }
-    9%  { opacity: .6; transform: translate( 4px, -1px); clip-path: inset(40% 0 15% 0); }
-    10% { opacity: .4; transform: translate(-3px,  2px); clip-path: inset( 8% 0 55% 0); }
-    61% { opacity: .4; transform: translate(-4px,  2px); clip-path: inset( 3% 0 70% 0); }
-    62% { opacity: .3; transform: translate( 3px, -1px); clip-path: inset(60% 0  5% 0); }
-  }
-  
-  */
+
   
   /* =============================================================
      30. RESPONSIVE – MOBILE (max. 768px)
@@ -1918,6 +1821,13 @@
         max-height 0.45s ease,
         opacity 0.35s ease,
         padding 0.35s ease;
+    }
+
+    .slide-panel .signature-img {
+      width: 100%;
+      max-width: 320px;
+      margin: 0 auto;
+      display: block;
     }
   
     /* Panel offen: max-height groß genug für Inhalt setzen */
