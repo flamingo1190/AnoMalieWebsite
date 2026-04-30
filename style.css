@@ -883,7 +883,7 @@
     padding-right: 60px; /* Platz für Chevron-Buttons (right: -45px) in der Members-Sektion */
     border-radius: 12px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
-    overflow: visible; /* Slide-Panels und Chevron-Buttons dürfen überlappen */
+    
   }
   
   
@@ -1009,7 +1009,7 @@
     gap: 48px 60px;
     justify-items: center;
     margin-top: 24px;
-    overflow: visible; /* Slide-Panels dürfen über den Grid-Container hinausragen */
+    
   }
   
   
@@ -1040,7 +1040,7 @@
   
   /* Panel offen: Bild nach links verschieben um Platz zu machen */
   .main-image.shift-left {
-    transform: translateX(-260px);
+    transform: translateX(-235px);
   }
   
   /* Member-Name über dem Bild */
@@ -1057,7 +1057,7 @@
   
   /* Panel offen: Titel ebenfalls nach links verschieben */
   .image-title.shift-left {
-    transform: translateX(-260px);
+    transform: translateX(-235px);
   }
   
   /* Info-Panel: startet hinter dem Bild, unsichtbar */
@@ -1085,19 +1085,19 @@
   
   /* Panel offen: gleitet nach rechts neben das Bild */
   .slide-panel.open {
-    transform: translateX(80%);
+    transform: translateX(72.5%);
     opacity: 1;
     z-index: 3;
   }
   
   /* Unterschriften-Foto im Panel: feste Größe mit object-fit */
   .slide-panel .signature-img {
-    width: 250px;
-    height: 90px;
-    object-fit: cover;
-    object-position: center;
+    width: 320px;
     border-radius: 12px;
-    transform: scale(0.9);
+    position: relative;
+    z-index: 2;
+    transition: transform 0.45s ease;
+    will-change: transform;
   }
   
   /* Chevron-Button: rechts neben dem Bild, vertikal zentriert */
@@ -1125,7 +1125,7 @@
   
   /* Panel offen: Button ebenfalls nach links mitbewegen */
   .chevron-btn.shift-left {
-    transform: translate(-200px, -50%);
+    transform: translate(-175px, -50%);
   }
   
   /* Hover: Button leuchtet pink */
