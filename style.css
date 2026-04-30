@@ -727,7 +727,19 @@
      Leichter, Accent-Farbe, wirkt wie ein Tag/Label */
   h5 {
     font-family: var(--font-body);
-    font-size: 11px;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-align: center;
+    margin: 20px 0 12px;
+    opacity: 0.85;
+  }
+
+  h6 {
+    font-family: var(--font-body);
+    font-size: 9px;
     font-weight: 500;
     letter-spacing: 3px;
     text-transform: uppercase;
@@ -959,6 +971,15 @@
   .merch-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    gap: 24px 32px;
+    justify-items: center;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .merch-grid-single {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
     gap: 24px 32px;
     justify-items: center;
     max-width: 700px;
