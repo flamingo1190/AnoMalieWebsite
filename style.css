@@ -935,6 +935,7 @@
     background: rgba(0, 0, 0, 0.45);
     backdrop-filter: blur(6px);
     padding: 28px;
+    padding-left: 60px;
     padding-right: 60px; /* Platz für Chevron-Buttons (right: -45px) in der Members-Sektion */
     border-radius: 12px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
@@ -1320,7 +1321,7 @@
     background: rgba(0, 0, 0, 0.45);
     backdrop-filter: blur(6px);
     border-radius: 12px;
-    padding: 20px;
+    
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
   
     opacity: 0;
@@ -1342,6 +1343,8 @@
   /* Unterschriften-Foto im Panel: feste Größe mit object-fit */
   .slide-panel .signature-img {
     width: 320px;
+    height: 455px;
+    object-fit: cover;
     border-radius: 12px;
     position: relative;
     z-index: 2;
