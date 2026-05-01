@@ -1614,7 +1614,7 @@
     }
 
     .hero-bg{
-      background-image: url("img/DSC_6536\ \(1\).jpeg");
+      background-image: url("img/03.04.2026_Ano_Malie_018\ Kopie.jpg");
     }
 
     /* --- Burger-Button auf Mobile einblenden ---
@@ -1828,6 +1828,8 @@
       max-width: 320px;
       margin: 0 auto;
       display: block;
+      height: auto;
+      
     }
   
     /* Panel offen: max-height groß genug für Inhalt setzen */
