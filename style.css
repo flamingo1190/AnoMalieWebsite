@@ -509,7 +509,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 18px;
+    gap: 2px;
   }
   
   /* Tagline unter dem Bandnamen */
@@ -1603,6 +1603,15 @@
      30. RESPONSIVE – MOBILE (max. 768px)
      Alle Anpassungen für kleine Bildschirme gebündelt.
      ============================================================= */
+
+  @media (min-width: 769px) {
+    .hero-content {
+      margin-bottom: 180px;
+    }
+    .hero-tagline {
+      margin-bottom: 172px;
+    }
+  }
   
   @media (max-width: 768px) {
   
@@ -1671,6 +1680,7 @@
     .hero-tagline {
       font-size: 10px;
       letter-spacing: 4px;
+      margin-bottom: 0;
     }
   
     /* CTA-Buttons untereinander */
@@ -1855,6 +1865,5 @@
       width: 40px;
       height: 40px;
       font-size: 14px;
-    }
-  
+    }  
   } /* Ende @media (max-width: 768px) */
