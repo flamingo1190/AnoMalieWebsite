@@ -15,7 +15,7 @@
   <!-- Open Graph (Social Media Vorschau) -->
   <meta property="og:title"       content="ANO MALIE – Offizielle Website">
   <meta property="og:description" content="Alternative Rock aus Wien & Berlin. Musik, Shows & mehr.">
-  <meta property="og:image"       content="img/DSC_6644.jpeg">
+  <meta property="og:image"       content="img/AnoMalieGruppenbildSzene.webp">
   <meta property="og:type"        content="website">
   <meta property="og:url"         content=""> <!-- TODO: echte Domain eintragen -->
 
@@ -50,11 +50,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 
   <!-- Icon (Taskleiste) -->
-  <link rel="icon" href="img/favicon-option1-rounded-square.svg" type="image/svg">
+  <link rel="icon" href="img/AnoMalieFaviconIco.ico" sizes="any">
+  <link rel="icon" href="img/AnoMalieFaviconSVG.svg" type="image/svg+xml">  
 
   <!-- Preload: kritische Bilder früh laden um Layout-Shift zu vermeiden -->
   <link rel="preload" href="img/Header-Bandfoto.webp" as="image">
-  <link rel="preload" href="img/CoverCliche.webp"     as="image">
   <link rel="preload" href="img/SternWeiß.webp"       as="image">
   
   
@@ -244,14 +244,21 @@
 
           <!-- Show: Gasometer -->
           <li>
-            <span class="show-date" data-date="2026-05-30T20:00">30. Mai 2026</span>
-            – <a href="https://pretix.eu/ano.malie.planet/gasometer/">Gasometer</a>
+            <span class="show-date" data-date="2026-05-30T20:00">30. Mai 2026, Gasometer</span>
+            – <a href="https://pretix.eu/ano.malie.planet/gasometer/">Tickets</a>
             <div class="countdown" id="countdown-2"></div>
+          </li>
+
+          <!-- Show: Südwind -->
+          <li>
+            <span class="show-date" data-date="2026-05-31T18:00">31. Mai 2026, Südwind Straßenfest</span>
+            – <a href="https://www.suedwind.at/strassenfest/">Infos</a>
+            <div class="countdown" id="countdown-3"></div>
           </li>
 
           <!-- Show: The Loft -->
           <li>
-            <span class="show-date" data-date="2026-04-25T19:00">25. April 2026</span>
+            <span class="show-date" data-date="2026-04-25T19:00">25. April 2026, The Loft</span>
             – <a href="https://ticket1389.tickethome.at/buchen/267/25.04.2026/1900"
                  target="_blank" rel="noopener noreferrer">The Loft</a>
             <div class="countdown" id="countdown-1"></div>
@@ -270,8 +277,11 @@
       <h2>Unsere Musik</h2>
 
       <div class="music-links">
-        <h3>"CLICHÈ" OUT NOW auf allen Streamingplattformen !!!</h3>
-
+        <div>
+          <span class="show-date" data-date="2026-05-15T00:00">Unsere neue Single: "GEISTA" - </span>
+          <a href="https://pretix.eu/ano.malie.planet/gasometer/">Presave</a>
+          <div class="countdown" id="countdown-4"></div>
+        </div>
         <!-- Streaming-Links als Pill-Buttons mit Plattform-Farbpunkten -->
         <div class="stream-pills">
           <a href="https://www.youtube.com/@ano.malie.visual"
@@ -317,6 +327,10 @@
         <h2>Merchandise</h2>
         <h3>Bei allen Konzerten gibt es einen Merch-Stand</h3>
         <h3>Bei sonstigem Interesse per email melden!</h3>
+        <p>Unser Merch wird auf hochwertigen T-Shirts der Marke <a href="https://www.bc-collection.eu/en/sustainability"
+          target="_blank" rel="noopener noreferrer">B&C</a> produziert und in der Wiener Druckerei <br> "<a href="https://www.die-schwalbe.at/?utm_source=googleads&utm_medium=cpc&utm_campaign=22420611331&utm_term=textildruck&utm_content=744581536013&device=c&gclid=CjwKCAjwzevPBhBaEiwAplAxvk3wcZ9VNhpEKpllW_t1q-iBE3EQHSvyzGqvmpL09Ckcnk47t7Wo2RoCC1YQAvD_BwE&gad_source=1&gad_campaignid=22420611331&gbraid=0AAAAA-1W8Hi7X0Zoy7VAe5eO1oZMcFk33&gclid=CjwKCAjwzevPBhBaEiwAplAxvk3wcZ9VNhpEKpllW_t1q-iBE3EQHSvyzGqvmpL09Ckcnk47t7Wo2RoCC1YQAvD_BwE"
+          target="_blank" rel="noopener noreferrer">die Schwalbe</a>" sorgfältig bedruckt. Dabei legen wir großen Wert auf Qualität, Langlebigkeit und eine saubere Verarbeitung. Besonders wichtig ist uns die Verwendung von fair und ökologisch hergestellten Rohlingen.</p>
+
 
         <!-- T-Shirt Motive: übergeordnete Überschrift + zwei Motive nebeneinander -->
         <div class="merch-category">
@@ -377,7 +391,7 @@
           <div class="merch-grid-single">
             <div class="merch-item">
               <img src="img/BagSideOne.webp" alt="Merchandise Tasche Superstar Schwarz" class="merch-image">
-              <!-- <h5 class="merch-item__title">Superstar Schwarz</h5> -->
+              <h5 class="merch-item__title">Superstar Schwarz (einseitig bedruckt)</h5>
             </div>
           </div>
         </div>
@@ -404,61 +418,71 @@
 
           <!-- Member: Bonnie Blonde -->
           <div class="image-wrapper">
-            <h3 class="image-title">Bonnie Blonde / Frontwoman</h3>
+            <h3 class="image-title">
+              <a href="https://open.spotify.com/playlist/3wcTxtQ99SzaChEg1v1Vx6?si=b01c5b386a9f46f9" target="_blank" rel="noopener noreferrer">Bonnie Blonde</a> / Frontwoman
+            </h3>
             <img src="img/CoverBonnieBlonde.webp" alt="Cover Bonnie Blonde" class="main-image">
             <button class="chevron-btn" aria-label="Info einblenden">
               <i class="fa-solid fa-chevron-right"></i>
             </button>
             <div class="slide-panel">
-              <img src="img/UnterschriftBonnieBlonde.png" alt="Unterschrift Bonnie Blonde" class="signature-img">
+              <img src="img/UnterschriftBonnieBlonde.webp" alt="Unterschrift Bonnie Blonde" class="signature-img">
             </div>
           </div>
 
           <!-- Member: Charlie Chance -->
           <div class="image-wrapper">
-            <h3 class="image-title">Charlie Chance / Guitarist</h3>
+            <h3 class="image-title">
+              <a href="https://open.spotify.com/playlist/1VcYY7QkTb2Hi8pknN7eBf?si=844a9dd88ce64ec5" target="_blank" rel="noopener noreferrer">Charlie Chance</a> / Guitarist
+            </h3>
             <img src="img/CoverCharlieChance.webp" alt="Cover Charlie Chance" class="main-image">
             <button class="chevron-btn" aria-label="Info einblenden">
               <i class="fa-solid fa-chevron-right"></i>
             </button>
             <div class="slide-panel">
-              <img src="img/UnterschriftCharlieChance.png" alt="Unterschrift Charlie Chance" class="signature-img">
+              <img src="img/UnterschriftCharlieChance.webp" alt="Unterschrift Charlie Chance" class="signature-img">
             </div>
           </div>
 
           <!-- Member: Gio Goi -->
           <div class="image-wrapper">
-            <h3 class="image-title">Gio Goi / Bassist</h3>
+            <h3 class="image-title">
+              <a href="https://open.spotify.com/playlist/4Z1KVbBoTmfaZpdg0ja9hN?si=b4a6917dba3d41e5" target="_blank" rel="noopener noreferrer">Gio Goi</a> / Bassist
+            </h3>
             <img src="img/CoverGioGoi.webp" alt="Cover Gio Goi" class="main-image">
             <button class="chevron-btn" aria-label="Info einblenden">
               <i class="fa-solid fa-chevron-right"></i>
             </button>
             <div class="slide-panel">
-              <img src="img/UnterschriftgioGoi.png" alt="Unterschrift Gio Goi" class="signature-img">
+              <img src="img/UnterschriftgioGoi.webp" alt="Unterschrift Gio Goi" class="signature-img">
             </div>
           </div>
 
           <!-- Member: Jules -->
           <div class="image-wrapper">
-            <h3 class="image-title">Jules / Drummer</h3>
+            <h3 class="image-title">
+              <a href="https://open.spotify.com/playlist/10A9sZ39aGNXDQTX83R1ls?si=9708d88f547a404e" target="_blank" rel="noopener noreferrer">Jules</a> / Drummer
+            </h3>
             <img src="img/CoverJules.webp" alt="Cover Jules" class="main-image">
             <button class="chevron-btn" aria-label="Info einblenden">
               <i class="fa-solid fa-chevron-right"></i>
             </button>
             <div class="slide-panel">
-              <img src="img/UnterschriftJules.png" alt="Unterschrift Jules" class="signature-img">
+              <img src="img/UnterschriftJules.webp" alt="Unterschrift Jules" class="signature-img">
             </div>
           </div>
 
           <!-- Member: Mr. Vanilla -->
           <div class="image-wrapper">
-            <h3 class="image-title">Mr. Vanilla / Guitarist</h3>
+            <h3 class="image-title">
+              <a href="https://open.spotify.com/playlist/34oZ7XXDSF0v6Uc9HrLPMD?si=2b7977d3c579464f" target="_blank" rel="noopener noreferrer">Mr. Vanilla</a> / Guitarist
+            </h3>
             <img src="img/CoverMrVanilla.webp" alt="Cover Mr. Vanilla" class="main-image">
             <button class="chevron-btn" aria-label="Info einblenden">
               <i class="fa-solid fa-chevron-right"></i>
             </button>
             <div class="slide-panel">
-              <img src="img/UnterschriftMrVanilla.png" alt="Unterschrift Mr. Vanilla" class="signature-img">
+              <img src="img/UnterschriftMrVanilla.webp" alt="Unterschrift Mr. Vanilla" class="signature-img">
             </div>
           </div>
 
@@ -477,37 +501,37 @@
             <h3>Fotos aus dem Leben von ANO MALIE</h3>
     
             <div class="gallery" id="photoGallery">
-              <!-- Galerie-Bilder – src gegen echte Pfade austauschen -->
+              <!-- Galerie-Bilder -->
               <div class="gallery-item" data-index="0">
-                <img src="img/DSC_6409 Kopie.jpeg" alt="ANO MALIE live" loading="lazy">
-                <span class="gallery-item__icon"><i class="fa-solid fa-magnifying-glass-plus"></i></span>
+                <img src="img/GruppenfotoSzeneBackstage.webp" alt="ANO MALIE Konzertfoto Gruppenfoto Szene Wien Planet Festival Tour 2026" data-caption="ANO MALIE – Planet Festival Tour, Wien 2026" loading="lazy">
+                <span class="gallery-item__icon"><i class="fa-solid fa-magnifying-glass-plus"></i></span>C
               </div>
               <div class="gallery-item" data-index="1">
-                <img src="img/DSC_6504 Kopie.jpeg" alt="Bonnie Blonde" loading="lazy">
+                <img src="img/Julessoundbase.webp" alt="Jules ANO MALIE Konzertfoto Live WienXtra Soundbase MainStage Flucc 24.10.2025" data-caption="Jules – WienXtra Soundbase MainStage, Flucc · 24.10.2025" loading="lazy">
                 <span class="gallery-item__icon"><i class="fa-solid fa-magnifying-glass-plus"></i></span>
               </div>
               <div class="gallery-item" data-index="2">
-                <img src="img/DSC_6514 Kopie.jpeg" alt="Charlie Chance" loading="lazy">
+                <img src="img/BonnieBlondeSzeneOnStage.webp" alt="Bonnie Blonde ANO MALIE Konzertfoto Szene Wien Planet Festivaltour 2026" data-caption="Bonnie Blonde – Planet Festivaltour, Wien 2026" loading="lazy">
                 <span class="gallery-item__icon"><i class="fa-solid fa-magnifying-glass-plus"></i></span>
               </div>
               <div class="gallery-item" data-index="3">
-                <img src="img/DSC_6549 Kopie.jpeg" alt="Gio Goi" loading="lazy">
+                <img src="img/GruppenfotoSoundbaseOnStage.webp" alt="ANO MALIE Konzertfoto Live WienXtra Soundbase MainStage Flucc 24.10.2025" data-caption="ANO MALIE – WienXtra Soundbase MainStage, Flucc · 24.10.2025 · © Liebentritt" loading="lazy">
                 <span class="gallery-item__icon"><i class="fa-solid fa-magnifying-glass-plus"></i></span>
               </div>
               <div class="gallery-item" data-index="4">
-                <img src="img/03.04.2026_Ano_Malie_005 Kopie.jpg" alt="Jules" loading="lazy">
+                <img src="img/BonnieBlondeKramladen2.webp" alt="Bonnie Blonde ANO MALIE Konzertfoto Kramladen Wien 03.04.2026" data-caption="Bonnie Blonde – Kramladen, Wien · 03.04.2026" loading="lazy">
                 <span class="gallery-item__icon"><i class="fa-solid fa-magnifying-glass-plus"></i></span>
               </div>
               <div class="gallery-item" data-index="5">
-                <img src="img/03.04.2026_Ano_Malie_011 Kopie.jpg" alt="Mr. Vanilla" loading="lazy">
+                <img src="img/MrVanillaKramladen.webp" alt="Mr. Vanilla ANO MALIE Konzertfoto Kramladen Wien 03.04.2026" data-caption="Mr. Vanilla – Kramladen, Wien · 03.04.2026" loading="lazy">
                 <span class="gallery-item__icon"><i class="fa-solid fa-magnifying-glass-plus"></i></span>
               </div>
               <div class="gallery-item" data-index="6">
-                <img src="img/03.04.2026_Ano_Malie_014 Kopie.jpg" alt="Bandfoto" loading="lazy">
+                <img src="img/GioGoiKramladen.webp" alt="Gio Goi ANO MALIE Konzertfoto Kramladen Wien 03.04.2026" data-caption="Gio Goi – Kramladen, Wien · 03.04.2026" loading="lazy">
                 <span class="gallery-item__icon"><i class="fa-solid fa-magnifying-glass-plus"></i></span>
               </div>
               <div class="gallery-item" data-index="7">
-                <img src="img/DSC_6644.jpeg" alt="CLICHÈ Cover" loading="lazy">
+                <img src="img/CharlieChanceKramladen.webp" alt="Charlie Chance Gitarrensolo ANO MALIE Konzertfoto Kramladen Wien 03.04.2026" data-caption="Charlie Chance – Kramladen, Wien · 03.04.2026" loading="lazy">
                 <span class="gallery-item__icon"><i class="fa-solid fa-magnifying-glass-plus"></i></span>
               </div>
             </div>
@@ -873,7 +897,7 @@
             const showDate  = new Date(el.dataset.date);
             const now       = new Date();
             const diff      = showDate - now;
-            const li        = el.closest('li');
+            const li        = el.closest('li') || el.closest('div');
             const container = li.querySelector('.countdown');
             const link      = li.querySelector('a');   // <— Link im selben <li>
       
@@ -927,7 +951,8 @@
         const img = items[currentIndex];
         lbImg.src = img.src;
         lbImg.alt = img.alt;
-        lbCaption.textContent = img.alt ? img.alt + ` · ${currentIndex + 1} / ${items.length}` : `${currentIndex + 1} / ${items.length}`;
+        const caption = img.dataset.caption || img.alt;
+        lbCaption.textContent = caption ? caption + ` · ${currentIndex + 1} / ${items.length}` : `${currentIndex + 1} / ${items.length}`;
         lightbox.classList.add('open');
         document.body.classList.add('no-scroll');
       }

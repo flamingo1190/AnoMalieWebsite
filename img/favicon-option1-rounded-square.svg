@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <!-- Option 1: Dark bg, pink A, rounded square -->
-  <rect width="512" height="512" rx="80" fill="#111111"/>
-  <path transform="translate(138.68,460.80) scale(0.585143,-0.585143)"
-        fill="#d74191"
-        d="M126 700H275L389 0H279L259 139V137H134L114 0H12ZM246 232 197 578H195L147 232Z"/>
-</svg>

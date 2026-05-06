@@ -486,7 +486,7 @@
     position: absolute;
     /* etwas größer als 100% damit beim Parallax-Shift kein weißer Rand sichtbar wird */
     inset: -12%;
-    background-image: url("img/DSC_6644.jpeg");
+    background-image: url("img/AnoMalieGruppenbildSzene.webp");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -756,11 +756,18 @@
      Ersetzt die alten Plain-Text-Links.
      ============================================================= */
   
-  .social-links,
-  .music-links {
+  .social-links {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    gap: 10px;
+    margin-top: 16px;
+  }
+
+  .music-links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     gap: 10px;
     margin-top: 16px;
   }
@@ -806,6 +813,8 @@
     justify-content: center;
     gap: 10px;
     margin: 18px 0;
+    width: 100%;
+    margin-top: 16px;
   }
   
   /* Basis Stream-Pill */
@@ -1327,6 +1336,7 @@
     opacity: 0;
     transform: translateX(0);
     z-index: 1;
+    pointer-events: none;
   
     transition:
       transform 0.45s ease,
@@ -1338,6 +1348,7 @@
     transform: translateX(72.5%);
     opacity: 1;
     z-index: 3;
+    pointer-events: auto;
   }
   
   /* Unterschriften-Foto im Panel: feste Größe mit object-fit */
@@ -1623,7 +1634,7 @@
     }
 
     .hero-bg{
-      background-image: url("img/03.04.2026_Ano_Malie_018\ Kopie.jpg");
+      background-image: url("img/BonnieBlondeKramladen.webp");
     }
 
     /* --- Burger-Button auf Mobile einblenden ---
