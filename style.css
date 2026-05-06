@@ -1615,14 +1615,14 @@
      Alle Anpassungen für kleine Bildschirme gebündelt.
      ============================================================= */
 
-  /* @media (min-width: 769px) {
+  @media (min-width: 769px) {
     .hero-content {
       margin-bottom: 180px;
     }
     .hero-tagline {
       margin-bottom: 172px;
     }
-  } */
+  }
   
   @media (max-width: 768px) {
   
