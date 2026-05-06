@@ -294,16 +294,16 @@
         </div>
       </div>
 
-      <!-- Responsiver 16:9 YouTube-Embed -->
+      <!-- Responsiver 16:9 YouTube-Embed (Lite: lädt erst beim Klick) -->
       <div class="video-wrapper">
-        <iframe
-          src="https://www.youtube.com/embed/jQS7CIgvUHY"
-          title="ANO MALIE – CLICHÈ (offizielles Video)"
-          loading="lazy"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen>
-        </iframe>
+        <div class="yt-lite" id="ytLite" data-videoid="jQS7CIgvUHY" role="button" tabindex="0"
+             aria-label="ANO MALIE – CLICHÈ (offizielles Video) abspielen">
+          <img class="yt-lite__thumb"
+               src="https://i.ytimg.com/vi/jQS7CIgvUHY/hqdefault.jpg"
+               alt="ANO MALIE – CLICHÈ (offizielles Video)"
+               loading="lazy">
+          <div class="yt-lite__play" aria-hidden="true"></div>
+        </div>
       </div>
     </section>
 
@@ -848,6 +848,30 @@
       "performer": { "@type": "MusicGroup", "name": "ANO MALIE" }
     }
   ]
+  </script>
+
+
+  <!-- Script: YouTube Lite Embed
+       Das iframe wird erst beim Klick auf das Vorschaubild geladen.
+       Das verhindert, dass YouTube-Ressourcen beim Seitenload blockieren. -->
+  <script>
+    (function () {
+      const lite = document.getElementById('ytLite');
+      if (!lite) return;
+      function loadVideo() {
+        const videoId = lite.dataset.videoid;
+        const iframe = document.createElement('iframe');
+        iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+        iframe.title = lite.getAttribute('aria-label') || 'YouTube Video';
+        iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+        iframe.allowFullscreen = true;
+        lite.innerHTML = '';
+        lite.appendChild(iframe);
+        lite.style.cursor = 'default';
+      }
+      lite.addEventListener('click', loadVideo);
+      lite.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') loadVideo(); });
+    })();
   </script>
 
 
