@@ -3,45 +3,6 @@
 
 <!-- =============================================================
      ANO MALIE – Offizielle Website
-
-     Letzte Änderung: April 2026
-     
-     MODERNISIERUNGEN (April 2026):
-     – Sticky Navigation als eigenständige Leiste (nicht mehr im Header)
-     – Burger-Menü: Vollbild-Overlay statt Dropdown
-     – Hero-Section: Vollbild (100vh) mit Scroll-Indikator & CTA-Buttons
-     – Typografie: Bebas Neue (Titel) + DM Sans (Body) via Google Fonts
-     – Bandmembers: CSS Grid statt gestapelte Bilder mit <br>-Tags
-     – Streaming-Links: Pill-Buttons mit Plattform-Farbpunkten
-     – Footer: Gebrandeter Block mit Logo, Social Icons & Booking-Link
-
-     PERFORMANCE-OPTIMIERUNGEN (April 2026):
-     – background-attachment:fixed entfernt → kein Ruckeln mehr im Header
-     – Parallax via requestAnimationFrame + will-change: transform
-     – Alle scroll-Events in einem einzigen rAF-Listener gebündelt
-     – backdrop-filter am Burger-Button entfernt (GPU-Entlastung)
-     – Smooth Scrolling per CSS html { scroll-behavior: smooth } statt JS
-     – contain: layout style auf Sektionen (Layout-Isolation)
-     – will-change: auto nach abgeschlossener Einblend-Animation
-
-     GSAP-INTEGRATION (April 2026):
-     – GSAP 3.13 + ScrollTrigger + SplitText via CDN eingebunden
-     – ScrollTrigger ersetzt IntersectionObserver für Sektions-Einblendung
-     – ScrollTrigger ersetzt rAF-Parallax für hero-bg (scrub: true)
-     – Member-Karten staggered via gsap.utils.toArray + ScrollTrigger
-     – SplitText animiert Hero-Tagline buchstabenweise beim Einblenden
-     – Sticky-Nav .scrolled und Back-To-Top bleiben via scroll-Listener
-       (ScrollTrigger wäre Overkill für einfache Klassen-Toggles)
-
-     BUGFIXES & UX (April 2026):
-     – Desktop: Burger-Button entfernt, Nav-Links größer (14px)
-     – Mobile: Burger-Button vertikal zentriert in Nav-Höhe positioniert
-     – Mobile: Expliziter Schließen-Button (X) im Overlay ergänzt
-     – Mobile: Burger-Button aus dem Header heraus vor das Overlay verschoben
-               → auf Desktop gänzlich unsichtbar (display:none), auf Mobile fixed top-right
-     – Mobile: Burger-Button auf gleiche Position wie Schließen-Button (top:14px, right:20px)
-     – Mobile: body::before background-size:100% 100% statt position:absolute
-               → Hintergrundbild füllt Viewport korrekt ohne Scroll-Artefakt
      ============================================================= -->
 
 <head>
@@ -87,6 +48,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <!-- Icon (Taskleiste) -->
+  <link rel="icon" href="img/favicon-option1-rounded-square.svg" type="image/svg">
 
   <!-- Preload: kritische Bilder früh laden um Layout-Shift zu vermeiden -->
   <link rel="preload" href="img/Header-Bandfoto.webp" as="image">
