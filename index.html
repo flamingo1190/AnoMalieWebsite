@@ -9,15 +9,21 @@
 
   <!-- Zeichensatz & Beschreibung -->
   <meta charset="UTF-8">
-  <meta name="description" content="ANO MALIE – Alternative Rock aus Wien & Berlin. Neue Single 'CLICHÈ' jetzt auf Spotify, YouTube & Apple Music. Shows, Musik & Kontakt.">
-  <meta name="keywords" content="Ano Malie, Alternative Rock, Band Wien, Band Berlin, Rockmusik, Clichè, neue Musik, Live Shows">
+  <meta name="description" content="ANO MALIE – Alternative Rock based in Vienna. Neue Single 'CLICHÈ' jetzt auf Spotify, YouTube & Apple Music. Shows, Musik & Kontakt.">
+  <meta name="keywords" content="Ano Malie, Alternative Rock, Band Wien, Rockmusik, Clichè, Geista, Streaming, neue Musik, Live Shows">
 
   <!-- Open Graph (Social Media Vorschau) -->
   <meta property="og:title"       content="ANO MALIE – Offizielle Website">
-  <meta property="og:description" content="Alternative Rock aus Wien & Berlin. Musik, Shows & mehr.">
-  <meta property="og:image"       content="img/AnoMalieGruppenbildSzene.webp">
+  <meta property="og:description" content="Alternative Rock based in Vienna. Musik, Shows & mehr.">
+  <meta property="og:image"       content="https://www.anomalie.at/img/AnoMalieGruppenbildSzene.webp">
   <meta property="og:type"        content="website">
-  <meta property="og:url"         content=""> <!-- TODO: echte Domain eintragen -->
+  <meta property="og:url"         content="https://www.anomalie.at">
+
+  <!-- Twitter Link Sharing Optimisation-->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ANO MALIE – Offizielle Website">
+  <meta name="twitter:description" content="Alternative Rock based in Vienna. Musik, Shows & mehr.">
+  <meta name="twitter:image" content="https://www.anomalie.at/img/AnoMalieGruppenbildSzene.webp">
 
   <!-- Viewport für Mobile -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -56,6 +62,9 @@
   <!-- Preload: kritische Bilder früh laden um Layout-Shift zu vermeiden -->
   <link rel="preload" href="img/Header-Bandfoto.webp" as="image">
   <link rel="preload" href="img/SternWeiß.webp"       as="image">
+
+  <!-- Canonical Tag -->
+  <link rel="canonical" href="https://www.anomalie.at">
   
   
 
@@ -125,6 +134,11 @@
     </div>
 
   </header>
+
+  <!-- Versteckter H1 für Suchmaschinen-Crawler.
+       Der Bandname wird visuell als SVG-Animation dargestellt,
+       ist für Google aber unsichtbar. Diese Zeile löst das Problem. -->
+  <h1 class="visually-hidden">ANO MALIE – Alternative Rock Band based in Vienna</h1>
 
 
   <!-- ============================================================
@@ -205,7 +219,7 @@
       <div class="section-bubble">
         <h2>Über Uns</h2>
         <p>Wir sind ANO MALIE, eine upcoming Alternative Rock Band based in Vienna. </p> 
-        <p> Hier findest alle wichitgen Infos über Shows, Releases und neuer Musik!</p> 
+        <p> Hier findest du alle wichtigen Infos über Shows, Releases und neuer Musik!</p> 
 
         <!-- Social-Links als Pill-Buttons -->
         <div class="social-links">
@@ -314,8 +328,8 @@
     <section id="merch">
       <div class="section-bubble">
         <h2>Merchandise</h2>
-        <h3>Bei allen Konzerten gibt es einen Merch-Stand</h3>
-        <h3>Bei sonstigem Interesse per email melden!</h3>
+        <p class="merch-hint">Bei allen Konzerten gibt es einen Merch-Stand</p>
+        <p class="merch-hint">Bei sonstigem Interesse per email melden!</p>
         <p>Unser Merch wird auf hochwertigen T-Shirts der Marke <a href="https://www.bc-collection.eu/en/sustainability"
           target="_blank" rel="noopener noreferrer">B&C</a> produziert und in der Wiener Druckerei <br> "<a href="https://www.die-schwalbe.at/?utm_source=googleads&utm_medium=cpc&utm_campaign=22420611331&utm_term=textildruck&utm_content=744581536013&device=c&gclid=CjwKCAjwzevPBhBaEiwAplAxvk3wcZ9VNhpEKpllW_t1q-iBE3EQHSvyzGqvmpL09Ckcnk47t7Wo2RoCC1YQAvD_BwE&gad_source=1&gad_campaignid=22420611331&gbraid=0AAAAA-1W8Hi7X0Zoy7VAe5eO1oZMcFk33&gclid=CjwKCAjwzevPBhBaEiwAplAxvk3wcZ9VNhpEKpllW_t1q-iBE3EQHSvyzGqvmpL09Ckcnk47t7Wo2RoCC1YQAvD_BwE"
           target="_blank" rel="noopener noreferrer">die Schwalbe</a>" sorgfältig bedruckt. Dabei legen wir großen Wert auf Qualität, Langlebigkeit und eine saubere Verarbeitung. Besonders wichtig ist uns die Verwendung von fair und ökologisch hergestellten Rohlingen.</p>
@@ -328,11 +342,11 @@
           <div class="merch-grid">
             <div class="merch-item">
               <img src="img/FrontWeißRot.webp" alt="Merchandise T-Shirt White/Red Vorne" class="merch-image">
-              <h6 class="merch-item__title">Front</h6>
+              <span class="merch-item__title">Front</span>
             </div>
             <div class="merch-item">
               <img src="img/BackWeißRot.webp" alt="Merchandise T-Shirt White/Red Hinten" class="merch-image">
-              <h6 class="merch-item__title">Back</h6>
+              <span class="merch-item__title">Back</span>
             </div>
           </div>
 
@@ -340,11 +354,11 @@
           <div class="merch-grid">
             <div class="merch-item">
               <img src="img/FrontWeißPink.webp" alt="Merchandise T-Shirt White/Pink Vorne" class="merch-image">
-              <h6 class="merch-item__title">Front</h6>
+              <span class="merch-item__title">Front</span>
             </div>
             <div class="merch-item">
               <img src="img/BackWeißPink.webp" alt="Merchandise T-Shirt White/Pink Hinten" class="merch-image">
-              <h5 class="merch-item__title">Back</h5>
+              <span class="merch-item__title">Back</span>
             </div>
           </div>
 
@@ -352,11 +366,11 @@
           <div class="merch-grid">
             <div class="merch-item">
               <img src="img/FrontAsphalt.webp" alt="Merchandise T-Shirt Grau Vorne" class="merch-image">
-              <h5 class="merch-item__title">Front</h5>
+              <span class="merch-item__title">Front</span>
             </div>
             <div class="merch-item">
               <img src="img/BackAsphalt.webp" alt="Merchandise T-Shirt Grau Hinten" class="merch-image">
-              <h5 class="merch-item__title">Back</h5>
+              <span class="merch-item__title">Back</span>
             </div>
           </div>
 
@@ -364,11 +378,11 @@
           <div class="merch-grid">
             <div class="merch-item">
               <img src="img/FrontBlueFog.webp" alt="Merchandise T-Shirt Blau Vorne" class="merch-image">
-              <h5 class="merch-item__title">Front</h5>
+              <span class="merch-item__title">Front</span>
             </div>
             <div class="merch-item">
               <img src="img/BackBlueFog.webp" alt="Merchandise T-Shirt Blau Hinten" class="merch-image">
-              <h5 class="merch-item__title">Back</h5>
+              <span class="merch-item__title">Back</span>
             </div>
           </div>
 
@@ -380,7 +394,7 @@
           <div class="merch-grid-single">
             <div class="merch-item">
               <img src="img/BagSideOne.webp" alt="Merchandise Tasche Superstar Schwarz" class="merch-image">
-              <h5 class="merch-item__title">Superstar Schwarz (einseitig bedruckt)</h5>
+              <span class="merch-item__title">Superstar Schwarz (einseitig bedruckt)</span>
             </div>
           </div>
         </div>
@@ -487,13 +501,13 @@
          <section id="gallery">
           <div class="section-bubble">
             <h2>Galerie</h2>
-            <h3>Fotos aus dem Leben von ANO MALIE</h3>
+            <p>Fotos aus dem Leben von ANO MALIE</p>
     
             <div class="gallery" id="photoGallery">
               <!-- Galerie-Bilder -->
               <div class="gallery-item" data-index="0">
                 <img src="img/GruppenfotoSzeneBackstage.webp" alt="ANO MALIE Konzertfoto Gruppenfoto Szene Wien Planet Festival Tour 2026" data-caption="ANO MALIE – Planet Festival Tour, Wien 2026" loading="lazy">
-                <span class="gallery-item__icon"><i class="fa-solid fa-magnifying-glass-plus"></i></span>C
+                <span class="gallery-item__icon"><i class="fa-solid fa-magnifying-glass-plus"></i></span>
               </div>
               <div class="gallery-item" data-index="1">
                 <img src="img/JulesSounbaseOnStage.webp" alt="Jules ANO MALIE Konzertfoto Live WienXtra Soundbase MainStage Flucc 24.10.2025" data-caption="Jules – WienXtra Soundbase MainStage, Flucc · 24.10.2025" loading="lazy">
@@ -813,7 +827,7 @@
       "@type": "MusicGroup",
       "name": "ANO MALIE",
       "genre": "Alternative Rock",
-      "url": "",
+      "url": "https://www.anomalie.at",
       "sameAs": [
         "https://www.instagram.com/ano.maliemusik",
         "https://www.tiktok.com/@anomalie.musik",
@@ -830,7 +844,11 @@
       "location": {
         "@type": "MusicVenue",
         "name": "The Loft",
-        "address": "Wien"
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Wien",
+          "addressCountry": "AT"
+        }
       },
       "url": "https://ticket1389.tickethome.at/buchen/267/25.04.2026/1900",
       "performer": { "@type": "MusicGroup", "name": "ANO MALIE" }
@@ -839,12 +857,34 @@
       "@context": "https://schema.org",
       "@type": "MusicEvent",
       "name": "ANO MALIE live @ Gasometer",
-      "startDate": "2026-05-30",
+      "startDate": "2026-05-30T20:00",
       "location": {
         "@type": "MusicVenue",
         "name": "Gasometer",
-        "address": "Wien"
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Wien",
+          "addressCountry": "AT"
+        }
       },
+      "url": "https://pretix.eu/ano.malie.planet/gasometer/",
+      "performer": { "@type": "MusicGroup", "name": "ANO MALIE" }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "MusicEvent",
+      "name": "ANO MALIE live @ Südwind Straßenfest",
+      "startDate": "2026-05-31T18:00",
+      "location": {
+        "@type": "Festival",
+        "name": "Südwind Straßenfest",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Wien",
+          "addressCountry": "AT"
+        }
+      },
+      "url": "https://www.suedwind.at/strassenfest/",
       "performer": { "@type": "MusicGroup", "name": "ANO MALIE" }
     }
   ]

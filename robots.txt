@@ -1,0 +1,8 @@
+# robots.txt – ANO MALIE
+# Alle Crawler dürfen die gesamte Website crawlen.
+
+User-agent: *
+Allow: /
+
+# Sitemap-Speicherort für Google & andere Crawler
+Sitemap: https://www.anomalie.at/sitemap.xml
