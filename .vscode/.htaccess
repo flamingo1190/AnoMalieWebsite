@@ -1,0 +1,9 @@
+RewriteEngine On
+
+# http → https
+RewriteCond %{HTTPS} off
+RewriteRule ^ https://www.ano-malie.at%{REQUEST_URI} [R=301,L]
+
+# ohne www → mit www
+RewriteCond %{HTTP_HOST} !^www\. [NC]
+RewriteRule ^ https://www.ano-malie.at%{REQUEST_URI} [R=301,L]
