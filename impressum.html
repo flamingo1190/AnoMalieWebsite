@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Impressum & Datenschutz – ANO MALIE</title>
+  <meta name="robots" content="noindex, follow">
+
+
+
+  <link rel="icon" href="img/AnoMalieFaviconIco.ico" sizes="any">
+  <link rel="icon" href="img/AnoMalieFaviconSVG.svg" type="image/svg+xml">
+
+  <style>
+    :root {
+      --accent:     #d74191;
+      --bg-dark:    #111;
+      --text-light: #eee;
+      --font-title: 'Bebas Neue', Copperplate, fantasy;
+      --font-body:  'DM Sans', Arial, sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg-dark);
+      color: var(--text-light);
+      font-family: var(--font-body);
+      font-size: 1rem;
+      line-height: 1.75;
+      min-height: 100vh;
+    }
+
+    /* NAV */
+    .top-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(17,17,17,0.92);
+      backdrop-filter: blur(8px);
+      padding: 0 2rem;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(215,65,145,0.15);
+    }
+    .top-nav__logo {
+      font-family: var(--font-title);
+      font-size: 1.4rem;
+      letter-spacing: 0.12em;
+      color: var(--text-light);
+      text-decoration: none;
+    }
+    .top-nav__back {
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-decoration: none;
+      opacity: 0.85;
+      transition: opacity 0.2s;
+    }
+    .top-nav__back:hover { opacity: 1; }
+
+    /* CONTENT */
+    .legal-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 3.5rem 2rem 5rem;
+    }
+
+    .page-title {
+      font-family: var(--font-title);
+      font-size: clamp(2.4rem, 6vw, 4rem);
+      letter-spacing: 0.08em;
+      color: var(--text-light);
+      margin-bottom: 0.25rem;
+      line-height: 1;
+    }
+    .page-subtitle {
+      font-size: 0.82rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 3rem;
+      opacity: 0.8;
+    }
+
+    /* ABSCHNITTE */
+    .legal-section {
+      margin-bottom: 3rem;
+      padding: 2rem 2rem 2rem;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 12px;
+    }
+    .legal-section + .legal-section {
+      /* etwas Luft zwischen Karten */
+    }
+
+    h2 {
+      font-family: var(--font-title);
+      font-size: 1.6rem;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+    h3 {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin: 1.5rem 0 0.4rem;
+      opacity: 0.75;
+    }
+    p {
+      font-size: 0.95rem;
+      color: rgba(238,238,238,0.8);
+      margin-bottom: 0.75rem;
+    }
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    a:hover { text-decoration: underline; }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    ul li {
+      font-size: 0.95rem;
+      color: rgba(238,238,238,0.8);
+      padding: 0.2rem 0 0.2rem 1.1rem;
+      position: relative;
+    }
+    ul li::before {
+      content: '–';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid rgba(215,65,145,0.15);
+      margin: 3rem 0;
+    }
+
+    /* FOOTER */
+    .legal-footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.78rem;
+      color: rgba(238,238,238,0.3);
+      letter-spacing: 0.06em;
+    }
+
+    /* HIGHLIGHT BOX */
+    .note-box {
+      background: rgba(215,65,145,0.08);
+      border-left: 3px solid var(--accent);
+      padding: 0.9rem 1.1rem;
+      border-radius: 0 8px 8px 0;
+      margin: 1rem 0;
+      font-size: 0.88rem;
+      color: rgba(238,238,238,0.75);
+    }
+
+    /* FONTS */
+    @font-face {
+      font-family: 'Bebas Neue';
+      src: url('fonts/bebas-neue-v10-latin-regular.woff2') format('woff2'),
+          url('fonts/bebas-neue-v10-latin-regular.woff')  format('woff');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: 'DM Sans';
+      src: url('fonts/dm-sans-v11-latin-300.woff2') format('woff2'),
+          url('fonts/dm-sans-v11-latin-300.woff')  format('woff');
+      font-weight: 300;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: 'DM Sans';
+      src: url('fonts/dm-sans-v11-latin-regular.woff2') format('woff2'),
+          url('fonts/dm-sans-v11-latin-regular.woff')  format('woff');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: 'DM Sans';
+      src: url('fonts/dm-sans-v11-latin-500.woff2') format('woff2'),
+          url('fonts/dm-sans-v11-latin-500.woff')  format('woff');
+      font-weight: 500;
+      font-style: normal;
+      font-display: swap;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="top-nav">
+    <a href="index.html" class="top-nav__logo">ANO MALIE</a>
+    <a href="index.html" class="top-nav__back">← Zurück zur Website</a>
+  </nav>
+
+  <div class="legal-wrap">
+
+    <h1 class="page-title">Impressum &amp;<br>Datenschutz</h1>
+    <p class="page-subtitle">Rechtliche Informationen · Stand: Juni, 2026</p>
+
+
+    <!-- ═══════════════════════════════════════════
+         IMPRESSUM
+         § 25 MedienG · § 5 ECG
+         ═══════════════════════════════════════════ -->
+    <div class="legal-section">
+      <h2>Impressum</h2>
+      <p>Angaben gemäß § 25 Mediengesetz (MedienG) und § 5 E-Commerce-Gesetz (ECG).</p>
+
+      <h3>Medieninhaber &amp; Betreiber</h3>
+      <p>
+        <!-- Offenlegungspflicht -->
+        [Vorname Nachname oder Firma]<br> <br>
+        [Straße Hausnummer]<br>
+        [PLZ] Wien, Österreich<br><br>
+
+        Gegenstand des Unternehmens ist die öffentliche Darbietung von künstlerischen Leistungen sowie die Produktion, der Vertrieb und die Vermarktung von Musik und Merchandise.<br><br>
+
+        E-Mail: <a href="mailto:ano.mailie@gmx.at">ano.mailie@gmx.at</a> <br><br>
+      </p>
+
+      <h3>Vertretungsbefugte Personen</h3>
+      <p>
+        [Name(n) der verantwortlichen Person(en)]
+      </p>
+
+      <h3>Zweck der Website</h3>
+      <p>
+        Offizielle Website der Musikgruppe ANO MALIE. Die Website dient der Präsentation
+        der Band, ihrer Musik, Konzerttermine und Merchandise. Sie verfolgt keine
+        kommerziellen Zwecke im Sinne eines Onlineshops.
+      </p>
+
+      <h3>Haftungsausschluss</h3>
+      <p>
+        Trotz sorgfältiger inhaltlicher Kontrolle übernehmen wir keine Haftung für die
+        Inhalte externer Links. Für den Inhalt der verlinkten Seiten sind ausschließlich
+        deren Betreiber verantwortlich. <br> <br>
+
+        Verlinkungen zu externen Ticketplattformen führen zu Angeboten Dritter. Der Kauf- und Vertragsabschluss erfolgt ausschließlich auf den jeweiligen Plattformen und unterliegt deren Bedingungen."
+      </p>
+    </div>
+
+
+    <hr class="divider">
+
+
+    <!-- ═══════════════════════════════════════════
+         DATENSCHUTZERKLÄRUNG
+         DSGVO · DSG · § 165 TKG 2021
+         ═══════════════════════════════════════════ -->
+    <div class="legal-section">
+      <h2>Datenschutzerklärung</h2>
+      <p>
+        Der Schutz deiner persönlichen Daten ist uns wichtig. Diese Datenschutzerklärung
+        informiert dich gemäß Art. 13 DSGVO darüber, welche Daten beim Besuch dieser
+        Website verarbeitet werden.
+      </p>
+
+      <h3>Verantwortliche Stelle</h3>
+      <p>
+        <!--  Gleiche Angaben wie im Impressum -->
+        [Vorname Nachname]<br>
+        [Adresse]<br>
+        E-Mail: <a href="mailto:ano.mailie@gmx.at">ano.mailie@gmx.at</a>
+      </p>
+
+      <h3>Server-Logfiles</h3>
+      <p>
+        Beim Aufrufen dieser Website werden durch den Hosting-Anbieter automatisch
+        Informationen in sogenannten Server-Logfiles gespeichert. Dies umfasst:
+      </p>
+      <ul>
+        <li>IP-Adresse des anfragenden Geräts (anonymisiert)</li>
+        <li>Datum und Uhrzeit des Zugriffs</li>
+        <li>Name und URL der abgerufenen Datei</li>
+        <li>Übertragene Datenmenge</li>
+        <li>Browsertyp und -version</li>
+        <li>Betriebssystem</li>
+      </ul>
+      <p>
+        Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der
+        technischen Bereitstellung und Sicherheit der Website). Logfiles werden
+        spätestens nach 7 Tagen gelöscht.
+      </p>
+
+      <h3>Kontaktaufnahme per E-Mail</h3>
+      <p>
+        Wenn du uns per E-Mail kontaktierst, werden die von dir übermittelten Daten
+        (E-Mail-Adresse, Nachrichteninhalt) ausschließlich zur Bearbeitung deiner
+        Anfrage gespeichert und verwendet. Eine Weitergabe an Dritte findet nicht statt.
+        Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO.
+      </p>
+      
+
+      <h3>Externe Ressourcen (CDN)</h3>
+      <p>
+        Zur Darstellung von Icons (Font Awesome via cdnjs.cloudflare.com) und
+        Animationen (GSAP via cdn.jsdelivr.net) werden beim Seitenaufruf Verbindungen
+        zu externen Content Delivery Networks hergestellt. Diese CDNs verarbeiten
+        dabei technisch deine IP-Adresse. Es werden keine Tracking-Cookies durch
+        diese Dienste gesetzt.
+        Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO.
+      </p>
+
+      <h3>YouTube-Videos</h3>
+      <p>
+        Diese Website bindet Videos von YouTube ein. Betreiber ist die YouTube LLC,
+        901 Cherry Ave., San Bruno, CA 94066, USA (ein Dienst von Google LLC).
+      </p>
+      <p>
+        Das Video wird im <strong>erweiterten Datenschutzmodus</strong> über die Domain
+        <code>youtube-nocookie.com</code> eingebunden und lädt erst, wenn du aktiv auf
+        den Play-Button klickst. Erst dann wird eine Verbindung zu YouTube-Servern
+        hergestellt. YouTube kann dann Cookies setzen und dein Nutzungsverhalten
+        erfassen.
+      </p>
+      <p>
+        Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO. Mehr Informationen in der
+        <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Datenschutzerklärung von Google</a>.
+      </p>
+
+      <h3>Externe Links</h3>
+      <p>
+        Diese Website enthält Links zu Drittdiensten (Spotify, Instagram, TikTok,
+        Apple Music, Pretix u.a.). Sobald du diese Links aufrufst, gelten die
+        Datenschutzbestimmungen der jeweiligen Anbieter. Auf diese haben wir
+        keinen Einfluss.
+      </p>
+
+      <h3>Cookies</h3>
+      <p>
+        Diese Website setzt selbst <strong>keine Tracking- oder Marketing-Cookies</strong>.
+        Technisch notwendige Session-Informationen (z.B. Scroll-Verhalten) werden
+        ausschließlich im Arbeitsspeicher des Browsers gespeichert und nicht persistiert.
+        Erst wenn du auf den YouTube-Play-Button klickst, können durch YouTube
+        Cookies gesetzt werden (siehe oben).
+      </p>
+
+      <h3>Deine Rechte</h3>
+      <p>Du hast gemäß DSGVO folgende Rechte gegenüber uns:</p>
+      <ul>
+        <li>Auskunft über gespeicherte Daten (Art. 15 DSGVO)</li>
+        <li>Berichtigung unrichtiger Daten (Art. 16 DSGVO)</li>
+        <li>Löschung deiner Daten (Art. 17 DSGVO)</li>
+        <li>Einschränkung der Verarbeitung (Art. 18 DSGVO)</li>
+        <li>Widerspruch gegen die Verarbeitung (Art. 21 DSGVO)</li>
+        <li>Datenübertragbarkeit (Art. 20 DSGVO)</li>
+        <li>Beschwerde bei der Aufsichtsbehörde (Art. 77 DSGVO)</li>
+      </ul>
+      <p>
+        Zur Ausübung deiner Rechte wende dich an:
+        <a href="mailto:ano.mailie@gmx.at">ano.mailie@gmx.at</a>
+      </p>
+
+      <h3>Österreichische Datenschutzbehörde</h3>
+      <p>
+        Österreichische Datenschutzbehörde<br>
+        Barichgasse 40–42, 1030 Wien<br>
+        <a href="https://www.dsb.gv.at" target="_blank" rel="noopener noreferrer">www.dsb.gv.at</a>
+      </p>
+    </div>
+
+  </div>
+
+  <footer class="legal-footer">
+    <p>© 2026 ANO MALIE · <a href="index.html">Zurück zur Website</a></p>
+  </footer>
+
+</body>
+</html>

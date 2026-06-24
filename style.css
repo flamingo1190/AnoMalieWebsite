@@ -3,6 +3,7 @@
 
    INHALTSVERZEICHNIS
    ----------------------------------------------------------
+   0.  Self-hosted Fonts
    1.  Globale Variablen (Design-Tokens)
    2.  Globale Link-Farben
    3.  Grundlayout (Body) + Smooth Scroll
@@ -34,6 +35,47 @@
    29. Header-Animation: Variante A – Glitch + Neon-Puls  ← INAKTIV
    30. Responsive – Mobile (max. 768px)
    ============================================================= */
+
+   
+/* =============================================================
+   0. LOKALE FONTS 
+   ============================================================= */
+   
+@font-face {
+  font-family: 'Bebas Neue';
+  src: url('fonts/bebas-neue-v10-latin-regular.woff2') format('woff2'),
+       url('fonts/bebas-neue-v10-latin-regular.woff')  format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DM Sans';
+  src: url('fonts/dm-sans-v11-latin-300.woff2') format('woff2'),
+       url('fonts/dm-sans-v11-latin-300.woff')  format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DM Sans';
+  src: url('fonts/dm-sans-v11-latin-regular.woff2') format('woff2'),
+       url('fonts/dm-sans-v11-latin-regular.woff')  format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DM Sans';
+  src: url('fonts/dm-sans-v11-latin-500.woff2') format('woff2'),
+       url('fonts/dm-sans-v11-latin-500.woff')  format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
 
 
 /* =============================================================
@@ -1338,6 +1380,7 @@
   .image-wrapper {
     position: relative;
     display: inline-block;
+    width: 320px;
     margin-bottom: 0; /* Grid-Gap übernimmt den Abstand */
   }
   
@@ -1366,6 +1409,8 @@
     text-transform: uppercase;
     transition: transform 0.45s ease;
     will-change: transform;
+    white-space: normal;   /* ← diese Zeile hinzufügen */
+    word-break: break-word;
   }
   
   /* Panel offen: Titel ebenfalls nach links verschieben */
@@ -1417,28 +1462,34 @@
     will-change: transform;
   }
   
-  /* Chevron-Button: rechts neben dem Bild, vertikal zentriert */
-  .chevron-btn {
-    position: absolute;
-    top: 50%;
-    right: -45px;
-    transform: translateY(-50%);
   
-    background: rgba(0, 0, 0, 0.45);
-    backdrop-filter: blur(4px);
-    border: 1px solid rgba(215, 65, 145, 0.2);
-    padding: 10px 14px;
-    border-radius: 10px;
-  
-    color: var(--accent);
-    font-size: 18px;
-    cursor: pointer;
-  
-    box-shadow: 0 0 10px rgba(215, 65, 145, 0.3);
-    transition: transform 0.45s ease, background 0.2s ease, box-shadow 0.2s ease;
-    z-index: 4;
-    will-change: transform;
-  }
+  /* Chevron-Button: rechts neben dem Bild, zentriert auf Bildhöhe */
+.chevron-btn {
+  position: absolute;
+  top: calc(38px + 50%);   /* 38px ≈ Höhe des .image-title darüber */
+  right: -45px;
+  transform: translateY(-50%);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(215, 65, 145, 0.2);
+  border-radius: 10px;
+
+  color: var(--accent);
+  font-size: 18px;
+  cursor: pointer;
+
+  box-shadow: 0 0 10px rgba(215, 65, 145, 0.3);
+  transition: transform 0.45s ease, background 0.2s ease, box-shadow 0.2s ease;
+  z-index: 4;
+  will-change: transform;
+}
   
   /* Panel offen: Button ebenfalls nach links mitbewegen */
   .chevron-btn.shift-left {
@@ -1832,6 +1883,7 @@
       width: 100%;
       margin-bottom: 0;
     }
+
   
     /* Bild: zentriert, volle Breite bis max 320px */
     .main-image {
@@ -1855,10 +1907,13 @@
     /* Chevron-Button unter dem Bild, zentriert */
     .chevron-btn {
       position: static;
-      display: block;
+      display: flex;                    /* ← block → flex */
+      align-items: center;             /* ← neu */
+      justify-content: center;         /* ← neu */
+      width: 46px;                     /* ← feste Breite statt padding */
+      height: 46px;                    /* ← feste Höhe statt padding */
       margin: 12px auto 0;
       transform: none !important;
-      padding: 10px 24px;
       will-change: auto;
     }
   

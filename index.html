@@ -42,7 +42,7 @@
 
   <!-- Stylesheets -->
   <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="fontawesome-free-7.2.0-web/css/all.min.css">
 
   <!-- GSAP – Animation Library
        ScrollTrigger: scroll-basierte Animationen (ersetzt IntersectionObserver + rAF-Parallax)
@@ -51,10 +51,10 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js" defer></script>
 
-  <!-- Google Fonts: Bebas Neue (Titel/Logo) + DM Sans (Body) -->
+  <!-- Google Fonts: Bebas Neue (Titel/Logo) + DM Sans (Body) 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"> -->
 
   <!-- Icon (Taskleiste) -->
   <link rel="icon" href="img/AnoMalieFaviconIco.ico" sizes="any">
@@ -244,12 +244,14 @@
         <h2>Shows & Tickets</h2>
         <ul class="show-list">
 
-          <!-- Show: Gasometer -->
+          <p>Neue Infos coming soon!!!</p>
+
+          <!-- Show: Gasometer 
           <li>
             <span class="show-date" data-date="2026-05-30T20:00">30. Mai 2026, Gasometer</span>
             – <a href="https://pretix.eu/ano.malie.planet/gasometer/" target="_blank" rel="noopener noreferrer" >Tickets</a>
             <div class="countdown" id="countdown-2"></div>
-          </li>
+          </li> -->
 
         </ul>
       </div>
@@ -594,6 +596,13 @@
       Booking: <a href="mailto:ano.maili@gmx.at">ano.mailie@gmx.at</a>
     </p>
 
+    <!-- Impressum-Link im Footer -->
+    <p class="footer__copy">
+      <a href="impressum.html" style="color: rgba(238,238,238,0.45); text-decoration: none;">
+        Impressum &amp; Datenschutz
+      </a>
+    </p>
+
     <!-- Copyright -->
     <p class="footer__copy">© 2026 Ano Malie. Alle Rechte vorbehalten.</p>
     <p class="footer__copy">Website by Armin Feichtinger</p>
@@ -869,7 +878,7 @@
       function loadVideo() {
         const videoId = lite.dataset.videoid;
         const iframe = document.createElement('iframe');
-        iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+        iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1`;
         iframe.title = lite.getAttribute('aria-label') || 'YouTube Video';
         iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
         iframe.allowFullscreen = true;
