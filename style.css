@@ -92,7 +92,7 @@
       --bg-dark:      #111;      /* Seitenhintergrund */
       --text-light:   #eee;      /* Standard-Textfarbe */
       --nav-height:   56px;      /* Höhe der sticky Nav-Leiste */
-      --font-title:   'Bebas Neue';  /* Bandname, Überschriften, deleted: , Copperplate, fantasy*/
+      --font-title:   'Bebas Neue';
       --font-body:    'DM Sans';        /* Fließtext, Navigation, deleted:  Arial, sans-serif */
     }
     
