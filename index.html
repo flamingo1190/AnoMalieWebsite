@@ -119,7 +119,7 @@
         <text class="draw-fill"   x="260" y="72" text-anchor="middle">ANO MALIE</text>
       </svg>
 
-      <p class="hero-tagline">Alternative Rock · Based in Vienna & Berlin</p>
+      <p class="hero-tagline">Alternative Rock · Based in Berlin & Vienna</p>
     </div>
 
     <!-- Scroll-Indikator: animierter Punkt in einem Oval -->
@@ -245,7 +245,7 @@
           <li>
             <span class="show-date" data-date="2026-05-30T20:00">30. Mai 2026, Gasometer</span>
             – <a href="https://pretix.eu/ano.malie.planet/gasometer/" target="_blank" rel="noopener noreferrer" >Tickets</a>
-            <div class="countdown" id="countdown-2"></div>
+            <div class="countdown" id="countdown-1"></div>
           </li> -->
 
         </ul>
@@ -262,8 +262,16 @@
 
       <div class="music-links">
         
-        <h3> Unsere neue Single "GEISTA" OUT NOW auf allen Streamingplattformen!</h3>
+        <h3>Am 7.8 um 0Uhr erscheint "ZU DIR (U4)"</h3>
 
+        <!-- COUNTDOWN: RELEASE - ZU DIR -->
+        <ul class="release-list">
+          <li>
+            <span class="release-date" data-date="2026-08-07T00:00">RELEASE "ZU DIR (U4)"</span>
+            – <a href="http://url2734.distrokid.com/ls/click?upn=u001.a0grtTtFNGObbwv02PitCPUodymsTWKXNsD1pT7nhD3cNvOfR4ViH-2FScprQM8owyzc4413Nsm41z9noSBzIAHNAWVKYQh23wP8Ptg3e9-2B1j4-2B8V7gDG3TImiGM63FbUWPzedM8AK2YfbGpVn51p-2BZIycHRClhMZbrb6eTx-2F79Rk-3D2eQv_DEntMp6pOs7CP1S2WMdBtFXElX6zj5i1QE5lADWgga-2BpE-2BxxxEKeATANlTuIbx0lWAz-2FC9UpmmyHfRWV3oWFXxZ-2FKLEJS8lyCKbHs4NPf-2B0vHiTIK9ru3JNxh7fPR2uf5m2nGbfcU6KUaqM32XIzEnjo-2BWgMQDjszGyl3VXcTA4R46q-2FJis6K2rAzc-2B-2FoFEXfac1LJmkML7FYSlyeNYQB3LunEVYWVJyCtyCg9yxKfx-2FotCbCBBGp6T1Qp0LQDigwSCI5u96a1mc2XdjWnAp8g-3D-3D" target="_blank" rel="noopener noreferrer" >Presave</a>
+            <div class="countdown" id="countdown-2"></div>
+          </li> 
+        </ul>
 
         <!-- Streaming-Links als Pill-Buttons mit Plattform-Farbpunkten -->
         <div class="stream-pills">
@@ -933,6 +941,44 @@
             if (diff <= 0) {
               li.style.opacity = '0.4';
               container.textContent = 'Show vorbei';
+      
+              // Link deaktivieren
+              if (link) {
+                link.removeAttribute('href');          // kein Reflink mehr
+                link.classList.add('disabled');        // optional für CSS
+              }
+      
+              return;
+            }
+      
+            const days    = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours   = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((diff / (1000 * 60)) % 60);
+            const seconds = Math.floor((diff / 1000) % 60);
+      
+            container.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+          });
+        }
+      
+        updateCountdowns();
+        setInterval(updateCountdowns, 1000);
+      </script>
+
+      <!-- Script: Countdown für Releases
+       Aktualisiert sich jede Sekunde. Vergangene Shows werden ausgegraut. -->
+       <script>
+        function updateCountdowns() {
+          document.querySelectorAll('.release-date').forEach(el => {
+            const showDate  = new Date(el.dataset.date);
+            const now       = new Date();
+            const diff      = showDate - now;
+            const li        = el.closest('li') || el.closest('div');
+            const container = li.querySelector('.countdown');
+            const link      = li.querySelector('a');   // <— Link im selben <li>
+      
+            if (diff <= 0) {
+              li.style.opacity = '1';
+              container.textContent = 'DER SONG IST BEREITS DRAUßEN!!!';
       
               // Link deaktivieren
               if (link) {
